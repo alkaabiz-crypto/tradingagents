@@ -9,15 +9,15 @@
     "stop": 56766.83,
     "tp": 59373.47,
     "tp_done": false,
-    "last_checked_ms": 1795248000000,
+    "last_checked_ms": 1795255200000,
     "realized": 0.0,
-    "held": 1
+    "held": 2
   },
   "consecutive_losses": 0,
   "cooldown_until": null,
   "week_start": "2026-11-16",
   "week_start_equity": 300.0,
-  "last_processed_candle": "2026-11-21 08:00",
+  "last_processed_candle": "2026-11-21 10:00",
   "trades": [
     {
       "date": "2026-11-21T09:42+00:00",
