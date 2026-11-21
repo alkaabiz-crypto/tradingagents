@@ -245,14 +245,26 @@ def main():
     if not a.dry_run:
         with open(LEDGER, "w") as f:
             json.dump(L, f, indent=2)
-        new = not os.path.exists(JOURNAL)
-        with open(JOURNAL, "a") as f:
-            if new:
-                f.write("# BTC paper trading journal\n\nPaper money only. Starting balance $300.\n\n"
-                        "| Date | Status | Price | 20d | 50d | RSI | Actions | Equity |\n"
-                        "|---|---|---|---|---|---|---|---|\n")
-            f.write(f"| {day} | {status} | {price:,.0f} | {s20:,.0f} | {s50:,.0f} | {r:.1f} | "
-                    f"{'; '.join(actions) or '-'} | {equity:,.2f} |\n")
+        header = ("# BTC paper trading journal\n\nPaper money only. Starting balance $300.\n\n"
+                  "| Date | Status | Price | 20d | 50d | RSI | Actions | Equity |\n"
+                  "|---|---|---|---|---|---|---|---|\n")
+        rows = []
+        if os.path.exists(JOURNAL):
+            rows = [ln for ln in open(JOURNAL).read().splitlines(True)
+                    if ln.startswith("| 2")]
+        # one row per day: a rerun on the same day replaces that day's row,
+        # keeping any actions already recorded earlier that day
+        prev = [ln for ln in rows if ln.startswith(f"| {day} |")]
+        rows = [ln for ln in rows if not ln.startswith(f"| {day} |")]
+        acts = "; ".join(actions)
+        if prev:
+            old = prev[-1].split(" | ")[6]
+            if old != "-":
+                acts = old + ("; " + acts if acts else "")
+        rows.append(f"| {day} | {status} | {price:,.0f} | {s20:,.0f} | {s50:,.0f} | {r:.1f} | "
+                    f"{acts or '-'} | {equity:,.2f} |\n")
+        with open(JOURNAL, "w") as f:
+            f.write(header + "".join(rows))
 
 
 if __name__ == "__main__":
