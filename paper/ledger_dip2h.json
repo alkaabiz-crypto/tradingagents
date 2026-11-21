@@ -1,0 +1,31 @@
+{
+  "start_cash": 300.0,
+  "cash": 225.0,
+  "btc": 0.0012895910494439913,
+  "position": {
+    "entry": 57925.34,
+    "qty": 0.0012895910494439913,
+    "opened": "2026-11-21T09:42+00:00",
+    "stop": 56766.83,
+    "tp": 59373.47,
+    "tp_done": false,
+    "last_checked_ms": 1795240800000,
+    "realized": 0.0
+  },
+  "consecutive_losses": 0,
+  "cooldown_until": null,
+  "week_start": "2026-11-16",
+  "week_start_equity": 300.0,
+  "last_processed_candle": "2026-11-21 06:00",
+  "trades": [
+    {
+      "date": "2026-11-21T09:42+00:00",
+      "side": "BUY",
+      "qty": 0.00128959,
+      "price": 57925.34,
+      "fee": 0.3,
+      "pnl": 0.0,
+      "reason": "oversold bounce"
+    }
+  ]
+}

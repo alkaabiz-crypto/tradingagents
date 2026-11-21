@@ -43,6 +43,11 @@ MODES = {
                   ledger="ledger.json", journal="journal.md", label="daily"),
     "2h": dict(period_h=2, source="1hr", stop=0.015, tp=0.03, dip=0.01,
                ledger="ledger_2h.json", journal="journal_2h.md", label="2-hour"),
+    # EXPERIMENT: counter-trend bounce buying. Riskier than the trend modes.
+    "dip2h": dict(period_h=2, source="1hr", stop=0.02, tp=0.025, dip=0.0,
+                  strategy="dip", size=0.25, max_hold=12,
+                  ledger="ledger_dip2h.json", journal="journal_dip2h.md",
+                  label="2-hour dip-buy EXPERIMENT"),
 }
 
 
@@ -147,7 +152,7 @@ def main():
         raw = json.load(open(a.candles))
     else:
         raw = fetch_json(f"https://api.gemini.com/v2/candles/btcusd/{M['source']}")
-    if a.mode == "2h":
+    if M["source"] == "1hr":
         raw = to_2h(raw)
     price = a.price
     if price is None:
@@ -174,6 +179,8 @@ def main():
         L["week_start"] = monday(today).isoformat()
         L["week_start_equity"] = L["cash"] + L["btc"] * price
 
+    dip_mode = M.get("strategy") == "dip"
+
     # 1) manage an open position against every completed candle since the last check
     pos = L["position"]
     if pos:
@@ -193,7 +200,16 @@ def main():
                 pos["tp_done"] = True
                 pos["stop"] = pos["entry"]
                 actions.append(f"SOLD half at +{M['tp']*100:g}% ${pos['tp']:,.0f} ({pnl:+.2f}); stop moved to entry")
-            if cl < sma([x[4] for x in candles[:i + 1]], 20):
+            c20 = sma([x[4] for x in candles[:i + 1]], 20)
+            if dip_mode:
+                pos["held"] = pos.get("held", 0) + 1
+                if cl >= c20 or pos["held"] >= M["max_hold"]:
+                    why = "bounced to 20-period avg" if cl >= c20 else f"time stop ({M['max_hold']} candles)"
+                    pnl = sell(L, L["btc"], cl, why, when)
+                    actions.append(f"SOLD rest at ${cl:,.0f}, {why} ({pnl:+.2f})")
+                    close_position(L, cdate, P, c[0])
+                    break
+            elif cl < c20:
                 pnl = sell(L, L["btc"], cl, "close below 20-period avg", when)
                 actions.append(f"SOLD rest at ${cl:,.0f}, close below 20-period avg ({pnl:+.2f})")
                 close_position(L, cdate, P, c[0])
@@ -210,11 +226,20 @@ def main():
     cooldown = bool(L["cooldown_until"]) and today.isoformat() < L["cooldown_until"]
     # after an exit, wait for a fresh completed candle before buying again
     fresh = last[0] > L.get("last_exit_ms", 0)
+    if dip_mode:
+        # oversold in one of the 3 candles before the last, RSI back to 30+,
+        # and the last candle is green and closed above the one before it
+        recent_low_rsi = min(rsi(closes[-200 - k:-k]) for k in (1, 2, 3))
+        oversold_ok = recent_low_rsi < 30
+        turn_ok = r >= 30 and close > last[1] and close > closes[-2]
+        signal = oversold_ok and turn_ok
+    else:
+        signal = trend_ok and rsi_ok and dip_ok
 
     if L["position"]:
         status = "HOLD"
-    elif trend_ok and rsi_ok and dip_ok and fresh and not weekly_brake and not cooldown:
-        spend = round(equity * SIZE_FRAC, 2)
+    elif signal and fresh and not weekly_brake and not cooldown:
+        spend = round(equity * M.get("size", SIZE_FRAC), 2)
         fee = spend * FEE
         qty = (spend - fee) / price
         L["cash"] -= spend
@@ -225,7 +250,8 @@ def main():
                          "tp_done": False, "last_checked_ms": last[0], "realized": 0.0}
         L["trades"].append({"date": now.isoformat(timespec="minutes"), "side": "BUY",
                             "qty": round(qty, 8), "price": round(price, 2),
-                            "fee": round(fee, 2), "pnl": 0.0, "reason": "trend + dip signal"})
+                            "fee": round(fee, 2), "pnl": 0.0,
+                            "reason": "oversold bounce" if dip_mode else "trend + dip signal"})
         actions.append(f"BOUGHT ${spend:.2f} of BTC at ${price:,.0f}")
         status = "BUY SIGNAL"
     elif weekly_brake:
@@ -234,6 +260,8 @@ def main():
         status = "WAIT (paused after 2 losses)"
     elif not fresh:
         status = "WAIT (just exited, next candle)"
+    elif dip_mode:
+        status = "GET READY (oversold, watching for a turn)" if r < 30 else "WAIT"
     elif close > s20 or (r > 40 and close > s20 * 0.98):
         status = "GET READY"
     else:
@@ -245,6 +273,9 @@ def main():
         f"Status: {status}",
         f"Price now ${price:,.0f} | close ${close:,.0f} | 20-avg ${s20:,.0f} | 50-avg ${s50:,.0f} | RSI {r:.1f}",
         "Checks: " + ", ".join([
+            f"RSI was <30 recently {'yes' if oversold_ok else 'no'}",
+            f"turning up (RSI 30+, green candle) {'yes' if turn_ok else 'no'}",
+        ] if dip_mode else [
             f"close>20-avg {'yes' if close > s20 else 'no'}",
             f"20-avg>50-avg {'yes' if s20 > s50 else 'no'}",
             f"RSI 40-65 {'yes' if rsi_ok else 'no'}",

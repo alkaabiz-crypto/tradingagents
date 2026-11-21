@@ -7,8 +7,9 @@ accounts, each starting with $300:
 |---|---|---|---|---|
 | `2h` (intraday) | 2-hour | 1.5% below entry | +3% | `ledger_2h.json`, `journal_2h.md` |
 | `daily` (swing) | daily | 4% below entry | +7% | `ledger.json`, `journal.md` |
+| `dip2h` (EXPERIMENT) | 2-hour | 2% below entry | +2.5% | `ledger_dip2h.json`, `journal_dip2h.md` |
 
-A scheduled task runs both modes every 2 hours, 5 minutes after each 2-hour
+A scheduled task runs all modes every 2 hours, 5 minutes after each 2-hour
 candle closes (even UTC hours). The daily mode keeps one journal row per day.
 
     python3 paper/btc_paper.py --mode 2h
@@ -37,3 +38,16 @@ candle closes (even UTC hours). The daily mode keeps one journal row per day.
 - `GET READY`: price is back near or above the 20-candle average.
 - `BUY SIGNAL`: all checks pass; a paper buy is made.
 - `HOLD`: a paper position is open.
+
+## Dip-buy EXPERIMENT (`dip2h`)
+Counter-trend and riskier: it buys bounces after sharp drops, so it is a test,
+not a recommended strategy.
+- **Buy** when RSI(14) was below 30 in one of the 3 candles before the last,
+  and the last 2-hour candle closes green, above the previous close, with RSI
+  back at 30 or more.
+- **Size:** a quarter of the account (about $75).
+- **Stop-loss:** 2% below entry. **Take profit:** sell half at +2.5%, then
+  move the stop to entry.
+- **Exit the rest** when a candle closes back at or above the 20-candle
+  average, or after 12 candles (24 hours), whichever comes first.
+- The same brakes and fees apply.
