@@ -1,6 +1,6 @@
 # BTC paper trader
 
-Paper money only: no real orders are placed. There are two separate paper
+Paper money only: no real orders are placed. There are three separate paper
 accounts, each starting with $300:
 
 | Mode | Candles | Stop-loss | Take half profit at | Files |
