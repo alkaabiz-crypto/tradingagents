@@ -1,33 +1,39 @@
 # BTC paper trader
 
-Paper money only: no real orders are placed. Starting balance: $300.
+Paper money only: no real orders are placed. There are two separate paper
+accounts, each starting with $300:
 
-A scheduled task runs `python3 paper/btc_paper.py` every day at 08:45 Gulf time
-(UAE). It reads BTC/USD daily candles and the live price from Gemini's public
-API, applies the rules below, then commits the updated `ledger.json` and
-`journal.md`.
+| Mode | Candles | Stop-loss | Take half profit at | Files |
+|---|---|---|---|---|
+| `2h` (intraday) | 2-hour | 1.5% below entry | +3% | `ledger_2h.json`, `journal_2h.md` |
+| `daily` (swing) | daily | 4% below entry | +7% | `ledger.json`, `journal.md` |
+
+A scheduled task runs both modes every 2 hours, 5 minutes after each 2-hour
+candle closes (even UTC hours). The daily mode keeps one journal row per day.
+
+    python3 paper/btc_paper.py --mode 2h
+    python3 paper/btc_paper.py --mode daily
 
 ## Rules (spot only, no leverage)
-- **Buy** only when, on the last daily close:
-  - the price is above its 20-day average,
-  - the 20-day average is above the 50-day average,
+- **Buy** only when, on the last completed candle:
+  - the price is above its 20-candle average,
+  - the 20-candle average is above the 50-candle average,
   - RSI(14) is between 40 and 65,
-  - and the price is no more than 3% above the 20-day average.
-- **Size:** half the account (about $150).
-- **Stop-loss:** 4% below entry, so one loss costs about 2% of the account.
-- **Take profit:** sell half at +7%, then move the stop up to the entry price.
-- **Exit the rest** on a daily close below the 20-day average.
+  - and the price is just above the 20-candle average (within 1% for 2h,
+    3% for daily).
+- **Size:** half the account.
+- **Take profit:** sell half at the target, then move the stop up to the entry
+  price.
+- **Exit the rest** when a candle closes below the 20-candle average.
+- **After any exit:** wait for a fresh candle before buying again.
 - **Brakes:**
-  - after 2 losing trades in a row, no buys for a day;
+  - after 2 losing trades in a row, no buys for the rest of the day (2h) or the
+    next day (daily);
   - if the account is down $20 in a week, no buys until next Monday.
-- **Fees:** 0.4% is charged on every paper fill.
+- **Fees:** 0.4% is charged on every paper fill (about 0.8% per round trip).
 
 ## Statuses
 - `WAIT`: the trend is down; stay in cash.
-- `GET READY`: price is back near or above the 20-day average.
+- `GET READY`: price is back near or above the 20-candle average.
 - `BUY SIGNAL`: all checks pass; a paper buy is made.
 - `HOLD`: a paper position is open.
-
-## Files
-- `journal.md`: one line per day.
-- `ledger.json`: cash, position and every trade.
