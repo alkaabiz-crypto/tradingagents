@@ -9,3 +9,4 @@ Paper money only. Starting balance $300.
 | 2026-11-21 10:00 | HOLD | 58,059 | 59,848 | 62,182 | 37.2 | - | 299.87 |
 | 2026-11-21 12:00 | WAIT (just exited, next candle) | 60,495 | 59,798 | 62,105 | 51.5 | SOLD half at +2.5% $59,373 (+0.63); stop moved to entry; SOLD rest at $60,476, bounced to 20-period avg (+1.34) | 301.97 |
 | 2026-11-21 14:00 | WAIT | 59,797 | 59,695 | 62,005 | 48.4 | - | 301.97 |
+| 2026-11-21 16:00 | WAIT | 60,026 | 59,619 | 61,902 | 49.0 | - | 301.97 |
