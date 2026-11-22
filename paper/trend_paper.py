@@ -24,8 +24,10 @@ import statistics as st
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LEDGER = os.path.join(HERE, "ledger_trend.json")
-JOURNAL = os.path.join(HERE, "journal_trend.md")
+# asset -> (Yahoo symbol, Gemini ticker, ledger, journal)
+ASSETS = {"BTC": ("BTC-USD", "btcusd", "ledger_trend.json", "journal_trend.md"),
+          # ETH: the same rule, never tuned on ETH; it passed anomaly_study2.py test 13
+          "ETH": ("ETH-USD", "ethusd", "ledger_trend_eth.json", "journal_trend_eth.md")}
 START, FEE, VOL_TARGET, MIN_TRADE = 300.0, 0.004, 0.5, 0.05
 
 
@@ -35,9 +37,9 @@ def get(url, ua="paper-trader/1.0"):
         return json.load(r)
 
 
-def closes():
+def closes(symbol):
     now = int(dt.datetime.now().timestamp())
-    j = get(f"https://query2.finance.yahoo.com/v8/finance/chart/BTC-USD?period1={now - 200 * 86400}"
+    j = get(f"https://query2.finance.yahoo.com/v8/finance/chart/{symbol}?period1={now - 200 * 86400}"
             f"&period2={now}&interval=1d", ua="Mozilla/5.0")["chart"]["result"][0]
     today = dt.datetime.now(dt.timezone.utc).date()
     out = [(dt.datetime.fromtimestamp(t, dt.timezone.utc).date(), c)
@@ -48,11 +50,14 @@ def closes():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--asset", choices=ASSETS, default="BTC")
     a = ap.parse_args()
+    ysym, gsym, ledger, journal = ASSETS[a.asset]
+    LEDGER, JOURNAL = os.path.join(HERE, ledger), os.path.join(HERE, journal)
     now = dt.datetime.now(dt.timezone.utc)
     week = "%d-W%02d" % now.isocalendar()[:2]
-    price = float(get("https://api.gemini.com/v1/pubticker/btcusd")["last"])
-    px = closes()
+    price = float(get(f"https://api.gemini.com/v1/pubticker/{gsym}")["last"])
+    px = closes(ysym)
     c = [p for _, p in px]
     r28, r56 = c[-1] / c[-29] - 1, c[-1] / c[-57] - 1
     rets = [c[i] / c[i - 1] - 1 for i in range(len(c) - 30, len(c))]
@@ -73,14 +78,14 @@ def main():
                 fee = usd * FEE
                 L["cash"] -= usd
                 L["btc"] += (usd - fee) / price
-                action = f"BOUGHT ${usd:.2f} of BTC at ${price:,.0f}"
+                action = f"BOUGHT ${usd:.2f} of {a.asset} at ${price:,.2f}"
             else:
                 qty = min(L["btc"], -usd / price)
                 gross = qty * price
                 fee = gross * FEE
                 L["btc"] -= qty
                 L["cash"] += gross - fee
-                action = f"SOLD ${gross:.2f} of BTC at ${price:,.0f}"
+                action = f"SOLD ${gross:.2f} of {a.asset} at ${price:,.2f}"
             L["trades"].append({"date": now.isoformat(timespec="minutes"), "price": round(price, 2),
                                 "usd": round(usd, 2), "fee": round(fee, 2), "target": round(target, 3)})
         L["last_week"] = week
@@ -90,11 +95,11 @@ def main():
     equity = L["cash"] + L["btc"] * price
     weight = L["btc"] * price / equity if equity else 0
     status = ("HOLDING" if weight > 0.01 else "CASH") + (" (weekly rebalance done)" if rebalanced else "")
-    print(f"Paper trader [BTC weekly trend] - run {now:%Y-%m-%d %H:%M} UTC, week {week}")
+    print(f"Paper trader [{a.asset} weekly trend] - run {now:%Y-%m-%d %H:%M} UTC, week {week}")
     print(f"Status: {status}")
-    print(f"Price now ${price:,.0f} | 28-day return {r28 * 100:+.1f}% | 56-day return {r56 * 100:+.1f}% | "
+    print(f"Price now ${price:,.2f} | 28-day return {r28 * 100:+.1f}% | 56-day return {r56 * 100:+.1f}% | "
           f"30-day volatility {vol * 100:.0f}%/yr")
-    print(f"Target {target * 100:.0f}% in BTC, now {weight * 100:.0f}% in BTC")
+    print(f"Target {target * 100:.0f}% in {a.asset}, now {weight * 100:.0f}% in {a.asset}")
     if action != "-":
         print(f"Actions: {action}")
     print(f"Paper account: ${equity:,.2f} (cash ${L['cash']:,.2f}) | total P/L {equity - L['start_cash']:+.2f}")
@@ -105,7 +110,7 @@ def main():
         new = not os.path.exists(JOURNAL)
         with open(JOURNAL, "a") as f:
             if new:
-                f.write("# BTC weekly trend journal\n\nPaper money only. Starting balance $300.\n\n"
+                f.write(f"# {a.asset} weekly trend journal\n\nPaper money only. Starting balance $300.\n\n"
                         "| Week | Price | 28d | 56d | Vol | Target | Action | Equity |\n|---|---|---|---|---|---|---|---|\n")
             f.write(f"| {week} | {price:,.0f} | {r28 * 100:+.1f}% | {r56 * 100:+.1f}% | {vol * 100:.0f}% | "
                     f"{target * 100:.0f}% | {action} | {equity:,.2f} |\n")

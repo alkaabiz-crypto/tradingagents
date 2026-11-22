@@ -110,3 +110,23 @@ Time-series momentum, the best-documented edge in the research (see
 Backtest 2014-2026 (0.10% costs): +46% a year, worst drop -54%, Sharpe 1.23,
 vs holding BTC +49% a year, worst drop -83%, Sharpe 0.94. It beat holding on a
 risk-adjusted basis in both halves of the history.
+
+## ETH weekly trend (`trend_paper.py --asset ETH`) - account #7
+The BTC weekly trend rule, unchanged, on ETH. ETH was never used to design
+the rule, so the backtest is a true out-of-sample test (`anomaly_study2.py`
+test 13): 2017-2026 +33.5% a year, worst drop -55%, Sharpe 0.95, vs holding
+ETH Sharpe 0.65; second half 0.83 vs 0.27; luck check 97%.
+
+## S&P 500 volatility-managed (`volspy_paper.py`) - account #8
+Moreira & Muir (2017): each month hold min(1, 15% / last 21 days' yearly
+volatility) in SPY, rest in cash (`anomaly_study2.py` test 9): 2000-2026
++7.8% a year, worst drop -40%, Sharpe 0.60 vs holding SPY 0.49; luck check
+98%. A narrow pass in the second half (0.85 vs 0.82). Trades only while the
+US market is open.
+
+## Studies
+- `anomaly_study.py` / `anomaly_study2.py`: 14 academic anomalies tested with
+  the same pass rules (luck check >= 95%, Sharpe above the benchmark in both
+  halves, positive after costs). Passed: ETH trend (#7) and volatility-managed
+  S&P 500 (#8). Results in `anomaly_study_results.md` and
+  `anomaly_study2_results.md`.
