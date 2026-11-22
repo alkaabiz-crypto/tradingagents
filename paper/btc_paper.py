@@ -55,14 +55,55 @@ MODES = {
                     ledger="ledger_range2h.json", journal="journal_range2h.md",
                     label="2-hour range"),
 }
+# Oil: the same range rules on WTI crude oil futures (Yahoo Finance CL=F),
+# plus oil-specific blackouts (weekly EIA report, weekend gap, market closed).
+MODES["oil_range2h"] = dict(period_h=2, source="yahoo:CL=F", stop=0.0, tp=0.0, dip=0.0,
+                            strategy="range", size=0.3, max_hold=12, lookback=24,
+                            oil_blackout=True, news_gate="oil_news_gate.json",
+                            ledger="ledger_oil_range2h.json", journal="journal_oil_range2h.md",
+                            label="OIL 2-hour range")
 NEWS_GATE = os.path.join(HERE, "news_gate.json")
 NEWS_MAX_AGE_H = 2
 
 
-def news_gate(now):
+def fetch_yahoo(symbol, rng="60d"):
+    """Hourly Yahoo Finance candles as [ms, open, high, low, close, volume], plus live price."""
+    sym = urllib.request.quote(symbol)
+    req = urllib.request.Request(
+        f"https://query2.finance.yahoo.com/v8/finance/chart/{sym}?range={rng}&interval=60m",
+        headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        j = json.load(r)["chart"]["result"][0]
+    q = j["indicators"]["quote"][0]
+    out = []
+    for i, t in enumerate(j["timestamp"]):
+        vals = [q[k][i] for k in ("open", "high", "low", "close")]
+        if None in vals:
+            continue
+        ms = (t - t % 3600) * 1000          # snap odd stamps (e.g. 21:59:59) to the hour
+        out.append([ms, *vals, q["volume"][i] or 0])
+    dedup = {c[0]: c for c in out}           # keep one candle per hour
+    return [dedup[k] for k in sorted(dedup)], float(j["meta"]["regularMarketPrice"])
+
+
+def oil_blackout(now, raw_hourly):
+    """Reasons not to open a new oil trade right now (empty list = OK)."""
+    from zoneinfo import ZoneInfo
+    et = now.astimezone(ZoneInfo("America/New_York"))
+    why = []
+    if raw_hourly and now.timestamp() * 1000 - max(c[0] for c in raw_hourly) > 2 * 3600 * 1000:
+        why.append("market closed")
+    if et.weekday() == 2 and 9 <= et.hour < 13:
+        why.append("EIA inventory report window (Wed 9:00-13:00 New York)")
+    if et.weekday() == 4 and et.hour >= 13:
+        why.append("Friday afternoon, weekend gap risk")
+    return why
+
+
+def news_gate(now, path=NEWS_GATE):
     """Read the news check written before each run. Missing or stale = not OK."""
     try:
-        g = json.load(open(NEWS_GATE))
+        g = json.load(open(path))
         t = dt.datetime.fromisoformat(g["checked_at"].replace("Z", "+00:00"))
         fresh = (now - t) <= dt.timedelta(hours=NEWS_MAX_AGE_H)
         return bool(g.get("ok")) and fresh, g.get("reason", "") + ("" if fresh else " (stale)")
@@ -165,6 +206,7 @@ def main(argv=None, raw_candles=None, daily_candles=None):
     ap.add_argument("--now", help="pretend the current UTC time is this ISO time")
     ap.add_argument("--dir", help="folder for the ledger and journal (default: paper/)")
     ap.add_argument("--assume-news-ok", action="store_true", help="skip the news gate")
+    ap.add_argument("--no-oil-blackout", action="store_true", help="oil: ignore blackouts (comparisons)")
     ap.add_argument("--no-daily-filter", action="store_true",
                     help="2h mode: ignore the daily trend filter (for comparisons)")
     a = ap.parse_args(argv)
@@ -174,17 +216,23 @@ def main(argv=None, raw_candles=None, daily_candles=None):
     ledger_path = os.path.join(out_dir, M["ledger"])
     journal_path = os.path.join(out_dir, M["journal"])
 
+    yahoo = M["source"].startswith("yahoo:")
+    live_price = None
     if raw_candles is not None:
         raw = raw_candles
     elif a.candles:
         raw = json.load(open(a.candles))
+    elif yahoo:
+        raw, live_price = fetch_yahoo(M["source"].split(":", 1)[1])
     else:
         raw = fetch_json(f"https://api.gemini.com/v2/candles/btcusd/{M['source']}")
-    if M["source"] == "1hr":
+    raw_hourly = raw
+    if M["source"] == "1hr" or yahoo:
         raw = to_2h(raw)
-    price = a.price
+    price = a.price if a.price is not None else live_price
     if price is None:
         price = float(fetch_json("https://api.gemini.com/v1/pubticker/btcusd")["last"])
+    dp = 0 if price >= 1000 else 2   # decimals when printing prices
 
     now = (dt.datetime.fromisoformat(a.now.replace("Z", "+00:00")) if a.now
            else dt.datetime.now(dt.timezone.utc))
@@ -192,6 +240,7 @@ def main(argv=None, raw_candles=None, daily_candles=None):
     today = now.date()
     period_ms = P * 3600 * 1000
     candles = sorted((c for c in raw if c[0] + period_ms <= now_ms), key=lambda c: c[0])
+    raw_hourly = [c for c in raw_hourly if c[0] + 3600 * 1000 <= now_ms]
     if len(candles) < 60:
         sys.exit("not enough candle history")
     closes = [c[4] for c in candles]
@@ -222,14 +271,14 @@ def main(argv=None, raw_candles=None, daily_candles=None):
             cdate = dt.datetime.fromtimestamp(c[0] / 1000, dt.timezone.utc).date()
             if lo <= pos["stop"]:
                 pnl = sell(L, L["btc"], pos["stop"], "stop-loss", when)
-                actions.append(f"SOLD all at stop ${pos['stop']:,.0f} ({pnl:+.2f})")
+                actions.append(f"SOLD all at stop ${pos['stop']:,.{dp}f} ({pnl:+.2f})")
                 close_position(L, cdate, P, c[0])
                 break
             if not pos["tp_done"] and hi >= pos["tp"]:
                 pnl = sell(L, L["btc"] / 2, pos["tp"], "take-profit half", when)
                 pos["tp_done"] = True
                 pos["stop"] = pos["entry"]
-                actions.append(f"SOLD half at target ${pos['tp']:,.0f} ({pnl:+.2f}); stop moved to entry")
+                actions.append(f"SOLD half at target ${pos['tp']:,.{dp}f} ({pnl:+.2f}); stop moved to entry")
             c20 = sma([x[4] for x in candles[:i + 1]], 20)
             if range_mode:
                 pos["held"] = pos.get("held", 0) + 1
@@ -237,7 +286,7 @@ def main(argv=None, raw_candles=None, daily_candles=None):
                     px = pos["top"] if hi >= pos["top"] else cl
                     why = "reached top of range" if hi >= pos["top"] else f"time stop ({M['max_hold']} candles)"
                     pnl = sell(L, L["btc"], px, why, when)
-                    actions.append(f"SOLD rest at ${px:,.0f}, {why} ({pnl:+.2f})")
+                    actions.append(f"SOLD rest at ${px:,.{dp}f}, {why} ({pnl:+.2f})")
                     close_position(L, cdate, P, c[0])
                     break
             elif dip_mode:
@@ -245,12 +294,12 @@ def main(argv=None, raw_candles=None, daily_candles=None):
                 if cl >= c20 or pos["held"] >= M["max_hold"]:
                     why = "bounced to 20-period avg" if cl >= c20 else f"time stop ({M['max_hold']} candles)"
                     pnl = sell(L, L["btc"], cl, why, when)
-                    actions.append(f"SOLD rest at ${cl:,.0f}, {why} ({pnl:+.2f})")
+                    actions.append(f"SOLD rest at ${cl:,.{dp}f}, {why} ({pnl:+.2f})")
                     close_position(L, cdate, P, c[0])
                     break
             elif cl < c20:
                 pnl = sell(L, L["btc"], cl, "close below 20-period avg", when)
-                actions.append(f"SOLD rest at ${cl:,.0f}, close below 20-period avg ({pnl:+.2f})")
+                actions.append(f"SOLD rest at ${cl:,.{dp}f}, close below 20-period avg ({pnl:+.2f})")
                 close_position(L, cdate, P, c[0])
                 break
             pos["last_checked_ms"] = c[0]
@@ -286,8 +335,10 @@ def main(argv=None, raw_candles=None, daily_candles=None):
         rr_ok = price > r_stop and (r_mid - price) >= 1.2 * (price - r_stop)
         sizes = [(c[2] - c[3]) / c[4] for c in candles[-21:-1]]
         calm_ok = (last[2] - last[3]) / close <= 2.5 * (sum(sizes) / len(sizes))
-        news_ok, news_why = (True, "assumed OK") if a.assume_news_ok else news_gate(now)
-        signal = all([width_ok, flat_ok, zone_ok, bounce_ok, rr_ok, calm_ok, news_ok])
+        gate_path = os.path.join(HERE, M.get("news_gate", "news_gate.json"))
+        news_ok, news_why = (True, "assumed OK") if a.assume_news_ok else news_gate(now, gate_path)
+        blackout = oil_blackout(now, raw_hourly) if M.get("oil_blackout") and not a.no_oil_blackout else []
+        signal = all([width_ok, flat_ok, zone_ok, bounce_ok, rr_ok, calm_ok, news_ok]) and not blackout
     else:
         signal = trend_ok and rsi_ok and dip_ok
 
@@ -321,7 +372,7 @@ def main(argv=None, raw_candles=None, daily_candles=None):
                             "fee": round(fee, 2), "pnl": 0.0,
                             "reason": "range bottom bounce" if range_mode else
                                       "oversold bounce" if dip_mode else "trend + dip signal"})
-        actions.append(f"BOUGHT ${spend:.2f} of BTC at ${price:,.0f}")
+        actions.append(f"BOUGHT ${spend:.2f} of BTC at ${price:,.{dp}f}")
         status = "BUY SIGNAL"
     elif weekly_brake:
         status = "WAIT (weekly loss limit)"
@@ -331,6 +382,8 @@ def main(argv=None, raw_candles=None, daily_candles=None):
         status = "WAIT (just exited, next candle)"
     elif dip_mode:
         status = "GET READY (oversold, watching for a turn)" if r < 30 else "WAIT"
+    elif range_mode and blackout:
+        status = f"WAIT ({blackout[0]})"
     elif range_mode:
         if not (width_ok and flat_ok):
             status = "WAIT (no clean range)"
@@ -345,18 +398,18 @@ def main(argv=None, raw_candles=None, daily_candles=None):
 
     equity = L["cash"] + L["btc"] * price
     lines = [
-        f"BTC paper trader [{M['label']}] - run {now.strftime('%Y-%m-%d %H:%M')} UTC (last candle {last_label})",
+        f"Paper trader [{M['label']}] - run {now.strftime('%Y-%m-%d %H:%M')} UTC (last candle {last_label})",
         f"Status: {status}",
-        f"Price now ${price:,.0f} | close ${close:,.0f} | 20-avg ${s20:,.0f} | 50-avg ${s50:,.0f} | RSI {r:.1f}",
+        f"Price now ${price:,.{dp}f} | close ${close:,.{dp}f} | 20-avg ${s20:,.{dp}f} | 50-avg ${s50:,.{dp}f} | RSI {r:.1f}",
         "Checks: " + ", ".join([
-            f"range ${rl:,.0f}-${rh:,.0f} ({width*100:.1f}% wide) {'ok' if width_ok else 'no'}",
+            f"range ${rl:,.{dp}f}-${rh:,.{dp}f} ({width*100:.1f}% wide) {'ok' if width_ok else 'no'}",
             f"sideways {'yes' if flat_ok else 'no'}",
             f"in bottom quarter {'yes' if zone_ok else 'no'}",
             f"green bounce {'yes' if bounce_ok else 'no'}",
             f"reward 1.2x risk {'yes' if rr_ok else 'no'}",
             f"calm candle {'yes' if calm_ok else 'no'}",
             f"news {'OK' if news_ok else 'BLOCK'} ({news_why})",
-        ] if range_mode else [
+        ] + ([f"blackout: {', '.join(blackout)}"] if blackout else []) if range_mode else [
             f"RSI was <30 recently {'yes' if oversold_ok else 'no'}",
             f"turning up (RSI 30+, green candle) {'yes' if turn_ok else 'no'}",
         ] if dip_mode else [
@@ -364,14 +417,14 @@ def main(argv=None, raw_candles=None, daily_candles=None):
             f"20-avg>50-avg {'yes' if s20 > s50 else 'no'}",
             f"RSI 40-65 {'yes' if rsi_ok else 'no'}",
             f"near 20-avg {'yes' if dip_ok else 'no'}",
-        ] + ([f"daily trend up (close ${dcl[-1]:,.0f} vs 20-day ${d20:,.0f}) {'yes' if daily_ok else 'no'}"]
+        ] + ([f"daily trend up (close ${dcl[-1]:,.{dp}f} vs 20-day ${d20:,.{dp}f}) {'yes' if daily_ok else 'no'}"]
              if daily_ok is not None else [])),
     ]
     if actions:
         lines.append("Actions: " + "; ".join(actions))
     if L["position"]:
         p = L["position"]
-        lines.append(f"Position: {L['btc']:.6f} BTC from ${p['entry']:,.0f} | stop ${p['stop']:,.0f}"
+        lines.append(f"Position: {L['btc']:.6f} BTC from ${p['entry']:,.{dp}f} | stop ${p['stop']:,.{dp}f}"
                      f" | target {'done' if p['tp_done'] else '$' + format(p['tp'], ',.0f')}")
     lines.append(f"Paper account: ${equity:,.2f} (cash ${L['cash']:,.2f}) | total P/L {equity - L['start_cash']:+.2f}")
     print("\n".join(lines))
@@ -395,7 +448,7 @@ def main(argv=None, raw_candles=None, daily_candles=None):
         old = prev[-1].split(" | ")[6]
         if old != "-":
             acts = old + ("; " + acts if acts else "")
-    rows.append(f"| {run_label} | {status} | {price:,.0f} | {s20:,.0f} | {s50:,.0f} | {r:.1f} | "
+    rows.append(f"| {run_label} | {status} | {price:,.{dp}f} | {s20:,.{dp}f} | {s50:,.{dp}f} | {r:.1f} | "
                 f"{acts or '-'} | {equity:,.2f} |\n")
     with open(journal_path, "w") as f:
         f.write(header + "".join(rows))

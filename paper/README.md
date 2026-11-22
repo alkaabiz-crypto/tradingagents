@@ -1,6 +1,6 @@
 # BTC paper trader
 
-Paper money only: no real orders are placed. There are four separate paper
+Paper money only: no real orders are placed. There are five separate paper
 accounts, each starting with $300:
 
 | Mode | Candles | Stop-loss | Take half profit at | Files |
@@ -8,6 +8,7 @@ accounts, each starting with $300:
 | `2h` (intraday) | 2-hour | 1.5% below entry | +3% | `ledger_2h.json`, `journal_2h.md` |
 | `daily` (swing) | daily | 4% below entry | +7% | `ledger.json`, `journal.md` |
 | `range2h` (range) | 2-hour | 0.5% below range low | middle of range | `ledger_range2h.json`, `journal_range2h.md` |
+| `oil_range2h` (OIL EXPERIMENT) | 2-hour, WTI crude (CL=F) | 0.5% below range low | middle of range | `ledger_oil_range2h.json`, `journal_oil_range2h.md` |
 | `dip2h` (EXPERIMENT) | 2-hour | 2% below entry | +2.5% | `ledger_dip2h.json`, `journal_dip2h.md` |
 
 A scheduled task runs all modes every 2 hours, 5 minutes after each 2-hour
@@ -76,3 +77,24 @@ top. It buys only when **every** check passes on the last completed 2-hour candl
   the entry price.
 - **Sell the rest** near the top of the range (85% of the way up), or after 12
   candles (24 hours).
+
+## Oil range EXPERIMENT (`oil_range2h`)
+The same range rules on WTI crude oil futures (Yahoo Finance `CL=F`, hourly,
+merged into 2-hour candles), with extra oil blackouts. No new trades:
+- while the oil market is closed (no candle for 2 hours, e.g. weekends);
+- Wednesday 9:00-13:00 New York time, around the weekly EIA inventory report
+  (10:30 New York);
+- Friday after 13:00 New York time (weekend gap risk);
+- unless `oil_news_gate.json` is OK and less than 2 hours old.
+
+**Backtest (2 years): it lost money** (-13% with 0.4% fees, -3% with 0.05%
+fees; about 1 in 3 trades won), so it is tracked on paper only.
+
+### Why there is no EIA-report trade
+Over 123 Wednesday reports (2024-2026), the report hour moved about 1.7x more
+than a normal hour, but following the first move after a big reaction won only
+50-56% of the time, and the average gain was smaller than the fees. Betting
+against it did not work either. Traders who profit from the report use the
+analyst forecast, the paid API report from the day before, and very fast
+execution, none of which this setup has. The useful edge here is staying out
+of that window.

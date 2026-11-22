@@ -102,6 +102,11 @@ def main():
     d0, d1 = min(opens_d), max(opens_d)
     steps_d = list(range(d0, d1 + 1, 24 * H))
 
+    oil, _ = bp.fetch_yahoo("CL=F", rng="730d")
+    opens_o = {c[0]: c[1] for c in oil}
+    o0, o1 = min(opens_o), max(opens_o)
+    steps_o = list(range(o0 - o0 % (2 * H) + 2 * H, o1 + 1, 2 * H))
+
     results = [
         run_mode("2h", hourly, steps_2h, opens_h.get, daily=daily),
         dict(run_mode("2h", hourly, steps_2h, opens_h.get, ["--no-daily-filter"], daily=daily),
@@ -109,10 +114,15 @@ def main():
         run_mode("dip2h", hourly, steps_2h, opens_h.get),
         run_mode("range2h", hourly, steps_2h, opens_h.get, ["--assume-news-ok"]),
         run_mode("daily", daily, steps_d, opens_d.get),
+        run_mode("oil_range2h", oil, steps_o, opens_o.get, ["--assume-news-ok"]),
+        dict(run_mode("oil_range2h", oil, steps_o, opens_o.get, ["--assume-news-ok", "--no-oil-blackout"]),
+             mode="oil_raw"),
     ]
 
     names = {"2h": "2-hour trend + daily filter", "2h_raw": "2-hour trend, no filter (old)", "dip2h": "Dip-buy (experiment)",
-             "range2h": "Range (news assumed OK)", "daily": "Daily trend"}
+             "range2h": "Range (news assumed OK)", "daily": "Daily trend",
+             "oil_range2h": "OIL range + blackouts (news assumed OK)",
+             "oil_raw": "OIL range, no blackouts"}
     lines = ["# Backtest results", "",
              f"Run {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC on Gemini BTC/USD history. "
              "Each account starts with $300 of paper money; 0.4% fee per fill, no slippage.", "",
