@@ -130,3 +130,11 @@ US market is open.
   halves, positive after costs). Passed: ETH trend (#7) and volatility-managed
   S&P 500 (#8). Results in `anomaly_study_results.md` and
   `anomaly_study2_results.md`.
+
+## Nasdaq 100 volatility-managed (`volspy_paper.py --asset QQQ`) - account #9
+The account #8 rule, unchanged, on QQQ (never used to design it;
+`anomaly_study3.py` test 16): 2000-2026 +9.6% a year, worst drop -43%,
+Sharpe 0.66 vs holding QQQ 0.42 (worst drop -83%); luck check 97%.
+
+Batch 3 also showed the crypto trend rule does NOT work on smaller coins
+(10 other large coins: luck check 34%), so it is used on BTC and ETH only.
