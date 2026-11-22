@@ -174,3 +174,10 @@ window (fails the luck bar with 126/252-day windows). Weights can swing a lot
 Harry Browne's fixed 25% SPY / TLT / GLD / SHY, rebalanced monthly
 (`allocation_study.py` test 49): +6.9% a year, worst drop -19% (the smallest
 of all accounts), Sharpe 0.91 vs 60/40 0.76; better in both halves.
+
+## Equal thirds + 5% BTC (`riskparity_paper.py --method thirds_btc`) - account #15
+Fixed 31.7% SPY / 31.7% TLT / 31.7% GLD / 5% BTC, rebalanced monthly while the
+US market is open (`allocation_study2.py` test 64): 2014-2026 +10.7% a year,
+worst drop -26%, Sharpe 1.03 vs equal thirds without BTC 0.82 and 60/40 0.77.
+**Hindsight warning:** BTC rose about 130x in this period, so any BTC slice
+looks good looking back; 5% keeps a BTC crash to a small hit.

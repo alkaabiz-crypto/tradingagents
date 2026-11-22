@@ -28,6 +28,9 @@ METHODS = {
     "minvar": (("SPY", "TLT", "GLD"), "ledger_minvar.json", "journal_minvar.md", "Minimum variance SPY/TLT/GLD"),
     # Permanent Portfolio: fixed 25% each; allocation_study.py test 49
     "permanent": (("SPY", "TLT", "GLD", "SHY"), "ledger_permanent.json", "journal_permanent.md", "Permanent Portfolio"),
+    # fixed 31.67% SPY / TLT / GLD + 5% BTC; allocation_study2.py test 64 (hindsight risk: BTC's 2014-2026 run)
+    "thirds_btc": (("SPY", "TLT", "GLD", "BTC-USD"), "ledger_thirds_btc.json", "journal_thirds_btc.md",
+                   "Equal thirds + 5% BTC"),
 }
 START, FEE, MIN_TRADE = 300.0, 0.001, 0.03
 ET = ZoneInfo("America/New_York")
@@ -77,6 +80,8 @@ def main():
                 if best is None or v < best[0]:
                     best = (v, w)
         target = best[1]
+    elif a.method == "thirds_btc":
+        target = {"SPY": 0.95 / 3, "TLT": 0.95 / 3, "GLD": 0.95 / 3, "BTC-USD": 0.05}
     else:
         target = {s: 1 / len(FUNDS) for s in FUNDS}
 
