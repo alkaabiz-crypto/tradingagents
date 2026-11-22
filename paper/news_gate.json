@@ -1,5 +1,5 @@
 {
   "ok": false,
-  "reason": "Kraken CAD-pair price glitch reported (exchange problem); blocking new range entries to be safe",
-  "checked_at": "2026-11-22T19:09+00:00"
+  "reason": "Hack headline (hijacked mining rigs moving funds) plus Kraken CAD price glitch",
+  "checked_at": "2026-11-22T20:06+00:00"
 }
