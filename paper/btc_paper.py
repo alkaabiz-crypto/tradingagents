@@ -41,7 +41,7 @@ WEEKLY_LOSS_LIMIT = 20.0
 MODES = {
     "daily": dict(period_h=24, source="1day", stop=0.04, tp=0.07, dip=0.03,
                   ledger="ledger.json", journal="journal.md", label="daily"),
-    "2h": dict(period_h=2, source="1hr", stop=0.015, tp=0.03, dip=0.01,
+    "2h": dict(period_h=2, source="1hr", stop=0.015, tp=0.03, dip=0.01, daily_filter=True,
                ledger="ledger_2h.json", journal="journal_2h.md", label="2-hour"),
     # EXPERIMENT: counter-trend bounce buying. Riskier than the trend modes.
     "dip2h": dict(period_h=2, source="1hr", stop=0.02, tp=0.025, dip=0.0,
@@ -155,7 +155,7 @@ def close_position(L, when_date, period_h, candle_ms):
     L["btc"] = 0.0
 
 
-def main(argv=None, raw_candles=None):
+def main(argv=None, raw_candles=None, daily_candles=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=MODES, default="daily")
     ap.add_argument("--candles", help="JSON file of Gemini candles instead of fetching")
@@ -165,6 +165,8 @@ def main(argv=None, raw_candles=None):
     ap.add_argument("--now", help="pretend the current UTC time is this ISO time")
     ap.add_argument("--dir", help="folder for the ledger and journal (default: paper/)")
     ap.add_argument("--assume-news-ok", action="store_true", help="skip the news gate")
+    ap.add_argument("--no-daily-filter", action="store_true",
+                    help="2h mode: ignore the daily trend filter (for comparisons)")
     a = ap.parse_args(argv)
     M = MODES[a.mode]
     P = M["period_h"]
@@ -289,6 +291,17 @@ def main(argv=None, raw_candles=None):
     else:
         signal = trend_ok and rsi_ok and dip_ok
 
+    # higher-timeframe filter: only buy 2-hour trends while the daily trend is up
+    daily_ok = None
+    if M.get("daily_filter") and not a.no_daily_filter:
+        draw = daily_candles if daily_candles is not None else \
+            fetch_json("https://api.gemini.com/v2/candles/btcusd/1day")
+        dcl = [c[4] for c in sorted((c for c in draw if c[0] + 24 * 3600 * 1000 <= now_ms),
+                                    key=lambda c: c[0])]
+        d20 = sma(dcl, 20)
+        daily_ok = dcl[-1] > d20
+        signal = signal and daily_ok
+
     if L["position"]:
         status = "HOLD"
     elif signal and fresh and not weekly_brake and not cooldown:
@@ -351,7 +364,8 @@ def main(argv=None, raw_candles=None):
             f"20-avg>50-avg {'yes' if s20 > s50 else 'no'}",
             f"RSI 40-65 {'yes' if rsi_ok else 'no'}",
             f"near 20-avg {'yes' if dip_ok else 'no'}",
-        ]),
+        ] + ([f"daily trend up (close ${dcl[-1]:,.0f} vs 20-day ${d20:,.0f}) {'yes' if daily_ok else 'no'}"]
+             if daily_ok is not None else [])),
     ]
     if actions:
         lines.append("Actions: " + "; ".join(actions))

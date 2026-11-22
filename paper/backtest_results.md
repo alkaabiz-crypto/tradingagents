@@ -1,17 +1,27 @@
 # Backtest results
 
-Run 2026-11-22 17:40 UTC on Gemini BTC/USD history. Each account starts with $300 of paper money; 0.4% fee per fill, no slippage.
+Run 2026-11-22 17:43 UTC on Gemini BTC/USD history. Each account starts with $300 of paper money; 0.4% fee per fill, no slippage.
 
 | Strategy | Period | End balance | P/L | Trades | Wins | Worst drop | BTC buy & hold |
 |---|---|---|---|---|---|---|---|
-| 2-hour trend | 2026-09-27 to 2026-11-22 | $280.02 | -19.98 (-6.7%) | 15 | 2/15 | -7.1% | -29.5% |
+| 2-hour trend + daily filter | 2026-09-27 to 2026-11-22 | $290.28 | -9.72 (-3.2%) | 7 | 1/7 | -3.7% | -29.5% |
+| 2-hour trend, no filter (old) | 2026-09-27 to 2026-11-22 | $280.02 | -19.98 (-6.7%) | 15 | 2/15 | -7.1% | -29.5% |
 | Dip-buy (experiment) | 2026-09-27 to 2026-11-22 | $292.93 | -7.07 (-2.4%) | 11 | 5/11 | -3.5% | -29.5% |
 | Range (news assumed OK) | 2026-09-27 to 2026-11-22 | $298.09 | -1.91 (-0.6%) | 2 | 0/2 | -0.7% | -29.5% |
 | Daily trend | 2026-01-22 to 2026-11-21 | $298.27 | -1.73 (-0.6%) | 11 | 2/11 | -7.0% | -30.5% |
 
 ## Trades
 
-### 2-hour trend
+### 2-hour trend + daily filter
+1. 2026-09-27T18:05 bought at $84,565 -> close below 20-period avg at $83,701 (P/L -2.72)
+2. 2026-10-01T16:05 bought at $84,141 -> take-profit half at $86,665; close below 20-period avg at $84,787 (P/L +1.59)
+3. 2026-10-04T04:05 bought at $84,833 -> close below 20-period avg at $85,261 (P/L -0.44)
+4. 2026-10-05T20:05 bought at $85,712 -> close below 20-period avg at $85,752 (P/L -1.12)
+5. 2026-10-06T10:05 bought at $85,971 -> close below 20-period avg at $85,734 (P/L -1.59)
+6. 2026-10-22T02:05 bought at $83,364 -> close below 20-period avg at $82,857 (P/L -2.07)
+7. 2026-11-05T14:05 bought at $79,572 -> stop-loss at $78,379 (P/L -3.35)
+
+### 2-hour trend, no filter (old)
 1. 2026-09-27T18:05 bought at $84,565 -> close below 20-period avg at $83,701 (P/L -2.72)
 2. 2026-10-01T16:05 bought at $84,141 -> take-profit half at $86,665; close below 20-period avg at $84,787 (P/L +1.59)
 3. 2026-10-04T04:05 bought at $84,833 -> close below 20-period avg at $85,261 (P/L -0.44)

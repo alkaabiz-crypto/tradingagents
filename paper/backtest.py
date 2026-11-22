@@ -34,7 +34,7 @@ def iso(ms):
     return dt.datetime.fromtimestamp(ms / 1000, dt.timezone.utc).isoformat()
 
 
-def run_mode(mode, raw, steps, price_at, extra=()):
+def run_mode(mode, raw, steps, price_at, extra=(), daily=None):
     """Run one mode over the given step times; return stats."""
     with tempfile.TemporaryDirectory() as d:
         curve, start_price, end_price = [], None, None
@@ -49,7 +49,7 @@ def run_mode(mode, raw, steps, price_at, extra=()):
                     "--dir", d, *extra]
             try:
                 with contextlib.redirect_stdout(io.StringIO()):
-                    bp.main(argv, raw_candles=raw)
+                    bp.main(argv, raw_candles=raw, daily_candles=daily)
             except SystemExit:  # not enough history yet
                 continue
             L = json.load(open(ledger))
@@ -103,13 +103,15 @@ def main():
     steps_d = list(range(d0, d1 + 1, 24 * H))
 
     results = [
-        run_mode("2h", hourly, steps_2h, opens_h.get),
+        run_mode("2h", hourly, steps_2h, opens_h.get, daily=daily),
+        dict(run_mode("2h", hourly, steps_2h, opens_h.get, ["--no-daily-filter"], daily=daily),
+             mode="2h_raw"),
         run_mode("dip2h", hourly, steps_2h, opens_h.get),
         run_mode("range2h", hourly, steps_2h, opens_h.get, ["--assume-news-ok"]),
         run_mode("daily", daily, steps_d, opens_d.get),
     ]
 
-    names = {"2h": "2-hour trend", "dip2h": "Dip-buy (experiment)",
+    names = {"2h": "2-hour trend + daily filter", "2h_raw": "2-hour trend, no filter (old)", "dip2h": "Dip-buy (experiment)",
              "range2h": "Range (news assumed OK)", "daily": "Daily trend"}
     lines = ["# Backtest results", "",
              f"Run {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC on Gemini BTC/USD history. "

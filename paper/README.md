@@ -23,6 +23,8 @@ candle closes (even UTC hours). The daily mode keeps one journal row per day.
   - RSI(14) is between 40 and 65,
   - and the price is just above the 20-candle average (within 1% for 2h,
     3% for daily).
+  - 2h only: the last daily close is above the 20-day average (daily trend
+    filter, added after the first backtest).
 - **Size:** half the account.
 - **Take profit:** sell half at the target, then move the stop up to the entry
   price.
