@@ -1,0 +1,12 @@
+{
+  "start_cash": 300.0,
+  "cash": 300.0,
+  "btc": 0.0,
+  "position": null,
+  "consecutive_losses": 0,
+  "cooldown_until": null,
+  "week_start": "2026-11-16",
+  "week_start_equity": 300.0,
+  "last_processed_candle": "2026-11-20 20:00",
+  "trades": []
+}
