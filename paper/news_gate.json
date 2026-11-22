@@ -1,5 +1,1 @@
-{
-  "ok": false,
-  "reason": "Hack headline (hijacked mining rigs moving funds) plus Kraken CAD price glitch",
-  "checked_at": "2026-11-22T20:06+00:00"
-}
+{"ok": false, "reason": "Hack/exploit headlines in last 6h (Chainflip attacker, OCEAN pool rig hijack, tampered Ledgers)", "checked_at": "2026-11-22T23:06:10+00:00"}
