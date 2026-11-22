@@ -30,21 +30,21 @@ def fetch_month(y, m, cache):
     if os.path.exists(path):
         return open(path, "rb").read()
     url = f"{BASE}/{y}/{m - 1:02d}/BID_candles_hour_1.bi5"
-    for attempt in range(8):
+    for attempt in range(15):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Referer": "https://www.dukascopy.com/"})
             with urllib.request.urlopen(req, timeout=30) as r:
                 data = r.read()
             open(path, "wb").write(data)
-            time.sleep(3)
+            time.sleep(8)
             return data
         except urllib.error.HTTPError as e:
             if e.code == 404:
                 open(path, "wb").write(b"")
                 return b""
-            time.sleep(30 * (attempt + 1))
-        except Exception:
-            time.sleep(15)
+            time.sleep(min(60 * (attempt + 1), 600))
+        except Exception:                       # connection reset while blocked
+            time.sleep(min(60 * (attempt + 1), 600))
     raise RuntimeError(f"could not download {y}-{m:02d}")
 
 
