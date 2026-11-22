@@ -1,0 +1,11 @@
+{
+  "start_cash": 300.0,
+  "cash": 300.0,
+  "shares": {
+    "SPY": 0.0,
+    "TLT": 0.0,
+    "GLD": 0.0
+  },
+  "last_month": null,
+  "trades": []
+}

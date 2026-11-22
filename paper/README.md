@@ -152,3 +152,12 @@ luck 98%.
 Across 30 tests about 1-2 false passes are expected by chance at the 95% bar;
 the volatility-managed rule passing on SPY, QQQ and gold (but not on EFA or
 IWM) makes it more believable than any single pass.
+
+## Risk parity SPY/TLT/GLD (`riskparity_paper.py`) - account #12
+Asness, Frazzini & Pedersen (2012): each month weight US stocks, long bonds
+and gold by 1 / their 3-month volatility (`anomaly_study5.py` test 37):
+2004-2026 +8.8% a year, worst drop -22%, Sharpe 0.98 vs 60/40 0.77; better
+in both halves; luck check 97%.
+
+Batch 5 also showed account #10's 200-day add-on did not pass on gold, EFA or
+IWM, so its edge may be specific to US large caps.
