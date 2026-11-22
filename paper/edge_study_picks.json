@@ -1,0 +1,23 @@
+{
+  "BTC": {
+    "rule": "long/cash + vol sizing",
+    "lookback": 14,
+    "short": false,
+    "vol_target": 0.5,
+    "luck": 0.998
+  },
+  "CL=F": {
+    "rule": "long/cash",
+    "lookback": 63,
+    "short": false,
+    "vol_target": null,
+    "luck": 0.566
+  },
+  "USO": {
+    "rule": "long/short",
+    "lookback": 21,
+    "short": true,
+    "vol_target": null,
+    "luck": 0.988
+  }
+}
