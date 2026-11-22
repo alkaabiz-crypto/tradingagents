@@ -7,7 +7,7 @@
   "cooldown_until": null,
   "week_start": "2026-11-16",
   "week_start_equity": 300.0,
-  "last_processed_candle": "2026-11-22 12:00",
+  "last_processed_candle": "2026-11-22 14:00",
   "trades": [
     {
       "date": "2026-11-21T09:42+00:00",
