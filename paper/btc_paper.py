@@ -155,19 +155,26 @@ def close_position(L, when_date, period_h, candle_ms):
     L["btc"] = 0.0
 
 
-def main():
+def main(argv=None, raw_candles=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=MODES, default="daily")
     ap.add_argument("--candles", help="JSON file of Gemini candles instead of fetching")
     ap.add_argument("--price", type=float, help="live price instead of fetching")
     ap.add_argument("--dry-run", action="store_true", help="do not write ledger/journal")
-    a = ap.parse_args()
+    # backtesting helpers
+    ap.add_argument("--now", help="pretend the current UTC time is this ISO time")
+    ap.add_argument("--dir", help="folder for the ledger and journal (default: paper/)")
+    ap.add_argument("--assume-news-ok", action="store_true", help="skip the news gate")
+    a = ap.parse_args(argv)
     M = MODES[a.mode]
     P = M["period_h"]
-    ledger_path = os.path.join(HERE, M["ledger"])
-    journal_path = os.path.join(HERE, M["journal"])
+    out_dir = a.dir or HERE
+    ledger_path = os.path.join(out_dir, M["ledger"])
+    journal_path = os.path.join(out_dir, M["journal"])
 
-    if a.candles:
+    if raw_candles is not None:
+        raw = raw_candles
+    elif a.candles:
         raw = json.load(open(a.candles))
     else:
         raw = fetch_json(f"https://api.gemini.com/v2/candles/btcusd/{M['source']}")
@@ -177,7 +184,8 @@ def main():
     if price is None:
         price = float(fetch_json("https://api.gemini.com/v1/pubticker/btcusd")["last"])
 
-    now = dt.datetime.now(dt.timezone.utc)
+    now = (dt.datetime.fromisoformat(a.now.replace("Z", "+00:00")) if a.now
+           else dt.datetime.now(dt.timezone.utc))
     now_ms = int(now.timestamp() * 1000)
     today = now.date()
     period_ms = P * 3600 * 1000
@@ -276,7 +284,7 @@ def main():
         rr_ok = price > r_stop and (r_mid - price) >= 1.2 * (price - r_stop)
         sizes = [(c[2] - c[3]) / c[4] for c in candles[-21:-1]]
         calm_ok = (last[2] - last[3]) / close <= 2.5 * (sum(sizes) / len(sizes))
-        news_ok, news_why = news_gate(now)
+        news_ok, news_why = (True, "assumed OK") if a.assume_news_ok else news_gate(now)
         signal = all([width_ok, flat_ok, zone_ok, bounce_ok, rr_ok, calm_ok, news_ok])
     else:
         signal = trend_ok and rsi_ok and dip_ok
