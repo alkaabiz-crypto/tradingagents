@@ -98,3 +98,15 @@ against it did not work either. Traders who profit from the report use the
 analyst forecast, the paid API report from the day before, and very fast
 execution, none of which this setup has. The useful edge here is staying out
 of that window.
+
+## BTC weekly trend (`trend_paper.py`) - the one that passed the edge study
+Time-series momentum, the best-documented edge in the research (see
+`edge_study.py` / `edge_study_results.md`). Once a week:
+- 50% of the target if BTC is up over the last 28 days, plus 50% if it is up
+  over the last 56 days;
+- scaled down when BTC is wild (target at most 50% yearly volatility);
+- buy or sell to that target; otherwise cash. No leverage, no shorting.
+
+Backtest 2014-2026 (0.10% costs): +46% a year, worst drop -54%, Sharpe 1.23,
+vs holding BTC +49% a year, worst drop -83%, Sharpe 0.94. It beat holding on a
+risk-adjusted basis in both halves of the history.
