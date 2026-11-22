@@ -187,3 +187,15 @@ $100 of paper money every month into BNO (Brent oil fund), bought on the
 first run while the US market is open. Never sells. `dca_study.py` found
 plain DCA as good as every "smart" DCA variant, and USO much worse than BNO,
 USL or XLE because of futures roll costs.
+
+## Oil indicator search (`oil_indicator_search.py`, `oil_indicator_search2.py`)
+15 indicators, all 105 pairs, 60 pair+filter combos, on hourly (day trading)
+and daily WTI, chosen on TRAIN and judged on unseen TEST with a 99% luck bar:
+no rule passed (about 370 tried). Trend indicators lost; reversal indicators
+were mildly positive on hourly oil.
+
+## Oil hourly reversal EXPERIMENT (`oil_reversal_paper.py`) - account #17
+A live forward test of the best-looking variant (buy when 2+ of 6 reversal
+indicators say oversold, long only, skip the Wednesday EIA window, flat by
+14:00 New York). It did NOT pass in the backtest; judge it only after 40+
+live paper trades.
