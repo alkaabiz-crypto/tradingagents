@@ -48,7 +48,26 @@ MODES = {
                   strategy="dip", size=0.25, max_hold=12,
                   ledger="ledger_dip2h.json", journal="journal_dip2h.md",
                   label="2-hour dip-buy EXPERIMENT"),
+    # Range trading: buy near the bottom of a sideways range, sell in the
+    # middle and near the top. Entries also need a fresh news check.
+    "range2h": dict(period_h=2, source="1hr", stop=0.0, tp=0.0, dip=0.0,
+                    strategy="range", size=0.3, max_hold=12, lookback=24,
+                    ledger="ledger_range2h.json", journal="journal_range2h.md",
+                    label="2-hour range"),
 }
+NEWS_GATE = os.path.join(HERE, "news_gate.json")
+NEWS_MAX_AGE_H = 2
+
+
+def news_gate(now):
+    """Read the news check written before each run. Missing or stale = not OK."""
+    try:
+        g = json.load(open(NEWS_GATE))
+        t = dt.datetime.fromisoformat(g["checked_at"].replace("Z", "+00:00"))
+        fresh = (now - t) <= dt.timedelta(hours=NEWS_MAX_AGE_H)
+        return bool(g.get("ok")) and fresh, g.get("reason", "") + ("" if fresh else " (stale)")
+    except Exception as e:  # no file or bad file: block entries
+        return False, f"no news check ({type(e).__name__})"
 
 
 def fetch_json(url):
@@ -180,6 +199,7 @@ def main():
         L["week_start_equity"] = L["cash"] + L["btc"] * price
 
     dip_mode = M.get("strategy") == "dip"
+    range_mode = M.get("strategy") == "range"
 
     # 1) manage an open position against every completed candle since the last check
     pos = L["position"]
@@ -199,9 +219,18 @@ def main():
                 pnl = sell(L, L["btc"] / 2, pos["tp"], "take-profit half", when)
                 pos["tp_done"] = True
                 pos["stop"] = pos["entry"]
-                actions.append(f"SOLD half at +{M['tp']*100:g}% ${pos['tp']:,.0f} ({pnl:+.2f}); stop moved to entry")
+                actions.append(f"SOLD half at target ${pos['tp']:,.0f} ({pnl:+.2f}); stop moved to entry")
             c20 = sma([x[4] for x in candles[:i + 1]], 20)
-            if dip_mode:
+            if range_mode:
+                pos["held"] = pos.get("held", 0) + 1
+                if hi >= pos["top"] or pos["held"] >= M["max_hold"]:
+                    px = pos["top"] if hi >= pos["top"] else cl
+                    why = "reached top of range" if hi >= pos["top"] else f"time stop ({M['max_hold']} candles)"
+                    pnl = sell(L, L["btc"], px, why, when)
+                    actions.append(f"SOLD rest at ${px:,.0f}, {why} ({pnl:+.2f})")
+                    close_position(L, cdate, P, c[0])
+                    break
+            elif dip_mode:
                 pos["held"] = pos.get("held", 0) + 1
                 if cl >= c20 or pos["held"] >= M["max_hold"]:
                     why = "bounced to 20-period avg" if cl >= c20 else f"time stop ({M['max_hold']} candles)"
@@ -233,6 +262,22 @@ def main():
         oversold_ok = recent_low_rsi < 30
         turn_ok = r >= 30 and close > last[1] and close > closes[-2]
         signal = oversold_ok and turn_ok
+    elif range_mode:
+        win = candles[-M["lookback"]:]
+        rh, rl = max(c[2] for c in win), min(c[3] for c in win)
+        span = rh - rl
+        width = span / rl
+        width_ok = 0.02 <= width <= 0.08                      # a real but calm range
+        s20_before = sma(closes[:-10], 20)
+        flat_ok = abs(s20 - s20_before) / s20 < 0.01          # no strong trend
+        zone_ok = price <= rl + 0.25 * span                   # bottom quarter
+        bounce_ok = close > last[1] and r < 50                # green candle, not overbought
+        r_stop, r_mid, r_top = rl * 0.995, rl + 0.5 * span, rl + 0.85 * span
+        rr_ok = price > r_stop and (r_mid - price) >= 1.2 * (price - r_stop)
+        sizes = [(c[2] - c[3]) / c[4] for c in candles[-21:-1]]
+        calm_ok = (last[2] - last[3]) / close <= 2.5 * (sum(sizes) / len(sizes))
+        news_ok, news_why = news_gate(now)
+        signal = all([width_ok, flat_ok, zone_ok, bounce_ok, rr_ok, calm_ok, news_ok])
     else:
         signal = trend_ok and rsi_ok and dip_ok
 
@@ -245,13 +290,16 @@ def main():
         L["cash"] -= spend
         L["btc"] = qty
         L["position"] = {"entry": price, "qty": qty, "opened": now.isoformat(timespec="minutes"),
-                         "stop": round(price * (1 - M["stop"]), 2),
-                         "tp": round(price * (1 + M["tp"]), 2),
+                         "stop": round(r_stop if range_mode else price * (1 - M["stop"]), 2),
+                         "tp": round(r_mid if range_mode else price * (1 + M["tp"]), 2),
                          "tp_done": False, "last_checked_ms": last[0], "realized": 0.0}
+        if range_mode:
+            L["position"].update(top=round(r_top, 2), range_low=round(rl, 2), range_high=round(rh, 2))
         L["trades"].append({"date": now.isoformat(timespec="minutes"), "side": "BUY",
                             "qty": round(qty, 8), "price": round(price, 2),
                             "fee": round(fee, 2), "pnl": 0.0,
-                            "reason": "oversold bounce" if dip_mode else "trend + dip signal"})
+                            "reason": "range bottom bounce" if range_mode else
+                                      "oversold bounce" if dip_mode else "trend + dip signal"})
         actions.append(f"BOUGHT ${spend:.2f} of BTC at ${price:,.0f}")
         status = "BUY SIGNAL"
     elif weekly_brake:
@@ -262,6 +310,13 @@ def main():
         status = "WAIT (just exited, next candle)"
     elif dip_mode:
         status = "GET READY (oversold, watching for a turn)" if r < 30 else "WAIT"
+    elif range_mode:
+        if not (width_ok and flat_ok):
+            status = "WAIT (no clean range)"
+        elif price <= rl + 0.4 * span:
+            status = "GET READY (near range bottom)"
+        else:
+            status = "WAIT (price not near range bottom)"
     elif close > s20 or (r > 40 and close > s20 * 0.98):
         status = "GET READY"
     else:
@@ -273,6 +328,14 @@ def main():
         f"Status: {status}",
         f"Price now ${price:,.0f} | close ${close:,.0f} | 20-avg ${s20:,.0f} | 50-avg ${s50:,.0f} | RSI {r:.1f}",
         "Checks: " + ", ".join([
+            f"range ${rl:,.0f}-${rh:,.0f} ({width*100:.1f}% wide) {'ok' if width_ok else 'no'}",
+            f"sideways {'yes' if flat_ok else 'no'}",
+            f"in bottom quarter {'yes' if zone_ok else 'no'}",
+            f"green bounce {'yes' if bounce_ok else 'no'}",
+            f"reward 1.2x risk {'yes' if rr_ok else 'no'}",
+            f"calm candle {'yes' if calm_ok else 'no'}",
+            f"news {'OK' if news_ok else 'BLOCK'} ({news_why})",
+        ] if range_mode else [
             f"RSI was <30 recently {'yes' if oversold_ok else 'no'}",
             f"turning up (RSI 30+, green candle) {'yes' if turn_ok else 'no'}",
         ] if dip_mode else [
