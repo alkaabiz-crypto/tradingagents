@@ -252,7 +252,7 @@ def row(e):
     return (f"| {e['name']} | {pct(e['all']['cagr'])} | -{e['all']['mdd']:.0%} | {e['all']['sharpe']:.2f} | "
             f"{e['b']['sharpe']:.2f} | {e['h1']['sharpe']:.2f} vs {e['b1']['sharpe']:.2f} | "
             f"{e['h2']['sharpe']:.2f} vs {e['b2']['sharpe']:.2f} | {pct(s['cagr']) if s else '-'} | "
-            f"{e['luck']:.0%} | {'**PASS**' if e['passed'] else 'fail'} |")
+            f"{'n/a' if e['luck'] is None else format(e['luck'], '.0%')} | {'**PASS**' if e['passed'] else 'fail'} |")
 
 
 HEAD = ("| Test | Per year | Worst drop | Sharpe | Benchmark Sharpe | 1st half Sharpe (vs bench) | "

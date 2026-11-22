@@ -161,3 +161,16 @@ in both halves; luck check 97%.
 
 Batch 5 also showed account #10's 200-day add-on did not pass on gold, EFA or
 IWM, so its edge may be specific to US large caps.
+
+## Minimum variance SPY/TLT/GLD (`riskparity_paper.py --method minvar`) - account #13
+Each month, the long-only mix of SPY, TLT and GLD (5% steps) with the lowest
+variance over the last 63 trading days (`allocation_study.py` test 54):
+2004-2026 +9.3-9.7% a year, worst drop -22%, Sharpe 1.06-1.09 vs 60/40 0.77;
+better in both halves; luck 98%; still passes one day late and with a 42-day
+window (fails the luck bar with 126/252-day windows). Weights can swing a lot
+(e.g. 0% gold some months).
+
+## Permanent Portfolio (`riskparity_paper.py --method permanent`) - account #14
+Harry Browne's fixed 25% SPY / TLT / GLD / SHY, rebalanced monthly
+(`allocation_study.py` test 49): +6.9% a year, worst drop -19% (the smallest
+of all accounts), Sharpe 0.91 vs 60/40 0.76; better in both halves.
