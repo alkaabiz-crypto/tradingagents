@@ -138,3 +138,17 @@ Sharpe 0.66 vs holding QQQ 0.42 (worst drop -83%); luck check 97%.
 
 Batch 3 also showed the crypto trend rule does NOT work on smaller coins
 (10 other large coins: luck check 34%), so it is used on BTC and ETH only.
+
+## S&P 500 vol-managed + 200-day filter (`volspy_paper.py --asset SPY200`) - account #10
+Account #8's rule, plus cash whenever SPY closes below its 200-day average
+(checked each trading day; `anomaly_study4.py` test 25): 2000-2026 +6.6% a
+year, worst drop -20% (vs -55% holding SPY), Sharpe 0.67 vs 0.49; luck 96%.
+
+## Gold vol-managed (`volspy_paper.py --asset GLD`) - account #11
+Account #8's rule on gold, never tuned on gold (`anomaly_study4.py` test 28):
+2004-2026 +9.1% a year, worst drop -43%, Sharpe 0.66 vs holding GLD 0.58;
+luck 98%.
+
+Across 30 tests about 1-2 false passes are expected by chance at the 95% bar;
+the volatility-managed rule passing on SPY, QQQ and gold (but not on EFA or
+IWM) makes it more believable than any single pass.

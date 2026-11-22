@@ -21,16 +21,22 @@ import urllib.request
 from zoneinfo import ZoneInfo
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-FILES = {"SPY": ("ledger_volspy.json", "journal_volspy.md", "S&P 500"),
+# name -> (Yahoo symbol, ledger, journal, label, use 200-day filter)
+FILES = {"SPY": ("SPY", "ledger_volspy.json", "journal_volspy.md", "S&P 500", False),
          # QQQ: same rule, never tuned on QQQ; passed anomaly_study3.py test 16
-         "QQQ": ("ledger_volqqq.json", "journal_volqqq.md", "Nasdaq 100")}
+         "QQQ": ("QQQ", "ledger_volqqq.json", "journal_volqqq.md", "Nasdaq 100", False),
+         # SPY200: vol-managed SPY, cash while SPY is below its 200-day average
+         # (checked each trading day); passed anomaly_study4.py test 25
+         "SPY200": ("SPY", "ledger_volspy200.json", "journal_volspy200.md", "S&P 500 + 200-day filter", True),
+         # GLD: same rule on gold, never tuned on gold; passed anomaly_study4.py test 28
+         "GLD": ("GLD", "ledger_volgld.json", "journal_volgld.md", "Gold", False)}
 START, FEE, TARGET_VOL, MIN_TRADE = 300.0, 0.001, 0.15, 0.05
 
 
 def history(sym):
     now = int(dt.datetime.now().timestamp())
     req = urllib.request.Request(
-        f"https://query2.finance.yahoo.com/v8/finance/chart/{sym}?period1={now - 90 * 86400}&period2={now}&interval=1d",
+        f"https://query2.finance.yahoo.com/v8/finance/chart/{sym}?period1={now - 420 * 86400}&period2={now}&interval=1d",
         headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=30) as r:
         j = json.load(r)["chart"]["result"][0]
@@ -46,8 +52,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--asset", choices=FILES, default="SPY")
     a = ap.parse_args()
-    sym = a.asset
-    ledger, journal, label = FILES[sym]
+    sym, ledger, journal, label, use_filter = FILES[a.asset]
     LEDGER, JOURNAL = os.path.join(HERE, ledger), os.path.join(HERE, journal)
     now = dt.datetime.now(dt.timezone.utc)
     et = now.astimezone(ZoneInfo("America/New_York"))
@@ -56,14 +61,24 @@ def main():
     closes, price = history(sym)
     r = [closes[i] / closes[i - 1] - 1 for i in range(len(closes) - 21, len(closes))]
     vol = st.pstdev(r) * math.sqrt(252)
-    target = min(1.0, TARGET_VOL / vol) if vol > 0 else 1.0
+    vol_w = min(1.0, TARGET_VOL / vol) if vol > 0 else 1.0
+    sma200 = sum(closes[-200:]) / 200
+    above = closes[-1] > sma200
+    today = f"{et:%Y-%m-%d}"
 
     L = json.load(open(LEDGER)) if os.path.exists(LEDGER) else \
         {"start_cash": START, "cash": START, "shares": 0.0, "last_month": None, "trades": []}
     equity = L["cash"] + L["shares"] * price
     weight = L["shares"] * price / equity
     action, rebalanced = "-", False
-    if L["last_month"] != month and is_open:
+    new_month = L["last_month"] != month
+    if new_month or "vol_weight" not in L:
+        pending_w = vol_w                       # volatility weight is set once a month
+    else:
+        pending_w = L["vol_weight"]
+    target = pending_w * (1.0 if (above or not use_filter) else 0.0)
+    new_day = use_filter and L.get("last_day") != today
+    if (new_month or new_day) and is_open:
         diff = target - weight
         if abs(diff) > MIN_TRADE:
             usd = diff * equity
@@ -74,6 +89,7 @@ def main():
             L["trades"].append({"date": now.isoformat(timespec="minutes"), "price": round(price, 2),
                                 "usd": round(usd, 2), "fee": round(fee, 2), "target": round(target, 3)})
         L["last_month"], rebalanced = month, True
+        L["vol_weight"], L["last_day"] = pending_w, today
     equity = L["cash"] + L["shares"] * price
     weight = L["shares"] * price / equity
     state = "market open" if is_open else "market closed, waits for the next open"
@@ -81,7 +97,8 @@ def main():
               ("" if L["last_month"] == month else f" (rebalance pending, {state})")))
     print(f"Paper trader [{label} volatility-managed] - run {now:%Y-%m-%d %H:%M} UTC")
     print(f"Status: {status}")
-    print(f"{sym} ${price:,.2f} | last 21 days' volatility {vol * 100:.1f}%/yr | target {target * 100:.0f}% in {sym}")
+    print(f"{sym} ${price:,.2f} | last 21 days' volatility {vol * 100:.1f}%/yr | target {target * 100:.0f}% in {sym}"
+          + (f" | 200-day avg ${sma200:,.2f} ({'above' if above else 'BELOW, so cash'})" if use_filter else ""))
     if action != "-":
         print(f"Actions: {action}")
     print(f"Paper account: ${equity:,.2f} (cash ${L['cash']:,.2f}) | total P/L {equity - L['start_cash']:+.2f}")
