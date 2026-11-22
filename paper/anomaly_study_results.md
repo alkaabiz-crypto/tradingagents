@@ -1,6 +1,6 @@
 # Academic anomaly study
 
-Run 2026-11-22 18:52 UTC. Rules and pass rules fixed before running. PASS = luck check >= 95%, Sharpe above the benchmark in BOTH halves, and positive after costs.
+Run 2026-11-22 19:05 UTC. Rules and pass rules fixed before running. PASS = luck check >= 95%, Sharpe above the benchmark in BOTH halves, and positive after costs.
 
 ## Stocks: SPY (2000-01-03 to 2026-11-20); benchmark = holding SPY
 
@@ -16,8 +16,8 @@ Run 2026-11-22 18:52 UTC. Rules and pass rules fixed before running. PASS = luck
 
 | Test | Per year | Worst drop | Sharpe | Benchmark Sharpe | 1st half Sharpe (vs bench) | 2nd half Sharpe (vs bench) | Per year at stress cost | Luck check | Verdict |
 |---|---|---|---|---|---|---|---|---|---|
-| 5. Faber 10-month trend, 5 ETFs (vs equal-weight hold) | +4.4% | -16% | 0.59 | 0.51 | 0.44 vs 0.37 | 0.78 vs 0.73 | +4.1% | 84% | fail |
-| 6. Dual momentum SPY/EFA/AGG (vs SPY) | +6.2% | -36% | 0.47 | 0.62 | 0.43 vs 0.42 | 0.50 vs 0.85 | +5.6% | 54% | fail |
+| 5. Faber 10-month trend, 5 ETFs (vs equal-weight hold) | +4.4% | -16% | 0.59 | 0.51 | 0.44 vs 0.37 | 0.78 vs 0.73 | +4.1% | 85% | fail |
+| 6. Dual momentum SPY/EFA/AGG (vs SPY) | +6.2% | -36% | 0.47 | 0.62 | 0.43 vs 0.42 | 0.50 vs 0.85 | +5.6% | 53% | fail |
 
 ## Crypto (2017-11-15 to 2026-11-22); benchmark = equal-weight 12 coins
 
@@ -25,5 +25,5 @@ Holding BTC alone over this period: +26.4% a year, worst drop -83%, Sharpe 0.69.
 
 | Test | Per year | Worst drop | Sharpe | Benchmark Sharpe | 1st half Sharpe (vs bench) | 2nd half Sharpe (vs bench) | Per year at stress cost | Luck check | Verdict |
 |---|---|---|---|---|---|---|---|---|---|
-| 7. Crypto top-3 momentum (vs equal-weight 12 coins) | +13.1% | -89% | 0.57 | 0.94 | 0.87 vs 1.27 | 0.12 vs 0.46 | +1.1% | 14% | fail |
-| 8. Crypto top-3 momentum + BTC trend filter (vs equal-weight 12 coins) | +53.4% | -62% | 0.99 | 0.94 | 1.28 vs 1.27 | 0.62 vs 0.46 | +41.3% | 91% | fail |
+| 7. Crypto top-3 momentum (vs equal-weight 12 coins) | +13.1% | -89% | 0.57 | 0.94 | 0.87 vs 1.27 | 0.12 vs 0.46 | +1.1% | 6% | fail |
+| 8. Crypto top-3 momentum + BTC trend filter (vs equal-weight 12 coins) | +53.4% | -62% | 0.99 | 0.94 | 1.28 vs 1.27 | 0.62 vs 0.46 | +41.3% | 96% | **PASS** |

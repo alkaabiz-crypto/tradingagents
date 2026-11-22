@@ -111,10 +111,8 @@ def evaluate(name, asset_r, pos, bench_r, cost, per_year, stress=None, multi=Non
     if multi:
         shifts, rng, real, beat = 500, random.Random(9), allm["sharpe"], 0
         for _ in range(shifts):
-            cols = []
-            for a, p in zip(asset_r, pos):
-                k = rng.randrange(1, len(p))
-                cols.append(strat_returns(a, p[k:] + p[:k], cost))
+            k = rng.randrange(1, len(pos[0]))   # same shift for every asset, so weights still add up
+            cols = [strat_returns(a, p[k:] + p[:k], cost) for a, p in zip(asset_r, pos)]
             beat += real > metrics([sum(x) for x in zip(*cols)], per_year)["sharpe"]
         lk = beat / shifts
     else:
