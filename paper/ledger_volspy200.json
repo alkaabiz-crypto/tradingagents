@@ -2,6 +2,8 @@
   "start_cash": 300.0,
   "cash": 300.0,
   "shares": 0.0,
-  "last_month": null,
-  "trades": []
+  "last_month": "2026-11",
+  "trades": [],
+  "vol_weight": 0.6004216585473731,
+  "last_day": "2026-11-23"
 }
