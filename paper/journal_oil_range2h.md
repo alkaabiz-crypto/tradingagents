@@ -14,3 +14,4 @@ Paper money only. Starting balance $300.
 | 2026-11-23 14:00 | GET READY (near range bottom) | 80.35 | 82.59 | 83.35 | 32.6 | - | 300.00 |
 | 2026-11-23 16:00 | GET READY (near range bottom) | 80.54 | 82.48 | 83.27 | 40.0 | - | 300.00 |
 | 2026-11-23 18:00 | GET READY (near range bottom) | 80.08 | 82.35 | 83.15 | 35.3 | - | 300.00 |
+| 2026-11-23 20:00 | GET READY (near range bottom) | 80.44 | 82.21 | 83.04 | 38.4 | - | 300.00 |
