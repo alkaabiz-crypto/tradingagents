@@ -1,1 +1,1 @@
-{"ok": false, "reason": "News tool did not complete (approval stalled), so BLOCK", "checked_at": "2026-11-23T02:05:36+00:00"}
+{"ok": false, "reason": "News tool needs an approval that stalls, so BLOCK", "checked_at": "2026-11-23T03:06:02+00:00"}
