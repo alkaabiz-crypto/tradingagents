@@ -11,4 +11,4 @@ Paper money only. Starting balance $300.
 | 2026-11-23 08:00 | WAIT (price not near range bottom) | 82.57 | 82.84 | 83.57 | 50.7 | - | 300.00 |
 | 2026-11-23 10:00 | WAIT (price not near range bottom) | 82.32 | 82.81 | 83.51 | 44.9 | - | 300.00 |
 | 2026-11-23 12:00 | WAIT (price not near range bottom) | 81.96 | 82.72 | 83.44 | 40.0 | - | 300.00 |
-| 2026-11-23 14:00 | GET READY (near range bottom) | 80.01 | 82.58 | 83.35 | 32.1 | - | 300.00 |
+| 2026-11-23 14:00 | GET READY (near range bottom) | 80.35 | 82.59 | 83.35 | 32.6 | - | 300.00 |
