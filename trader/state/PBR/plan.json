@@ -1,0 +1,28 @@
+{
+  "created_by": "trader-exit",
+  "symbol": "PBR",
+  "side": "buy",
+  "date": "2026-11-23",
+  "setup": "orb",
+  "entry": 16.11,
+  "entry_time": "9:50 AM",
+  "entry_bar": 3,
+  "interval": "5m",
+  "opening_range": {
+    "high": 16.08,
+    "low": 15.9,
+    "minutes": 15
+  },
+  "stop": 15.99,
+  "stop_rule": "or_mid",
+  "stop_label": "opening-range midpoint",
+  "target": 16.35,
+  "target_r": 2.0,
+  "target_label": "2R (two times the risk)",
+  "risk_per_share": 0.12,
+  "reward_risk": 2.0,
+  "flat_by": "15:55",
+  "stop_detail": "($16.08 + $15.90) / 2 = $15.99",
+  "created_at": "2026-11-23T15:07:32Z",
+  "note": "A stop is a plan, not a guarantee: a gap or a fast market can fill past it."
+}

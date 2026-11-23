@@ -1,0 +1,28 @@
+{
+  "created_by": "trader-exit",
+  "symbol": "SU",
+  "side": "buy",
+  "date": "2026-11-23",
+  "setup": "orb",
+  "entry": 64.1,
+  "entry_time": "9:55 AM",
+  "entry_bar": 4,
+  "interval": "5m",
+  "opening_range": {
+    "high": 64.07,
+    "low": 63.62,
+    "minutes": 15
+  },
+  "stop": 63.84,
+  "stop_rule": "or_mid",
+  "stop_label": "opening-range midpoint",
+  "target": 64.62,
+  "target_r": 2.0,
+  "target_label": "2R (two times the risk)",
+  "risk_per_share": 0.26,
+  "reward_risk": 2.0,
+  "flat_by": "15:55",
+  "stop_detail": "($64.07 + $63.62) / 2 = $63.845, rounded down",
+  "created_at": "2026-11-23T15:07:34Z",
+  "note": "A stop is a plan, not a guarantee: a gap or a fast market can fill past it."
+}

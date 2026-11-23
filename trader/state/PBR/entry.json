@@ -1,0 +1,22 @@
+{
+  "created_by": "trader-entry",
+  "symbol": "PBR",
+  "setup": "orb",
+  "side": "buy",
+  "date": "2026-11-23",
+  "status": "triggered",
+  "time": "9:50 AM",
+  "bar_start": "09:45",
+  "bar_index": 3,
+  "price": 16.11,
+  "level": 16.08,
+  "interval": "5m",
+  "opening_range": {
+    "high": 16.08,
+    "low": 15.9,
+    "minutes": 15
+  },
+  "source": "yahoo",
+  "checked_at": "2026-11-23T15:07:32Z",
+  "reason": "the 9:45 bar closed above the range high"
+}
