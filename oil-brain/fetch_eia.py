@@ -18,4 +18,6 @@ for name, sid in S.items():
             out[name] = s; print(name, len(s), s.index[0].date(), s.index[-1].date(), s.iloc[-1]); break
         except Exception as e:
             print(name, "retry", e); time.sleep(3)
+if len(out) < len(S):  # never overwrite the saved history with a partial or empty download
+    raise SystemExit(f"EIA download incomplete ({len(out)}/{len(S)} series; is xlrd installed?); kept the old file")
 pd.DataFrame(out).sort_index().to_csv(os.path.join(D, "EIA_weekly.csv"))
