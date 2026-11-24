@@ -23,6 +23,10 @@ models gemini-3.8-flash (deep) and gemini-3.5-flash-lite (quick), on Google AI S
 generativelanguage.googleapis.com, so the network proxy adds it to each request; the script only sets a
 placeholder GOOGLE_API_KEY so the client starts. Fallback if GEMINI is not set up: ANTHROPIC_API_KEY.
 Without either, the sleeve stays in cash and says so.
+Provider changed again 2026-11-24 at the user's request, before the first verdict: Gemini's free quota ran out
+after one test, so the first choice is now Mistral's free Codestral (codestral-2508, deep and quick; key = network
+secret for api.mistral.ai; 2 requests/minute, so calls are spaced 31 s and a run takes ~20-30 min), with
+Gemini (gemini-3.5-flash / -lite) as the fallback. The rating -> exposure rule and the pass bar are unchanged.
 Paper money only. Research, not financial advice.
 """
 import os, sys, json, csv, datetime as dt
@@ -58,23 +62,54 @@ def run_verdict(ticker, day):
     sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
     from tradingagents.default_config import DEFAULT_CONFIG
     from tradingagents.graph.trading_graph import TradingAgentsGraph
-    cfg = DEFAULT_CONFIG.copy()
-    cfg.update(max_debate_rounds=1, max_risk_discuss_rounds=1, results_dir=os.path.join(HERE, "ta_reports"))
+    base = DEFAULT_CONFIG.copy()
+    base.update(max_debate_rounds=1, max_risk_discuss_rounds=1, results_dir=os.path.join(HERE, "ta_reports"))
+    os.environ.pop("ANTHROPIC_BASE_URL", None)
+    attempts = []  # (label, config); tried in order until one gives a rating
     if os.environ.get("ANTHROPIC_API_KEY") and os.environ.get("TA_PROVIDER") == "anthropic":
-        os.environ.pop("ANTHROPIC_BASE_URL", None)
-        cfg.update(llm_provider="anthropic", deep_think_llm="claude-sonnet-5", quick_think_llm="claude-haiku-4-5")
-    else:
-        # Free Google AI Studio key, injected by the network proxy (network secret); placeholder locally.
-        # The user saved the key as an environment variable named "api_key"; accept the usual names too.
-        real = os.environ.get("GOOGLE_API_KEY") or os.environ.get("api_key") or os.environ.get("GEMINI_API_KEY")
-        os.environ["GOOGLE_API_KEY"] = real or "placeholder-the-proxy-adds-the-real-key"
-        cfg.update(llm_provider="google", deep_think_llm="gemini-3.8-flash", quick_think_llm="gemini-3.5-flash-lite")
-    try:
-        graph = TradingAgentsGraph(debug=False, config=cfg)
-        _, rating = graph.propagate(ticker, day)
-    except Exception as e:  # missing key, rate limit, network
-        return None, f"TradingAgents could not run ({type(e).__name__}: {str(e)[:160]})"
-    return rating, "ok"
+        attempts.append(("anthropic", dict(llm_provider="anthropic", deep_think_llm="claude-sonnet-5",
+                                           quick_think_llm="claude-haiku-4-5")))
+    # 1st choice (user's request, 2026-11-24): free Mistral Codestral. The key is a network secret for
+    # api.mistral.ai injected by the proxy; the free workspace allows 2 requests/minute, so calls are spaced.
+    attempts.append(("codestral", dict(llm_provider="mistral", deep_think_llm="codestral-2508",
+                                       quick_think_llm="codestral-2508", llm_max_retries=6)))
+    # Fallback: free Google AI Studio (Gemini); the key is the environment variable "api_key".
+    attempts.append(("gemini", dict(llm_provider="google", deep_think_llm="gemini-3.5-flash",
+                                    quick_think_llm="gemini-3.5-flash-lite")))
+    errors = []
+    for label, extra in attempts:
+        if label == "codestral":
+            os.environ.setdefault("MISTRAL_API_KEY", "proxy-injected")
+            _throttle_openai_calls(31.0)
+        if label == "gemini":
+            real = os.environ.get("GOOGLE_API_KEY") or os.environ.get("api_key") or os.environ.get("GEMINI_API_KEY")
+            os.environ["GOOGLE_API_KEY"] = real or "placeholder-the-proxy-adds-the-real-key"
+        cfg = base.copy(); cfg.update(extra)
+        try:
+            _, rating = TradingAgentsGraph(debug=False, config=cfg).propagate(ticker, day)
+            return rating, f"ok ({label})"
+        except Exception as e:  # missing key, rate limit, network
+            errors.append(f"{label}: {type(e).__name__}: {str(e)[:120]}")
+    return None, "TradingAgents could not run (" + " | ".join(errors) + ")"
+
+
+def _throttle_openai_calls(gap):
+    """Space OpenAI-compatible chat calls (Mistral's free tier allows 2 requests a minute)."""
+    import threading, time
+    from langchain_openai.chat_models import base as B
+    if getattr(B.BaseChatOpenAI, "_ta_throttled", False):
+        return
+    lock, last, orig = threading.Lock(), [0.0], B.BaseChatOpenAI._generate
+
+    def throttled(self, *a, **k):
+        with lock:
+            wait = last[0] + gap - time.time()
+            if wait > 0:
+                time.sleep(wait)
+            last[0] = time.time()
+        return orig(self, *a, **k)
+    B.BaseChatOpenAI._generate = throttled
+    B.BaseChatOpenAI._ta_throttled = True
 
 
 def trade(st, px, day):
