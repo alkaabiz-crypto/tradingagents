@@ -1,2 +1,4 @@
 made,session,ticker,rating,side,atr,entry,stop,target,exit,result,R,pct,model
 2026-11-24,,XOM,Sell,SHORT,3.9195,,,,,open,,,codestral
+2026-11-24,,CVX,Buy,LONG,4.8707,,,,,open,,,codestral
+2026-11-24,,USO,Buy,LONG,4.6847,,,,,open,,,codestral
