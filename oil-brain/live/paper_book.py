@@ -32,7 +32,14 @@ BDAY = pd.offsets.CustomBusinessDay(holidays=NYSE_HOLIDAYS)
 def closes(sym):
     s = yf.Ticker(sym).history(period="1y", auto_adjust=True)["Close"]
     s.index = s.index.tz_localize(None).normalize()
-    return s[~s.index.duplicated()].dropna()
+    s = s[~s.index.duplicated()].dropna()
+    # Only finished days: crypto closes at 00:00 UTC; US ETFs at 16:00 New York (allow 10 minutes).
+    if sym.endswith("-USD"):
+        today = pd.Timestamp.now(tz="UTC").tz_localize(None).normalize()
+    else:
+        ny = pd.Timestamp.now(tz="America/New_York")
+        today = ny.tz_localize(None).normalize() + (pd.Timedelta(days=1) if ny.hour * 60 + ny.minute >= 16 * 60 + 10 else pd.Timedelta(0))
+    return s[s.index < today]
 
 
 def target(name, px):
