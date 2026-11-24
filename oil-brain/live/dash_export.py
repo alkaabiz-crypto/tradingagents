@@ -18,6 +18,15 @@ for k, s in st["sleeves"].items():
                      pnl_usd=round(s.get("equity", ALLOC[k]) - ALLOC[k], 2),
                      position="Long" if tgt > 0 else "Short" if tgt < 0 else "Cash",
                      reason=s.get("reason", ""), price_date=s.get("last_date", "")))
+ta_path = os.path.join(HERE, "ta_state.json")
+if os.path.exists(ta_path):
+    ta = json.load(open(ta_path)); last = ta["history"][-1] if ta.get("history") else {}
+    for bk, nm in (("long_only", "TradingAgents verdicts (long-only)"), ("long_short", "TradingAgents verdicts (long/short)")):
+        tg = {t: (max(v, 0) if bk == "long_only" else v) for t, v in ta["target"].items()}
+        held = ", ".join(f"{t} {v:+.1f}" for t, v in tg.items() if v) or "all cash"
+        book.append(dict(strategy=nm, symbol="SPY QQQ NVDA XLE GLD", start_usd=5000, equity_usd=last.get(bk, 5000),
+                         pnl_usd=round(last.get(bk, 5000) - 5000, 2), position="Long" if any(v > 0 for v in tg.values()) else "Cash",
+                         reason=f"targets: {held}; buy-and-hold ${last.get('benchmark', 5000):,.0f}", price_date=ta.get("last_mark", "")))
 meta = [{"label": "Paper book updated", "value": st.get("updated", "")},
         {"label": "Started", "value": st["start"]}, {"label": "Rules", "value": "oil-brain/live/paper_book.py"}]
 json.dump({"rows": book, "meta": meta}, open(os.path.join(OUT, "book.json"), "w"), indent=1)
