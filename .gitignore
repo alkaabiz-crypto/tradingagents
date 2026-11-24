@@ -221,3 +221,11 @@ __marimo__/
 # Enterprise env file (secrets) and generated run reports
 .env.enterprise
 reports/
+
+# trading lab (oil-brain): downloaded data stays out of git
+oil-brain/brains/*/data/
+oil-brain/brains/*/raw/
+oil-brain/audit/data/
+oil-brain/audit2/data/
+oil-brain/combo/data/
+oil-brain/btc_research/*/data/

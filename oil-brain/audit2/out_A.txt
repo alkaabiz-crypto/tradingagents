@@ -1,0 +1,140 @@
+=== 1. BASE ===
+GLD base
+  2006-2013  n= 44 win=36% avgR=+0.31 t=+1.03 totR=+13.4 maxDD=6.5
+  2014-2019  n= 23 win=35% avgR=+0.72 t=+1.10 totR=+16.6 maxDD=3.1
+  2020-now   n= 31 win=48% avgR=+0.95 t=+1.79 totR=+29.6 maxDD=5.8
+  2014-now   n= 54 win=43% avgR=+0.86 t=+2.08 totR=+46.2 maxDD=5.8
+open trades: []
+sensitivity: exclude open trade -> n= 54 win=43% avgR=+0.86 t=+2.08 totR=+46.2 maxDD=5.8
+
+=== 2. NEIGHBOURS (2014-now) ===
+  thr5      n= 36 win=50% avgR=+1.33 t=+2.28 totR=+47.9 maxDD=3.5 | 2006-13 n=26 avgR=+0.73 t=+1.55 PASS
+  thr15     n= 65 win=45% avgR=+0.78 t=+2.20 totR=+50.8 maxDD=7.8 | 2006-13 n=50 avgR=+0.34 t=+1.16 PASS
+  thr20     n= 72 win=42% avgR=+0.76 t=+2.25 totR=+54.5 maxDD=6.1 | 2006-13 n=53 avgR=+0.55 t=+1.97 PASS
+  rsi3      n= 23 win=48% avgR=+0.68 t=+1.43 totR=+15.5 maxDD=3.2 | 2006-13 n=15 avgR=-0.15 t=-0.39 fail
+  sma150    n= 47 win=43% avgR=+1.05 t=+2.22 totR=+49.6 maxDD=5.7 | 2006-13 n=39 avgR=+0.31 t=+0.96 PASS
+  sma250    n= 56 win=45% avgR=+0.87 t=+2.18 totR=+48.7 maxDD=5.7 | 2006-13 n=44 avgR=+0.22 t=+0.74 PASS
+  init1.5   n= 57 win=39% avgR=+0.81 t=+2.10 totR=+46.1 maxDD=4.7 | 2006-13 n=45 avgR=+0.21 t=+0.75 PASS
+  init2.5   n= 51 win=41% avgR=+0.81 t=+1.87 totR=+41.5 maxDD=8.6 | 2006-13 n=42 avgR=+0.31 t=+0.99 PASS
+  trail2    n= 69 win=48% avgR=+0.36 t=+1.57 totR=+24.6 maxDD=10.8 | 2006-13 n=52 avgR=-0.02 t=-0.09 PASS
+  trail2.5  n= 65 win=42% avgR=+0.46 t=+1.78 totR=+29.8 maxDD=10.0 | 2006-13 n=45 avgR=+0.31 t=+1.19 PASS
+  trail3.5  n= 49 win=47% avgR=+0.90 t=+2.09 totR=+44.0 maxDD=5.8 | 2006-13 n=40 avgR=+0.55 t=+1.29 PASS
+  trail4    n= 43 win=44% avgR=+0.73 t=+1.69 totR=+31.2 maxDD=6.0 | 2006-13 n=33 avgR=+0.21 t=+0.53 PASS
+  pass: 11 / 12
+
+=== 3a. BUY & HOLD vs RULE per year (rule: compounded % per exit-year, full capital) ===
+  2006 BH=+22.5% rule= +8.1% | trades(entry yr)=7 sumR=+0.87
+  2007 BH=+30.5% rule= -1.9% | trades(entry yr)=7 sumR=+1.43
+  2008 BH= +4.9% rule= +6.4% | trades(entry yr)=5 sumR=-0.40
+  2009 BH=+24.0% rule= +1.8% | trades(entry yr)=7 sumR=+2.47
+  2010 BH=+29.3% rule=+10.6% | trades(entry yr)=5 sumR=+3.95
+  2011 BH= +9.6% rule=+25.8% | trades(entry yr)=7 sumR=+10.02
+  2012 BH= +6.6% rule= -9.9% | trades(entry yr)=6 sumR=-4.89
+  2013 BH=-28.3% rule= -0.5% | trades(entry yr)=0 sumR=+0.00
+  2014 BH= -2.2% rule= -4.4% | trades(entry yr)=2 sumR=-2.03
+  2015 BH=-10.7% rule= +0.0% | trades(entry yr)=0 sumR=+0.00
+  2016 BH= +8.0% rule= +7.5% | trades(entry yr)=5 sumR=+2.26
+  2017 BH=+12.8% rule= -2.3% | trades(entry yr)=5 sumR=-0.61
+  2018 BH= -1.9% rule= -2.2% | trades(entry yr)=3 sumR=-1.24
+  2019 BH=+17.9% rule=+15.8% | trades(entry yr)=8 sumR=+18.23
+  2020 BH=+24.8% rule=+14.0% | trades(entry yr)=5 sumR=+1.67
+  2021 BH= -4.1% rule= -2.8% | trades(entry yr)=3 sumR=-3.34
+  2022 BH= -0.8% rule= -3.6% | trades(entry yr)=2 sumR=-1.39
+  2023 BH=+12.7% rule= +2.8% | trades(entry yr)=8 sumR=+1.24
+  2024 BH=+26.7% rule=+32.0% | trades(entry yr)=4 sumR=+13.94
+  2025 BH=+63.7% rule=+60.3% | trades(entry yr)=5 sumR=+19.94
+  2026 BH=-16.0% rule=-11.8% | trades(entry yr)=4 sumR=-2.50
+  2006-now: BH CAGR +9.3%  rule CAGR +5.6%  time in market 42%
+  2014-now: BH CAGR +8.5%  rule CAGR +6.8%  time in market 41%
+
+=== 3b. PLACEBO (2014-now) ===
+  non-overlap placebo q=0.06 mean trades=56.3
+  real avgR=+0.855 N=54; eligible-day mean R=+0.484
+  placebo (independent draws) mean=+0.450 sd=0.334 95th=+1.067 p=0.114
+  placebo (non-overlapping)  mean=+0.510 sd=0.191 95th=+0.804 p=0.018
+
+=== 3c. OTHER INSTRUMENTS ===
+IAU
+  2006-2013  n= 42 win=33% avgR=+0.19 t=+0.70 totR=+8.0 maxDD=6.5
+  2014-2019  n= 22 win=32% avgR=+0.45 t=+0.67 totR=+9.8 maxDD=8.7
+  2020-now   n= 30 win=47% avgR=+0.98 t=+1.79 totR=+29.5 maxDD=5.7
+  2014-now   n= 52 win=40% avgR=+0.76 t=+1.79 totR=+39.4 maxDD=8.7
+GC_F
+  2006-2013  n= 46 win=48% avgR=+0.55 t=+1.64 totR=+25.4 maxDD=4.0
+  2014-2019  n= 23 win=43% avgR=+0.12 t=+0.40 totR=+2.9 maxDD=4.5
+  2020-now   n= 27 win=37% avgR=+0.64 t=+1.44 totR=+17.2 maxDD=8.3
+  2014-now   n= 50 win=40% avgR=+0.40 t=+1.44 totR=+20.0 maxDD=8.3
+SLV
+  2006-2013  n= 28 win=43% avgR=+0.62 t=+1.17 totR=+17.4 maxDD=5.5
+  2014-2019  n= 11 win=36% avgR=+0.41 t=+0.63 totR=+4.5 maxDD=3.7
+  2020-now   n= 28 win=46% avgR=+0.52 t=+1.12 totR=+14.6 maxDD=4.9
+  2014-now   n= 39 win=44% avgR=+0.49 t=+1.30 totR=+19.1 maxDD=6.1
+
+=== 4. EXECUTION ===
+delay1
+  2006-2013  n= 44 win=36% avgR=+0.19 t=+0.61 totR=+8.2 maxDD=7.2
+  2014-2019  n= 24 win=33% avgR=+0.54 t=+0.86 totR=+13.1 maxDD=5.5
+  2020-now   n= 29 win=52% avgR=+1.07 t=+1.94 totR=+31.1 maxDD=4.5
+  2014-now   n= 53 win=43% avgR=+0.83 t=+2.02 totR=+44.1 maxDD=5.5
+cost10
+  2006-2013  n= 44 win=36% avgR=+0.27 t=+0.92 totR=+12.0 maxDD=6.8
+  2014-2019  n= 23 win=35% avgR=+0.67 t=+1.02 totR=+15.3 maxDD=3.5
+  2020-now   n= 31 win=48% avgR=+0.91 t=+1.72 totR=+28.4 maxDD=6.0
+  2014-now   n= 54 win=43% avgR=+0.81 t=+1.97 totR=+43.7 maxDD=6.0
+cost20
+  2006-2013  n= 44 win=36% avgR=+0.21 t=+0.71 totR=+9.2 maxDD=7.5
+  2014-2019  n= 23 win=30% avgR=+0.55 t=+0.85 totR=+12.7 maxDD=4.8
+  2020-now   n= 31 win=48% avgR=+0.84 t=+1.57 totR=+25.9 maxDD=7.0
+  2014-now   n= 54 win=41% avgR=+0.72 t=+1.75 totR=+38.6 maxDD=7.0
+fin0.02
+  2006-2013  n= 44 win=36% avgR=+0.13 t=+0.45 totR=+5.5 maxDD=7.9
+  2014-2019  n= 23 win=30% avgR=+0.34 t=+0.59 totR=+7.9 maxDD=6.4
+  2020-now   n= 31 win=42% avgR=+0.66 t=+1.32 totR=+20.5 maxDD=8.8
+  2014-now   n= 54 win=37% avgR=+0.53 t=+1.40 totR=+28.4 maxDD=8.8
+  financing drag per trade (2014-now) avg R: 0.329  avg calendar days held: 36.1
+fin0.02+cost10
+  2006-2013  n= 44 win=34% avgR=+0.09 t=+0.33 totR=+4.1 maxDD=8.3
+  2014-2019  n= 23 win=30% avgR=+0.29 t=+0.49 totR=+6.6 maxDD=7.5
+  2020-now   n= 31 win=42% avgR=+0.62 t=+1.25 totR=+19.3 maxDD=9.4
+  2014-now   n= 54 win=37% avgR=+0.48 t=+1.28 totR=+25.9 maxDD=9.4
+fin0.02+delay1+cost10
+  2006-2013  n= 44 win=34% avgR=-0.01 t=-0.05 totR=-0.6 maxDD=9.1
+  2014-2019  n= 24 win=29% avgR=+0.14 t=+0.25 totR=+3.3 maxDD=10.2
+  2020-now   n= 29 win=45% avgR=+0.72 t=+1.40 totR=+21.0 maxDD=7.9
+  2014-now   n= 53 win=38% avgR=+0.46 t=+1.21 totR=+24.3 maxDD=10.2
+
+=== 5. REGIME ===
+  2014-now excl 2020-2025: n= 27 win=30% avgR=+0.52 t=+0.93 totR=+14.1 maxDD=3.1
+  2006-now excl 2020-2025: n= 71 win=34% avgR=+0.39 t=+1.38 totR=+27.6 maxDD=8.5
+  2024-now only: n= 13 win=69% avgR=+2.41 t=+2.24 totR=+31.4 maxDD=2.5
+  2014-now top-3 trades [12.87, 11.8, 8.5] = 33.16R of total 46.18R (72%)
+  2014-now without top3: n= 51 win=39% avgR=+0.26 t=+1.09 totR=+13.0 maxDD=5.8
+  2005: n=2 avgR=+0.79 sumR=+1.59
+  2006: n=7 avgR=+0.12 sumR=+0.87
+  2007: n=7 avgR=+0.20 sumR=+1.43
+  2008: n=5 avgR=-0.08 sumR=-0.40
+  2009: n=7 avgR=+0.35 sumR=+2.47
+  2010: n=5 avgR=+0.79 sumR=+3.95
+  2011: n=7 avgR=+1.43 sumR=+10.02
+  2012: n=6 avgR=-0.81 sumR=-4.89
+  2014: n=2 avgR=-1.02 sumR=-2.03
+  2016: n=5 avgR=+0.45 sumR=+2.26
+  2017: n=5 avgR=-0.12 sumR=-0.61
+  2018: n=3 avgR=-0.41 sumR=-1.24
+  2019: n=8 avgR=+2.28 sumR=+18.23
+  2020: n=5 avgR=+0.33 sumR=+1.67
+  2021: n=3 avgR=-1.11 sumR=-3.34
+  2022: n=2 avgR=-0.70 sumR=-1.39
+  2023: n=8 avgR=+0.16 sumR=+1.24
+  2024: n=4 avgR=+3.49 sumR=+13.94
+  2025: n=5 avgR=+3.99 sumR=+19.94
+  2026: n=4 avgR=-0.62 sumR=-2.50
+
+=== 6. DATA ===
+  GLD: rows=5539 max|raw/adj-1|=0.00e+00 max|AdjClose/Close-1|=0.00e+00 splits={} divs=0 missing weekdays=205 (holidays incl.) NaN rows=0 OHLC-inconsistent=0 nonpos=0 |ret|>8% days=3
+  IAU: rows=5491 max|raw/adj-1|=0.00e+00 max|AdjClose/Close-1|=0.00e+00 splits={Timestamp('2010-06-24 00:00:00'): 10.0, Timestamp('2021-05-24 00:00:00'): 0.5} divs=0 missing weekdays=202 (holidays incl.) NaN rows=0 OHLC-inconsistent=0 nonpos=0 |ret|>8% days=4
+  SLV: rows=5177 max|raw/adj-1|=0.00e+00 max|AdjClose/Close-1|=0.00e+00 splits={Timestamp('2008-07-24 00:00:00'): 10.0} divs=0 missing weekdays=191 (holidays incl.) NaN rows=0 OHLC-inconsistent=0 nonpos=0 |ret|>8% days=33
+  GC_F: rows=5754 max|raw/adj-1|=0.00e+00 max|AdjClose/Close-1|=0.00e+00 splits={} divs=0 missing weekdays=218 (holidays incl.) NaN rows=0 OHLC-inconsistent=386 nonpos=0 |ret|>8% days=3
+  GLD gaps >4 days: {Timestamp('2007-01-03 00:00:00'): 5.0, Timestamp('2012-10-31 00:00:00'): 5.0}
+  GC=F |open gap|>3%: {Timestamp('2006-05-16 00:00:00'): 0.039, Timestamp('2006-05-24 00:00:00'): -0.053, Timestamp('2006-06-13 00:00:00'): -0.059, Timestamp('2006-06-30 00:00:00'): -0.044, Timestamp('2006-07-18 00:00:00'): -0.034, Timestamp('2006-09-11 00:00:00'): -0.032, Timestamp('2007-03-02 00:00:00'): -0.031, Timestamp('2007-05-10 00:00:00'): -0.043, Timestamp('2007-11-12 00:00:00'): -0.034, Timestamp('2007-11-23 00:00:00'): 0.033, Timestamp('2008-06-26 00:00:00'): 0.034, Timestamp('2008-09-19 00:00:00'): -0.036, Timestamp('2008-09-22 00:00:00'): 0.033, Timestamp('2008-10-10 00:00:00'): 0.048, Timestamp('2008-10-23 00:00:00'): -0.039, Timestamp('2008-11-14 00:00:00'): 0.031, Timestamp('2008-11-21 00:00:00'): 0.03, Timestamp('2008-11-24 00:00:00'): 0.036, Timestamp('2009-01-16 00:00:00'): 0.034, Timestamp('2009-03-19 00:00:00'): 0.055, Timestamp('2009-03-24 00:00:00'): -0.03, Timestamp('2010-07-01 00:00:00'): -0.031, Timestamp('2011-09-27 00:00:00'): 0.038, Timestamp('2013-09-19 00:00:00'): 0.042, Timestamp('2020-03-16 00:00:00'): 0.035}
+  GLD  |open gap|>3%: 40

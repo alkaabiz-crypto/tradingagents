@@ -1,0 +1,26 @@
+A full alpha   15.0%/yr  t  1.64  beta 0.65
+A 2014-19 alpha   13.3%/yr  t  0.88  beta 0.71
+A 2020+ alpha   15.7%/yr  t  1.40  beta 0.57
+A 2022+ alpha    3.9%/yr  t  0.34  beta 0.53
+A exposure 0.70; vol of rule 0.53 vs B&H 0.66
+B full alpha   26.8%/yr  t  1.95  beta 0.50
+B 2014-19 alpha   10.6%/yr  t  0.33  beta 0.41
+B 2020+ alpha   27.7%/yr  t  1.83  beta 0.52
+B 2022+ alpha   20.1%/yr  t  1.32  beta 0.41
+B exposure 0.51; vol of rule 0.57 vs B&H 0.81
+C full alpha   20.2%/yr  t  2.35  beta -0.10
+C 2014-19 alpha    8.3%/yr  t  0.65  beta -0.29
+C 2020+ alpha   35.5%/yr  t  2.14  beta -0.01
+C ex 2020 & 2026 alpha    9.5%/yr  t  1.16  beta -0.04 Sh 0.28 t 1.15
+C 2026 by month rule/USO %: 1:15/15  2:3/3  3:55/55  4:39/16  5:-12/-12  6:-19/-18  7:27/21  8:4/4  9:9/9  10:17/16  11:24/-21
+C position during Mar-Apr 2026: {Timestamp('2026-02-20 00:00:00'): 1.0, Timestamp('2026-02-27 00:00:00'): 1.0, Timestamp('2026-03-06 00:00:00'): 1.0, Timestamp('2026-03-13 00:00:00'): 1.0, Timestamp('2026-03-20 00:00:00'): 1.0, Timestamp('2026-03-27 00:00:00'): 1.0, Timestamp('2026-04-03 00:00:00'): -1.0, Timestamp('2026-04-10 00:00:00'): 1.0, Timestamp('2026-04-17 00:00:00'): 1.0, Timestamp('2026-04-24 00:00:00'): 1.0, Timestamp('2026-05-01 00:00:00'): 1.0}
+C 2010-2019 only: {'sh': np.float64(0.06032383544420001), 'cagr': np.float64(-0.028153913346670834), 'mdd': np.float64(-0.612091272452136), 't': np.float64(0.19060925968020354), 'n': 2516}
+
+D IEF mean return (bp) on day by rank-from-month-end (1=last day of month), by period
+  2002-13 E5: 2.47  E4:-0.27  E3:-2.99  E2:12.62  E1:13.80  S1:-3.58  S2: 1.59  all: 2.26
+  2014-19 E5: 5.42  E4: 0.47  E3:14.66  E2:-1.43  E1: 9.26  S1:-3.66  S2:-1.08  all: 1.54
+  2020+ E5: 5.21  E4: 1.48  E3: 6.37  E2: 7.86  E1: 8.08  S1: 4.41  S2: 1.45  all: 0.04
+D gross (0 cost): {'sh': np.float64(1.095), 'cagr': np.float64(0.027), 'mdd': np.float64(-0.06), 't': np.float64(5.394), 'n': 6119}
+D breakeven cost per side (bp): 11.2
+D alpha vs IEF B&H: alpha    1.0%/yr  t  2.16  beta 0.13
+SHY k3 gross: {'sh': np.float64(1.703), 'cagr': np.float64(0.009), 'mdd': np.float64(-0.006), 't': np.float64(8.39), 'n': 6119}

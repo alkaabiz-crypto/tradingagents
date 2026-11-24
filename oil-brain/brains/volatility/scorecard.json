@@ -1,0 +1,20 @@
+{
+ "brain": "volatility",
+ "rules_tried": 15,
+ "best_rule": "T1 SPY long, flat when VIX/VIX3M > 1 (same-day close)",
+ "best": {
+  "IS": 0.465,
+  "OOS": 0.722,
+  "HOLDOUT": 0.85,
+  "post": 0.791,
+  "bench_post": 0.798,
+  "t_post": 2.837,
+  "placebo_p": 0.15,
+  "cagr_post": 0.101,
+  "trades_per_year": 14.861,
+  "verdict": "FAIL (2 of 6 gates)"
+ },
+ "winners": [],
+ "candidates": [],
+ "one_line": "VIX term-structure, VRP and vol-of-vol filters cut drawdowns but never beat buy-and-hold SPY on Sharpe or their placebos; the best ones lean on the same-day 16:15 VIX close and fade with a 1-day lag."
+}

@@ -1,0 +1,206 @@
+<meta name="dash-one-writer">
+<meta name="dash-form" content="dashboard">
+<style>
+  .tl { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .tl h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .tl h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); text-wrap: balance; }
+  .tl .lede { margin: var(--cds-gap-xs) 0 0; color: var(--color-fg-muted); max-width: 70ch; }
+  .tl .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--cds-gap-md); }
+  .tl .tile { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+  .tl .tile .k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .02em; }
+  .tl .tile .v { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; font-variant-numeric: tabular-nums; margin-top: var(--cds-gap-xs); }
+  .tl .tile .s { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); }
+  .tl .wrap { overflow-x: auto; }
+  .tl table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .tl th, .tl td { text-align: left; padding: var(--cds-pad-sm) var(--cds-pad-md); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .tl th { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
+  .tl td.num, .tl th.num { text-align: right; }
+  .tl .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); }
+  .tl .pill.long { color: var(--color-ok); border-color: var(--color-ok); }
+  .tl .pill.short { color: var(--color-bad); border-color: var(--color-bad); }
+  .tl .pill.weak { color: var(--color-warn); border-color: var(--color-warn); }
+  .tl .pill.rejected { color: var(--color-bad); border-color: var(--color-bad); }
+  .tl .muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .tl .chart { position: relative; min-height: 180px; }
+  .tl .chart svg text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
+  .tl .tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); }
+  .tl ol.sched { margin: 0; padding-left: 1.2em; display: grid; gap: var(--cds-gap-xs); max-width: 75ch; }
+  .tl .good { color: var(--color-ok); } .tl .bad { color: var(--color-bad); }
+</style>
+
+<div class="tl">
+  <header id="top">
+    <h1>Trading Lab Control Room</h1>
+    <p class="lede">Paper money only, started 24 Nov 2026 with $10,000. The book is worth <b data-draw="lede-total" data-source="totals" data-field="equity" data-row="0">—</b> and holds <b data-draw="lede-open" data-source="totals" data-field="open" data-row="0">—</b> open positions. Every rule here passed an honest backtest and an independent audit only as "weak", so this is the live test, not proof.</p>
+  </header>
+
+  <section id="kpis" class="tiles" aria-label="Paper book totals">
+    <div class="tile"><div class="k">Paper book value</div><div class="v" data-draw="kpi-equity" data-source="totals" data-field="equity" data-row="0">—</div><div class="s">Started at $10,000</div></div>
+    <div class="tile"><div class="k">Profit or loss since start</div><div class="v" data-draw="kpi-pnl" data-source="totals" data-field="pnl" data-row="0">—</div><div class="s">After trading costs</div></div>
+    <div class="tile"><div class="k">Open positions</div><div class="v" data-draw="kpi-open" data-source="totals" data-field="open" data-row="0">—</div><div class="s">Of 4 strategies</div></div>
+    <div class="tile"><div class="k">Rules tested in research</div><div class="v" data-draw="kpi-rules" data-source="research" data-field="rules" data-row="0">—</div><div class="s">Luck bar for the best: t above 4.19</div></div>
+  </section>
+
+  <section id="orders">
+    <h2>What each strategy holds for the next session</h2>
+    <div class="wrap">
+      <table data-source="book" data-row-key="strategy">
+        <thead><tr>
+          <th data-field="strategy">Strategy</th><th data-field="symbol">Market</th><th data-field="position">Position</th>
+          <th class="num" data-field="equity_usd">Value</th><th class="num" data-field="pnl_usd">P&amp;L</th><th data-field="reason">Why</th>
+        </tr></thead>
+        <tbody data-draw="book-rows"></tbody>
+      </table>
+    </div>
+    <p class="muted">Positions are decided at each close and booked at the closing price. To copy them on a demo account, act near the close.</p>
+  </section>
+
+  <section id="equity">
+    <h2>Paper book value by day</h2>
+    <div class="chart" data-draw="equity-chart" data-source="equity"></div>
+  </section>
+
+  <section id="research">
+    <h2>Research tournament: best rule from each brain</h2>
+    <div class="wrap">
+      <table data-source="scoreboard" data-row-key="brain">
+        <thead><tr>
+          <th data-field="brain">Brain</th><th class="num" data-field="rules">Rules</th><th data-field="best_rule">Best rule</th>
+          <th class="num" data-field="post_sharpe">Sharpe since 2014</th><th class="num" data-field="t_stat">t-stat</th>
+          <th class="num" data-field="winners">Winners</th><th class="num" data-field="candidates">Candidates</th>
+        </tr></thead>
+        <tbody data-draw="score-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="audit">
+    <h2>Independent audit of the survivors</h2>
+    <div class="wrap">
+      <table data-source="audit" data-row-key="rule">
+        <thead><tr>
+          <th data-field="rule">Rule</th><th data-field="verdict">Verdict</th><th class="num" data-field="sharpe_after_costs">Sharpe after costs</th>
+          <th class="num" data-field="t_stat">t-stat</th><th data-field="note">What the audit found</th>
+        </tr></thead>
+        <tbody data-draw="audit-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <h2>What runs automatically</h2>
+    <ol class="sched">
+      <li>Every 2 hours: the research loop tests the next idea and needs t above 4.19 to call anything a winner.</li>
+      <li>After each US close: the paper book marks prices, applies the four rules, books trades and updates this page.</li>
+      <li>US trading days at 09:50, 11:30, 13:30 and 15:57 New York: the SPY opening-range paper day trade reports in the chat.</li>
+      <li>Weekdays at 15:31 New York: the pre-registered 15:30 reversal ticket for the Exness demo account.</li>
+      <li>Weekdays at 16:41 New York: the Strategy Lab's daily run and paper trial log.</li>
+    </ol>
+  </section>
+
+  <details id="notes">
+    <summary>How to read this page</summary>
+    <p>Sharpe is return divided by its ups and downs, per year; above 1 is strong, below 0.5 is weak. The t-stat says how unlikely a result is by luck; with about 2,930 rules tried, luck alone produces a best t near 3.5, so the bar is 4.19. "Weak" means real but small or fragile: worth a live paper test, not real money. Research and practice, not financial advice.</p>
+  </details>
+</div>
+
+<script>
+  const usd = (v) => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const signed = (v) => (v > 0 ? '+' : v < 0 ? '-' : '') + '$' + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+  dash.calc('totals', {
+    title: 'Paper book totals',
+    description: 'Sum of the four strategies: value, profit or loss since start, and how many hold a position.',
+    inputs: ['book'],
+    fn: (book) => [{
+      equity: +d3.sum(book, (r) => +r.equity_usd).toFixed(2),
+      pnl: +d3.sum(book, (r) => +r.pnl_usd).toFixed(2),
+      open: book.filter((r) => r.position !== 'Cash').length,
+    }],
+  });
+  dash.calc('research', {
+    title: 'Rules tested',
+    description: 'Total rules tried across all brains and the swarm.',
+    inputs: ['scoreboard'],
+    fn: (scoreboard) => [{ rules: d3.sum(scoreboard, (r) => +r.rules) }],
+  });
+
+  const one = (src, field, fmt) => (el) => {
+    const d = dash.data(src);
+    if (d.status !== 'ok' || !d.data.length) { el.textContent = '—'; return; }
+    el.textContent = fmt(d.data[0][field]);
+  };
+  dash.draw('lede-total', one('totals', 'equity', usd));
+  dash.draw('lede-open', one('totals', 'open', (v) => String(v)));
+  dash.draw('kpi-equity', one('totals', 'equity', usd));
+  dash.draw('kpi-open', one('totals', 'open', (v) => String(v)));
+  dash.draw('kpi-rules', one('research', 'rules', (v) => (+v).toLocaleString('en-US')));
+  dash.draw('kpi-pnl', (el) => {
+    const d = dash.data('totals');
+    if (d.status !== 'ok' || !d.data.length) { el.textContent = '—'; el.className = 'v'; return; }
+    const v = d.data[0].pnl; el.textContent = signed(v); el.className = 'v ' + (v > 0 ? 'good' : v < 0 ? 'bad' : '');
+  });
+
+  function rows(tbody, src, cols) {
+    const d = dash.data(src);
+    tbody.replaceChildren();
+    if (d.status === 'error') { const tr = tbody.insertRow(); const td = tr.insertCell(); td.colSpan = cols.length; td.textContent = 'This table could not load.'; return; }
+    if (d.status !== 'ok') return;
+    for (const r of d.data) {
+      const tr = tbody.insertRow();
+      for (const [key, fmt, cls] of cols) {
+        const td = tr.insertCell();
+        if (cls) td.className = cls;
+        const out = fmt ? fmt(r[key], r) : r[key];
+        if (out instanceof Node) td.append(out); else td.textContent = out ?? '';
+      }
+    }
+  }
+  const pill = (text, kind) => { const s = document.createElement('span'); s.className = 'pill ' + kind; s.textContent = text; return s; };
+
+  dash.draw('book-rows', (tb) => rows(tb, 'book', [
+    ['strategy'], ['symbol'],
+    ['position', (v) => pill(v, v === 'Long' ? 'long' : v === 'Short' ? 'short' : '')],
+    ['equity_usd', (v) => usd(+v), 'num'],
+    ['pnl_usd', (v) => signed(+v), 'num'],
+    ['reason'],
+  ]));
+  dash.draw('score-rows', (tb) => rows(tb, 'scoreboard', [
+    ['brain'], ['rules', null, 'num'], ['best_rule'],
+    ['post_sharpe', (v) => v == null ? '' : (+v).toFixed(2), 'num'],
+    ['t_stat', (v) => v == null ? '' : (+v).toFixed(2), 'num'],
+    ['winners', null, 'num'], ['candidates', null, 'num'],
+  ]));
+  dash.draw('audit-rows', (tb) => rows(tb, 'audit', [
+    ['rule'], ['verdict', (v) => pill(v, v.toLowerCase())],
+    ['sharpe_after_costs', (v) => (+v).toFixed(2), 'num'], ['t_stat', (v) => (+v).toFixed(2), 'num'], ['note'],
+  ]));
+
+  dash.draw('equity-chart', (el) => {
+    const d = dash.data('equity');
+    el.replaceChildren();
+    if (d.status === 'error') { el.textContent = 'The value history could not load.'; return; }
+    if (d.status !== 'ok' || !d.data.length) { el.textContent = '—'; return; }
+    const pts = d.data.map((r) => ({ date: new Date(r.date + 'T00:00:00Z'), total: +r.total }));
+    const W = Math.max(280, el.clientWidth), H = 200, m = { t: 12, r: 16, b: 26, l: 64 };
+    const x = d3.scaleUtc().domain(pts.length > 1 ? d3.extent(pts, (p) => p.date) : [d3.utcDay.offset(pts[0].date, -1), d3.utcDay.offset(pts[0].date, 1)]).range([m.l, W - m.r]);
+    const ext = d3.extent(pts, (p) => p.total); const pad = Math.max(50, (ext[1] - ext[0]) * 0.15);
+    const y = d3.scaleLinear().domain([ext[0] - pad, ext[1] + pad]).nice().range([H - m.b, m.t]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('role', 'img').attr('aria-label', `Paper book value by day, latest ${usd(pts[pts.length - 1].total)}`);
+    svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(Math.min(6, pts.length + 1)).tickFormat(d3.utcFormat('%b %d')))
+      .call((g) => g.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)'));
+    svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickFormat((v) => '$' + d3.format(',')(v)))
+      .call((g) => g.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)'));
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(10000)).attr('y2', y(10000))
+      .style('stroke', 'var(--cds-chart-reference)').style('stroke-dasharray', '4 3');
+    if (pts.length > 1) svg.append('path').datum(pts).attr('d', d3.line().x((p) => x(p.date)).y((p) => y(p.total)))
+      .style('fill', 'none').style('stroke', dash.colors[0]).style('stroke-width', 2);
+    const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; el.append(tip);
+    svg.selectAll('circle').data(pts).join('circle').attr('cx', (p) => x(p.date)).attr('cy', (p) => y(p.total)).attr('r', 4)
+      .style('fill', dash.colors[0])
+      .on('pointerenter', (ev, p) => { tip.textContent = `${d3.utcFormat('%b %d, %Y')(p.date)}: ${usd(p.total)}`; tip.hidden = false;
+        tip.style.left = Math.min(x(p.date) / W * el.clientWidth, el.clientWidth - 160) + 'px'; tip.style.top = '0px'; })
+      .on('pointerleave', () => { tip.hidden = true; });
+  });
+</script>

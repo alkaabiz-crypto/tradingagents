@@ -1,0 +1,7 @@
+{"brain": "global", "rules_tried": 11,
+ "best_rule": "T3 Asia-basket large-day fade: EW(EWJ,EWH,EWS,EWT,EWY,FXI,EWA,EWM), pos = -sign(SPY day-t return) when |SPY| > 1.5%, else flat; daily close-to-close, 5 bp",
+ "best": {"IS": 0.86, "OOS": 0.40, "HOLDOUT": 0.50, "post": 0.44, "bench_post": 0.42,
+          "t_post": 1.59, "placebo_p": 0.002, "cagr_post": 0.040, "trades_per_year": 55.0,
+          "verdict": "FAIL (1 of 6 gates: t 1.59 < 2); P&L mostly 2008 and 2020 crisis days; threshold chosen after seeing study-2 IS (and weak OOS) results"},
+ "winners": [], "candidates": [],
+ "one_line": "Country-ETF momentum (12-1 and 1m), value-momentum, US-lead, oil-lead and exporter/importer rules all fail after 10 bp; the time-zone effect runs the wrong way for a stale-price trade (the Asian ETF's NY close over-reacts to the US day and partly reverses), real by placebo but crisis-concentrated and eaten by daily costs."}

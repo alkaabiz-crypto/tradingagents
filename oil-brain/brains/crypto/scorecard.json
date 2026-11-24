@@ -1,0 +1,29 @@
+{
+  "brain": "crypto",
+  "rules_tried": 11,
+  "rules_tried_note": "11 slots of 15; slot R5 was a non-selecting robustness diagnostic of R1 (5 neighbour lookbacks, 2 delays, IBIT) - counting each variant separately gives 17 evaluations",
+  "best_rule": "R1 btc_tsmom28: long BTC-USD at close t if its 28-day trailing return > 0, else flat; 10 bp/side",
+  "best": {
+    "IS": null,
+    "OOS": 1.08,
+    "HOLDOUT": 1.14,
+    "post": 1.10,
+    "bench_post": 0.78,
+    "t_post": 4.62,
+    "placebo_p": 0.0,
+    "cagr_post": 0.42,
+    "trades_per_year": 19.3,
+    "verdict": "PASS",
+    "post_25bp": 1.02,
+    "notes": "engine.evaluate as-is: IS empty (BTC starts 2014-09), Sharpe uses sqrt(252) on 7-day data (x1.20 understated for rule and bench alike), cagr_post and trades_per_year mis-scaled for 7-day data. Brain splits (IS 2014-18 / OOS 2019-21 / HO 2022+, sqrt365): IS 1.37, OOS 1.97, HO 0.71, post 1.30 vs BH 0.89, t 3.66, placebo 0.00, CAGR 2019+ 60% vs 42%, maxDD -50% vs -77%: PASS. Post-publication 2022+ alone: Sharpe365 0.71 vs BH 0.37 but t 1.57."
+  },
+  "winners": [
+    "R1 btc_tsmom28 (engine PASS, t 4.62; brain-split PASS)",
+    "R7 btc_tsmom28_volman = R1 x min(1, 0.6/30d vol) (engine PASS, t 4.94, post 1.18; brain-split PASS; 4x R1 turnover)",
+    "R2 btc_tsmom7 (engine PASS, t 3.59) - FLAGGED: fails brain-split holdout 2022+ (Sharpe365 0.05), treat as false winner"
+  ],
+  "candidates": [
+    "R3 eth_tsmom28 (engine PASS, t 2.79 < 3; brain-split placebo p 0.06)"
+  ],
+  "one_line": "BTC 28-day trend (long/flat) from Liu & Tsyvinski beats buy-and-hold Sharpe and cuts drawdown from -77% to -50% across neighbours, delays, 25 bp and IBIT, but its post-publication (2022+) edge alone is only t 1.6; fast 7d momentum, Monday, Nasdaq lead-lag, ETH/BTC rotation and pure vol-management do not hold up."
+}

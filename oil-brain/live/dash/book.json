@@ -1,0 +1,58 @@
+{
+ "rows": [
+  {
+   "strategy": "Month-end Treasuries",
+   "symbol": "IEF",
+   "start_usd": 3000,
+   "equity_usd": 3000.0,
+   "pnl_usd": 0.0,
+   "position": "Cash",
+   "reason": "4 NYSE trading days left in the month after 2026-11-23",
+   "price_date": "2026-11-23"
+  },
+  {
+   "strategy": "Bitcoin trend",
+   "symbol": "BTC-USD",
+   "start_usd": 2500,
+   "equity_usd": 2500.0,
+   "pnl_usd": 0.0,
+   "position": "Cash",
+   "reason": "28-day return -26.3%",
+   "price_date": "2026-11-24"
+  },
+  {
+   "strategy": "Ether trend",
+   "symbol": "ETH-USD",
+   "start_usd": 1500,
+   "equity_usd": 1500.0,
+   "pnl_usd": 0.0,
+   "position": "Cash",
+   "reason": "28-day return -28.4%",
+   "price_date": "2026-11-24"
+  },
+  {
+   "strategy": "Follow big oil days",
+   "symbol": "USO",
+   "start_usd": 3000,
+   "equity_usd": 3000.0,
+   "pnl_usd": 0.0,
+   "position": "Cash",
+   "reason": "no big day in the last 5 sessions (today z -1.52)",
+   "price_date": "2026-11-23"
+  }
+ ],
+ "meta": [
+  {
+   "label": "Paper book updated",
+   "value": "2026-11-24 11:21 UTC"
+  },
+  {
+   "label": "Started",
+   "value": "2026-11-24"
+  },
+  {
+   "label": "Rules",
+   "value": "oil-brain/live/paper_book.py"
+  }
+ ]
+}

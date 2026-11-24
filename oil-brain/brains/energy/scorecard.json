@@ -1,0 +1,6 @@
+{"brain": "energy", "rules_tried": 13,
+ "best_rule": "B2 backwardation (USO-USL 21d > 0) -> long XLE / short beta*SPY, else the reverse; monthly, 10 bp",
+ "best": {"IS": -0.05, "OOS": 0.01, "HOLDOUT": 0.51, "post": 0.33, "bench_post": -0.19, "t_post": 1.19,
+          "placebo_p": 0.12, "cagr_post": 0.05, "trades_per_year": 5.96, "verdict": "FAIL (3 of 6 gates)"},
+ "winners": [], "candidates": [],
+ "one_line": "Energy equities and oil share information within a day: no weekly lead-lag, pairs reversion, curve-conditioned beta or extreme-day follow-through survives costs after 2014; only residual momentum and a backwardation tilt keep a weak positive sign (t ~1.2)."}

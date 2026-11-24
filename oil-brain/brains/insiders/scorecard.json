@@ -1,0 +1,7 @@
+{"brain": "insiders", "rules_tried": 11,
+ "best_rule": "I2: long every today's-top-500 US stock with an officer/director open-market purchase (Form 4 code P, >= $10k), entry next close after filing date, hold 63 trading days, equal weight, short SPY 1:1, 10 bp per side",
+ "best": {"IS": 1.13, "OOS": 0.67, "HOLDOUT": 0.47, "post": 0.50, "bench_post": 1.00,
+          "t_post": 1.79, "placebo_p": 0.096, "cagr_post": 0.039, "trades_per_year": 448,
+          "verdict": "FAIL (3 of 6 gates: loses to the same-universe passive basket minus SPY, t < 2, event-shift placebo p 0.096; placebo books of the same stocks at random times already average Sharpe 0.37)"},
+ "winners": [], "candidates": [],
+ "one_line": "In today's 500 largest US stocks (2006-2026 SEC Form 4 data), insider purchases add at most a small timing edge over the same stocks at random dates (best p 0.10, never at the 0.05 level) and no tradable edge: the SPY-hedged books mostly carry survivorship drift (the passive same-universe basket minus SPY has post-2014 Sharpe 1.0), hedging that drift out leaves negative Sharpe, and clusters, opportunistic insiders (Cohen-Malloy-Pomorski), $100k+ buys, top executives and 5-day holds all do worse."}

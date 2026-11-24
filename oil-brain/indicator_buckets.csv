@@ -1,0 +1,25 @@
+indicator,bucket,days,avg_4w_pct,up_pct,worst_4w
+Stocks vs 5y avg,<-20mb,693,1.51,51,-21
+Stocks vs 5y avg,-20..0,966,-1.51,49,-58
+Stocks vs 5y avg,0..+20,1273,-1.35,49,-52
+Stocks vs 5y avg,>+20mb,2237,1.19,57,-42
+Curve (USO-USL 63d),contango deep,1307,-1.09,51,-58
+Curve (USO-USL 63d),contango,1384,0.01,55,-35
+Curve (USO-USL 63d),backw.,1119,0.13,51,-39
+Curve (USO-USL 63d),backw. deep,878,1.44,51,-34
+"Funds net long, 3y pct",<20%,1134,-0.37,55,-58
+"Funds net long, 3y pct",20-50%,1281,0.66,55,-58
+"Funds net long, 3y pct",50-80%,1305,-0.26,48,-28
+"Funds net long, 3y pct",>80%,1156,0.83,54,-21
+6-month trend,< -20%,811,-1.02,55,-58
+6-month trend,-20..0,1624,-0.43,54,-58
+6-month trend,0..+20,1512,0.25,49,-39
+6-month trend,> +20%,1096,2.0,58,-26
+Dollar 3m change,< -3%,961,1.74,60,-19
+Dollar 3m change,-3..0,1479,1.54,54,-57
+Dollar 3m change,0..+3,1648,-0.39,51,-58
+Dollar 3m change,> +3%,1018,-2.73,46,-58
+Refinery utilization,<85%,1029,1.3,60,-58
+Refinery utilization,85-90,1991,-0.31,51,-58
+Refinery utilization,90-93,1236,-0.13,50,-28
+Refinery utilization,>93%,913,-0.02,51,-28

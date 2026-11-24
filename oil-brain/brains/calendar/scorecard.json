@@ -1,0 +1,9 @@
+{"brain": "calendar",
+ "rules_tried": 15,
+ "best_rule": "C11 long IEF on the last 3 trading days of each month (Treasury month-end / index-extension effect), 5 bp per side",
+ "best": {"IS": 0.58, "OOS": 0.83, "HOLDOUT": 0.58, "post": 0.67, "bench_post": 0.29,
+          "t_post": 2.39, "placebo_p": 0.0, "cagr_post": 0.015, "trades_per_year": 24.1,
+          "verdict": "PASS all 6 engine gates, t < 3 -> candidate (not a winner)"},
+ "winners": [],
+ "candidates": ["C11 IEF last 3 trading days of month (post t 2.39; chosen after seeing C7 TLT near miss: OOS 1.01, HOLDOUT 0.25, t 1.98)"],
+ "one_line": "Overnight equity premium is real gross (t 3-3.6) but dies at 2-5 bp per side; TOM, pre-holiday, Thanksgiving, opex and oil-ETF calendar rules are dead post-2014; the only survivor is Treasuries rallying in the last 3 days of the month (TLT 24/25 years positive), a t~2.4 candidate, not a winner. FOMC drift untested (Fed site blocked)."}

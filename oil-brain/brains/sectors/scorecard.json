@@ -1,0 +1,7 @@
+{"brain": "sectors", "rules_tried": 12,
+ "best_rule": "S8 Faber 10-month SMA per sector, long/flat, month-end (study2.py)",
+ "best": {"IS": 0.68, "OOS": 0.80, "HOLDOUT": 0.75, "post": 0.77, "bench_post": 0.75, "t_post": 2.78,
+          "placebo_p": 0.19, "cagr_post": 0.072, "trades_per_year": 7.4,
+          "verdict": "FAIL (1 of 6 gates: placebo); market exposure, not timing skill"},
+ "winners": [], "candidates": [],
+ "one_line": "Among 9-11 SPDR sector ETFs (2000-2026) no cross-sectional rule (industry momentum, 1m/1w reversal, 52w-high, residual momentum) nor any oil-linked sector spread has positive edge even in-sample; the only rules with t > 2 are long-market exposure that a timing placebo matches."}

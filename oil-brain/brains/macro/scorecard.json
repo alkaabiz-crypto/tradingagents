@@ -1,0 +1,7 @@
+{"brain": "macro", "rules_tried": 13,
+ "best_rule": "M11 credit switch: SPY if HYG/LQD 21d relative return > 0 else IEF, monthly",
+ "best": {"IS": 0.37, "OOS": 0.56, "HOLDOUT": 1.14, "post": 0.91, "bench_post": 0.80,
+          "t_post": 3.25, "placebo_p": 0.056, "cagr_post": 0.104, "trades_per_year": 6.4,
+          "verdict": "FAIL (placebo: engine p=1.00 degenerate for constant position; same method on the switch path p=0.056; static 56/44 SPY/IEF mix gives 0.89, so no timing value)"},
+ "winners": [], "candidates": [],
+ "one_line": "Macro/cross-asset monthly signals (dollar, copper/gold, credit, rates, stock-bond corr, lead-lag) add no timing edge for USO, XLE or SPY after placebo; credit signals keep the paper's sign but only pay in crises (OOS 2014-19 negative), and the dollar-oil correlation flipped to positive in 2025-26 as ECB 2024 described."}

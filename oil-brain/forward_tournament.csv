@@ -1,0 +1,6 @@
+rule,days,net_pct,hold_pct,max_dd_pct,hold_max_dd_pct
+D IEF last 3 days (2 bp),0,0.0,0.0,0.0,0.0
+D IEF last 3 days (5 bp),0,0.0,0.0,0.0,0.0
+A1 BTC-USD 28-day trend,0,0.0,0.0,0.0,0.0
+A2 BTC-USD above 100-day avg,0,0.0,0.0,0.0,0.0
+B1 ETH-USD 28-day trend,0,0.0,0.0,0.0,0.0

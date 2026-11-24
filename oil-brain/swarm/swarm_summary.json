@@ -1,0 +1,9 @@
+{
+ "rules": 2784,
+ "instruments": 24,
+ "luck_bar_t95": 4.19,
+ "luck_max_t_median": 3.52,
+ "expected_max_sharpe_null": 0.87,
+ "n_t3_and_beats_bh": 25,
+ "n_swarm_winners": 4
+}

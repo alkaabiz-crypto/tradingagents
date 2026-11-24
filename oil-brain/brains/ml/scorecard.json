@@ -1,0 +1,6 @@
+{"brain": "ml", "rules_tried": 15,
+ "best_rule": "LOGIT USO h5: L2 logistic (C=0.05) on 41 cross-asset/vol/carry/COT/volume/weekday features, yearly expanding walk-forward with purge+embargo, sign(p-0.5) with 0.02 dead zone, 5d target, daily repositioning",
+ "best": {"IS": -0.20, "OOS": 0.14, "HOLDOUT": 0.34, "post": 0.26, "bench_post": 0.05, "t_post": 0.94,
+          "placebo_p": 0.10, "cagr_post": 0.029, "trades_per_year": 77.6, "verdict": "FAIL (3 of 6 gates)"},
+ "winners": [], "candidates": [],
+ "one_line": "12 walk-forward ML models (logit, GBM) on USO/XLE/SPY 1-5d: OOS AUC 0.48-0.54, none beat shuffled-label controls; ML adds no edge from these weak daily signals, and early walk-forward wins (XLE 2011-13) decayed to losses."}

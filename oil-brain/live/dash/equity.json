@@ -1,0 +1,26 @@
+{
+ "rows": [
+  {
+   "date": "2026-11-24",
+   "total": 10000.0,
+   "IEF_MONTH_END": 3000.0,
+   "BTC_TREND": 2500.0,
+   "ETH_TREND": 1500.0,
+   "USO_FOLLOW": 3000.0
+  }
+ ],
+ "meta": [
+  {
+   "label": "Paper book updated",
+   "value": "2026-11-24 11:21 UTC"
+  },
+  {
+   "label": "Started",
+   "value": "2026-11-24"
+  },
+  {
+   "label": "Rules",
+   "value": "oil-brain/live/paper_book.py"
+  }
+ ]
+}

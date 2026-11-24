@@ -1,0 +1,9 @@
+{"brain": "liquidity",
+ "rules_tried": 15,
+ "best_rule": "F3b: USO long/short on HYG-minus-LQD 63-day total return sign, weekly rebalance (study5.py)",
+ "best": {"IS": 0.32, "OOS": 0.35, "HOLDOUT": 0.81, "post": 0.62, "bench_post": 0.05, "t_post": 2.24,
+          "placebo_p": 0.03, "cagr_post": 0.18, "trades_per_year": 7.3,
+          "verdict": "PASS all 6 engine gates but t < 3: candidate only; fragile (10d neighbour fails, 21d misses OOS/t; Sharpe 0.42 t 1.38 without the 2014-16/2020 crash windows)"},
+ "winners": [],
+ "candidates": ["F3b USO long/short on HY-IG credit 63d, weekly (t 2.24, placebo 0.03)"],
+ "one_line": "Volume and liquidity signals from the literature (Amihud timing, CGW/Llorente volume-conditioned reversal, GKM high-volume premium, ETF volume surges) do not survive on ETFs after 2014; the only candidate is credit-risk appetite (HY vs IG) steering long/short USO, which looks like a slower, cross-asset cousin of oil momentum."}

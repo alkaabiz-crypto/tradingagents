@@ -1,0 +1,263 @@
+====================================================================================================
+A. BTC trend: 28d return > 0 OR price > SMA100  (BTC-USD, 365-day annualisation, 10 bp/side)
+  RULE
+    full       Sh  1.09  CAGR   54.7%  MDD  -79.4%  t  3.76  n 4351
+    2014-2019  Sh  1.23  CAGR   77.4%  MDD  -79.4%  t  2.76  n 1832
+    2020-now   Sh  0.97  CAGR   40.0%  MDD  -57.4%  t  2.56  n 2519
+    2022-now   Sh  0.37  CAGR    7.2%  MDD  -48.0%  t  0.82  n 1788
+  BUY&HOLD
+    full       Sh  1.00  CAGR   55.4%  MDD  -83.4%  t  3.46  n 4351
+    2014-2019  Sh  1.21  CAGR   86.0%  MDD  -83.4%  t  2.71  n 1832
+    2020-now   Sh  0.83  CAGR   36.4%  MDD  -76.6%  t  2.17  n 2519
+    2022-now   Sh  0.37  CAGR    5.9%  MDD  -66.9%  t  0.81  n 1788
+  exposure 0.70, switches/yr 22.5
+  -- execution & cost stress (full / 2022-now)
+    base           full  1.09 (t 3.76)  2014-19  1.23 (t 2.76)  2020+  0.97 (t 2.56)  2022+  0.37 (t 0.82)
+    delay1         full  1.10 (t 3.80)  2014-19  1.25 (t 2.80)  2020+  0.98 (t 2.58)  2022+  0.36 (t 0.80)
+    cost25         full  1.02 (t 3.54)  2014-19  1.18 (t 2.64)  2020+  0.90 (t 2.36)  2022+  0.26 (t 0.58)
+    delay1+cost25  full  1.04 (t 3.58)  2014-19  1.20 (t 2.68)  2020+  0.91 (t 2.38)  2022+  0.25 (t 0.56)
+/tmp/claude-0/-home-user/8b993c28-efa9-5855-8d47-a8a3f974ffea/scratchpad/oil/oil-brain/audit/audit.py:103: Pandas4Warning: DatetimeIndex.dayofweek is deprecated and will be removed in a future version. Use DatetimeIndex.day_of_week instead.
+  wk = px[px.index.dayofweek < 5]
+  (annualisation sensitivity: same daily rule Sharpe with sqrt(252) would be 0.90)
+  -- components and neighbours (10bp, full / 2014-19 / 2020+ / 2022+ / ex-2020)
+              full  14-19   20+   22+  ex2020  t_full  full_delay1
+variant                                                           
+mom14         1.39   1.56  1.26  0.71    1.20    4.80         1.19
+mom21         1.24   1.57  0.95  0.38    1.07    4.30         1.18
+mom28         1.36   1.38  1.37  0.71    1.16    4.70         1.30
+mom42         1.30   1.42  1.21  0.77    1.15    4.49         1.24
+mom56         1.27   1.40  1.18  0.70    1.19    4.39         1.14
+sma50         1.38   1.45  1.35  0.75    1.21    4.77         1.39
+sma100        1.20   1.35  1.08  0.75    1.10    4.15         1.22
+sma150        1.32   1.60  1.07  0.84    1.22    4.56         1.28
+sma200        1.12   1.40  0.86  0.84    1.01    3.86         1.16
+mom14|sma50   1.27   1.28  1.28  0.80    1.09    4.38         1.19
+mom14|sma100  1.16   1.26  1.10  0.59    1.01    4.02         1.03
+mom14|sma150  1.23   1.39  1.11  0.63    1.08    4.25         1.10
+mom14|sma200  1.07   1.23  0.95  0.61    0.91    3.71         1.05
+mom21|sma50   1.19   1.41  0.99  0.46    1.01    4.10         1.22
+mom21|sma100  1.14   1.32  0.98  0.46    0.98    3.92         1.12
+mom21|sma150  1.25   1.52  1.01  0.52    1.09    4.32         1.18
+mom21|sma200  1.10   1.38  0.85  0.51    0.93    3.80         1.12
+mom28|sma50   1.25   1.31  1.23  0.66    1.07    4.32         1.38
+mom28|sma100  1.09   1.23  0.97  0.37    0.93    3.76         1.10
+mom28|sma150  1.17   1.33  1.03  0.49    1.01    4.03         1.14
+mom28|sma200  1.06   1.28  0.87  0.50    0.90    3.67         1.10
+mom42|sma50   1.30   1.42  1.23  0.65    1.14    4.50         1.27
+mom42|sma100  1.20   1.36  1.08  0.56    1.05    4.15         1.17
+mom42|sma150  1.27   1.41  1.17  0.72    1.11    4.39         1.21
+mom42|sma200  1.12   1.28  0.99  0.71    0.95    3.86         1.13
+mom56|sma50   1.22   1.29  1.19  0.45    1.05    4.23         1.13
+mom56|sma100  1.25   1.43  1.10  0.57    1.15    4.32         1.21
+mom56|sma150  1.29   1.48  1.13  0.72    1.18    4.44         1.18
+mom56|sma200  1.12   1.31  0.97  0.69    1.01    3.88         1.11
+  buy&hold Sharpe: full 1.00, 14-19 1.21, 20+ 0.83, 22+ 0.37; ex-2020 0.87
+  share of 20 grid variants beating B&H full-sample Sharpe: 1.00; 2022+: 1.00
+  -- regime
+    ex-2020: rule Sh  0.93  CAGR   42.6%  MDD  -79.4%  t  3.08  n 3985
+             B&H  Sh  0.87  CAGR   42.4%  MDD  -83.4%  t  2.87  n 3985
+    year  rule_ret  bench_ret  rule_Sh
+    2014       0.0%       0.4%     nan
+    2015      66.8%      34.5%    1.28
+    2016      86.2%     123.8%    1.56
+    2017     854.7%    1368.9%    2.90
+    2018     -68.5%     -73.6%   -2.08
+    2019      90.4%      92.2%    1.36
+    2020     278.3%     303.2%    2.78
+    2021      92.0%      59.7%    1.31
+    2022     -44.6%     -64.3%   -1.58
+    2023      87.8%     155.4%    1.73
+    2024      39.5%     121.1%    0.94
+    2025       8.1%      -6.3%    0.42
+    2026     -10.4%     -30.1%   -0.27
+    top-5 months contribute 2.511 of total log-ish sum 6.866 (37%): 2017-05:0.56, 2017-08:0.52, 2019-05:0.51, 2017-11:0.49, 2017-12:0.44
+    without the 5 best months: Sh  0.76  CAGR   29.0%  MDD  -77.1%  t  2.58  n 4197
+    circular-shift placebo (500): p = 0.070, placebo 95th pct Sharpe 1.12
+====================================================================================================
+B. ETH trend: 28d return > 0  (ETH-USD, 365-day annualisation, 10 bp/side)
+  RULE
+    full       Sh  0.82  CAGR   35.4%  MDD  -61.1%  t  2.42  n 3202
+    2014-2019  Sh -0.30  CAGR  -28.1%  MDD  -61.1%  t -0.41  n 683
+    2020-now   Sh  1.11  CAGR   60.7%  MDD  -56.2%  t  2.93  n 2519
+    2022-now   Sh  0.53  CAGR   14.7%  MDD  -45.9%  t  1.17  n 1788
+  BUY&HOLD
+    full       Sh  0.49  CAGR    7.0%  MDD  -91.3%  t  1.47  n 3202
+    2014-2019  Sh -0.76  CAGR  -65.4%  MDD  -91.3%  t -1.03  n 683
+    2020-now   Sh  0.87  CAGR   45.3%  MDD  -79.4%  t  2.29  n 2519
+    2022-now   Sh  0.11  CAGR  -14.5%  MDD  -74.1%  t  0.25  n 1788
+  exposure 0.51, switches/yr 29.9
+  -- execution & cost stress (full / 2022-now)
+    base           full  0.82 (t 2.42)  2014-19 -0.30 (t -0.41)  2020+  1.11 (t 2.93)  2022+  0.53 (t 1.17)
+    delay1         full  0.92 (t 2.72)  2014-19 -0.28 (t -0.39)  2020+  1.24 (t 3.26)  2022+  0.52 (t 1.15)
+    cost25         full  0.74 (t 2.18)  2014-19 -0.38 (t -0.52)  2020+  1.04 (t 2.72)  2022+  0.42 (t 0.94)
+    delay1+cost25  full  0.84 (t 2.49)  2014-19 -0.36 (t -0.50)  2020+  1.16 (t 3.06)  2022+  0.42 (t 0.92)
+/tmp/claude-0/-home-user/8b993c28-efa9-5855-8d47-a8a3f974ffea/scratchpad/oil/oil-brain/audit/audit.py:103: Pandas4Warning: DatetimeIndex.dayofweek is deprecated and will be removed in a future version. Use DatetimeIndex.day_of_week instead.
+  wk = px[px.index.dayofweek < 5]
+  (annualisation sensitivity: same daily rule Sharpe with sqrt(252) would be 0.68)
+  NOTE Yahoo ETH-USD starts 2017-11-09: '2014-2019' is only 2018-2019.
+  -- neighbours
+         full  18-19   20+   22+  ex2020  t_full  full_delay1
+variant                                                      
+mom14    0.84  -0.26  1.16  0.53    0.52    2.48         0.91
+mom21    0.62  -0.36  0.89  0.08    0.26    1.84         0.81
+mom28    0.82  -0.30  1.11  0.53    0.55    2.42         0.92
+mom42    0.76  -0.24  0.98  0.54    0.60    2.24         0.71
+mom56    0.92   0.14  1.10  0.68    0.83    2.73         0.86
+sma50    0.97   0.14  1.18  0.72    0.74    2.87         1.03
+sma100   0.71   0.37  0.78  0.29    0.58    2.09         0.64
+sma150   0.80   0.28  0.90  0.49    0.66    2.36         0.90
+sma200   0.85   0.28  0.96  0.46    0.73    2.52         0.80
+  buy&hold ex-2020 Sharpe 0.21
+  -- regime
+    ex-2020: rule Sh  0.55  CAGR   16.5%  MDD  -61.5%  t  1.54  n 2836
+             B&H  Sh  0.21  CAGR  -13.7%  MDD  -91.3%  t  0.59  n 2836
+    year  rule_ret  bench_ret  rule_Sh
+    2018     -29.4%     -85.9%   -0.68
+    2019     -23.6%      -2.8%   -0.08
+    2020     335.2%     469.2%    2.43
+    2021     210.1%     399.1%    1.71
+    2022      -6.4%     -67.5%    0.14
+    2023      36.4%      90.6%    0.97
+    2024       3.7%      46.1%    0.30
+    2025      54.6%     -11.0%    1.19
+    2026      -4.3%     -42.4%    0.03
+    top-5 months contribute 2.463 of total log-ish sum 4.098 (60%): 2021-01:0.68, 2019-05:0.50, 2020-11:0.50, 2021-04:0.40, 2022-07:0.38
+    without the 5 best months: Sh  0.37  CAGR    5.4%  MDD  -72.7%  t  1.06  n 3049
+    circular-shift placebo (500): p = 0.010, placebo 95th pct Sharpe 0.66
+====================================================================================================
+C. Credit appetite -> USO: weekly (last trading day of week) sign(HYG63 - LQD63) -> long/short USO; 252-day annualisation; 5 bp per unit turnover
+  RULE
+    full       Sh  0.53  CAGR   13.8%  MDD  -63.2%  t  2.33  n 4873
+    2014-2019  Sh  0.35  CAGR    6.4%  MDD  -42.5%  t  0.87  n 1510
+    2020-now   Sh  0.81  CAGR   29.7%  MDD  -63.2%  t  2.13  n 1733
+  BUY&HOLD USO
+    full       Sh  0.03  CAGR   -6.0%  MDD  -98.2%  t  0.13  n 4873
+    2014-2019  Sh -0.35  CAGR  -15.6%  MDD  -79.8%  t -0.85  n 1510
+    2020-now   Sh  0.31  CAGR    3.9%  MDD  -83.8%  t  0.82  n 1733
+  SHORT USO (always)
+    full       Sh -0.03  CAGR   -7.9%  MDD  -95.9%  t -0.13  n 4873
+    2014-2019  Sh  0.35  CAGR    6.2%  MDD  -61.0%  t  0.85  n 1510
+    2020-now   Sh -0.31  CAGR  -20.5%  MDD  -95.9%  t -0.82  n 1733
+  long fraction 0.57, first signal 2007-07-13
+  -- execution / cost / data stress (full / 2014-19 / 2020+)
+    base                               full  0.53 (t 2.33)  2014-19  0.35 (t 0.87)  2020+  0.81 (t 2.13)
+    delay1                             full  0.56 (t 2.48)  2014-19  0.32 (t 0.79)  2020+  0.83 (t 2.17)
+    cost25                             full  0.45 (t 1.99)  2014-19  0.27 (t 0.65)  2020+  0.75 (t 1.96)
+    delay1+cost25                      full  0.49 (t 2.14)  2014-19  0.24 (t 0.58)  2020+  0.76 (t 1.99)
+    RAW closes (no div) for HYG/LQD    full  0.44 (t 1.92)  2014-19  0.32 (t 0.79)  2020+  0.62 (t 1.63)
+    signal from Thursday (lag-1 data)  full  0.59 (t 2.60)  2014-19  0.23 (t 0.57)  2020+  0.88 (t 2.32)
+  -- neighbours (full / 2014-19 / 2020+ / ex-2020 / t full)
+         full  14-19   20+  ex2020  t_full  pre2014
+variant                                            
+n21_W    0.54   0.10  0.85    0.43    2.39     0.53
+n21_M    0.50  -0.04  1.08    0.28    2.20     0.23
+n42_W    0.56   0.17  0.76    0.49    2.48     0.66
+n42_M    0.45  -0.02  0.58    0.36    1.96     0.68
+n63_W    0.53   0.35  0.81    0.48    2.33     0.32
+n63_M    0.57  -0.15  1.12    0.50    2.51     0.49
+n126_W   0.00  -0.11  0.34   -0.15    0.01    -0.34
+n126_M   0.17  -0.10  0.64    0.02    0.74    -0.21
+  long-leg only: Sh  0.42  CAGR    7.6%  MDD  -56.4%  t  1.83  n 4873
+  short-leg only: Sh  0.34  CAGR    5.8%  MDD  -72.0%  t  1.49  n 4873
+  random weekly L/S placebo (2000, long frac 0.57): mean Sh -0.07, 95th 0.30, p(full) = 0.004; 2020+: 95th 0.63, p = 0.020
+  -- regime
+    ex-2020: rule Sh  0.48  CAGR   11.3%  MDD  -63.2%  t  2.05  n 4620
+             B&H  Sh  0.17  CAGR   -0.3%  MDD  -93.2%  t  0.72  n 4620
+    year  rule_ret  bench_ret  rule_Sh
+    2007      15.4%      38.4%    1.18
+    2008      41.0%     -56.3%    0.92
+    2009      66.0%      18.7%    1.30
+    2010     -13.7%      -0.7%   -0.38
+    2011      -5.8%      -2.3%   -0.02
+    2012     -25.4%     -12.4%   -1.04
+    2013     -14.7%       5.8%   -0.80
+    2014      49.5%     -42.4%    1.90
+    2015       2.1%     -46.0%    0.26
+    2016      23.0%       6.5%    0.70
+    2017     -11.4%       2.5%   -0.37
+    2018      -6.5%     -19.6%   -0.07
+    2019      -6.7%      32.6%   -0.06
+    2020      72.3%     -67.8%    1.11
+    2021      20.3%      64.7%    0.73
+    2022      21.0%      29.0%    0.66
+    2023     -38.9%      -4.9%   -1.44
+    2024      -3.4%      13.4%    0.00
+    2025       7.3%      -8.5%    0.38
+    2026     277.4%      92.8%    3.09
+    top-5 months contribute 2.246 of total log-ish sum 3.879 (58%): 2020-03:0.71, 2026-03:0.47, 2020-04:0.46, 2026-04:0.36, 2026-07:0.26
+    without the 5 best months: Sh  0.25  CAGR    2.7%  MDD  -69.1%  t  1.09  n 4765
+    circular-shift placebo (500): p = 0.022, placebo 95th pct Sharpe 0.43
+  -- 2020 by month (rule vs USO)
+    1:-6/-15  2:14/-13  3:86/-55  4:44/-43  5:-29/35  6:-24/8  7:-6/4  8:2/5  9:2/-7  10:-11/-11  11:25/23  12:2/7
+====================================================================================================
+D. Month-end Treasuries: IEF long over last 3 trading days; 252-day annualisation; 5 bp/side
+  RULE (IEF, k=3)
+    full       Sh  0.60  CAGR    1.5%  MDD   -6.4%  t  2.97  n 6119
+    2014-2019  Sh  0.83  CAGR    1.5%  MDD   -2.1%  t  2.03  n 1510
+    2020-now   Sh  0.53  CAGR    1.3%  MDD   -3.4%  t  1.38  n 1733
+  BUY&HOLD IEF
+    full       Sh  0.54  CAGR    3.5%  MDD  -23.9%  t  2.66  n 6119
+    2014-2019  Sh  0.75  CAGR    3.8%  MDD   -8.8%  t  1.83  n 1510
+    2020-now   Sh  0.02  CAGR   -0.2%  MDD  -23.9%  t  0.04  n 1733
+  exposure 0.143; month-end-day returns vs others: mean bp in-window 7.44, out 0.44
+  -- execution / cost / data stress (full / 2014-19 / 2020+)
+    base                                                     full  0.60 (t 2.97)  2014-19  0.83 (t 2.03)  2020+  0.53 (t 1.38)
+    delay1 (=enter 1 day later, exit 1 day after month-end)  full  0.30 (t 1.50)  2014-19 -0.35 (t -0.86)  2020+  0.42 (t 1.09)
+    cost25                                                   full -1.24 (t -6.09)  2014-19 -1.66 (t -4.06)  2020+ -1.26 (t -3.31)
+    delay1+cost25                                            full -1.45 (t -7.15)  2014-19 -2.38 (t -5.83)  2020+ -1.27 (t -3.33)
+    RAW close (no dividends)                                 full  0.56 (t 2.74)  2014-19  0.83 (t 2.03)  2020+  0.53 (t 1.38)
+    B&H on RAW close                                         full  0.10 (t 0.51)  2014-19  0.36 (t 0.89)  2020+ -0.33 (t -0.85)
+  placebo random 3 consecutive days/month: mean Sh -0.29, 95th -0.00, p = 0.000; 2014+: 95th 0.01, p = 0.000
+  placebo random 3 scattered days/month (more turnover): mean Sh -1.05, 95th -0.74, p = 0.000
+  return per day in market: rule 5.77 bp vs B&H 1.45 bp/day; B&H earns 3.5%/yr vs rule 1.5%/yr
+  -- regime
+    ex-2020: rule Sh  0.57  CAGR    1.4%  MDD   -6.4%  t  2.77  n 5866
+             B&H  Sh  0.50  CAGR    3.2%  MDD  -24.5%  t  2.42  n 5866
+    year  rule_ret  bench_ret  rule_Sh
+    2002       3.9%       7.6%    2.78
+    2003      -0.7%       5.3%   -0.21
+    2004      -0.9%       4.1%   -0.37
+    2005       0.9%       2.6%    0.45
+    2006       0.5%       2.5%    0.35
+    2007       2.9%      10.4%    1.31
+    2008       4.3%      17.9%    1.11
+    2009      -1.1%      -6.6%   -0.34
+    2010       4.6%       9.4%    1.54
+    2011       1.3%      15.6%    0.42
+    2012       2.9%       3.7%    1.29
+    2013      -0.8%      -6.1%   -0.57
+    2014       1.4%       9.1%    0.90
+    2015       0.4%       1.5%    0.16
+    2016       2.9%       1.0%    1.53
+    2017      -0.3%       2.6%   -0.17
+    2018       2.4%       1.0%    1.38
+    2019       2.3%       8.0%    1.37
+    2020       2.9%      10.0%    1.50
+    2021      -0.5%      -3.3%   -0.17
+    2022       3.2%     -15.2%    0.86
+    2023       0.2%       3.6%    0.08
+    2024       2.1%      -0.6%    0.92
+    2025       2.3%       8.0%    1.24
+    2026      -1.2%      -1.5%   -0.70
+    top-5 months contribute 0.098 of total log-ish sum 0.358 (27%): 2008-11:0.02, 2008-02:0.02, 2007-12:0.02, 2022-06:0.02, 2021-11:0.02
+    without the 5 best months: Sh  0.46  CAGR    1.1%  MDD   -8.3%  t  2.24  n 6018
+    circular-shift placebo (500): p = 0.000, placebo 95th pct Sharpe 0.06
+  -- neighbours k (last k days) per instrument: full / 2014-19 / 2020+ / ex-2020 / t full / pre-2014
+          full  14-19    20+  ex2020  t_full  pre2014   cagr
+variant                                                     
+IEF_k2   0.518 -0.183  0.301   0.511   2.552    0.898  0.010
+IEF_k3   0.603  0.829  0.527   0.573   2.969    0.578  0.015
+IEF_k4   0.538  0.731  0.512   0.516   2.651    0.492  0.015
+IEF_k5   0.639  0.940  0.634   0.601   3.150    0.543  0.020
+          full  14-19    20+  ex2020  t_full  pre2014   cagr
+variant                                                     
+TLT_k2   0.609  0.090  0.136   0.647   3.000    1.090  0.024
+TLT_k3   0.614  1.012  0.200   0.629   3.024    0.707  0.030
+TLT_k4   0.496  0.844  0.190   0.527   2.443    0.539  0.027
+TLT_k5   0.597  1.077  0.360   0.599   2.943    0.549  0.037
+          full  14-19    20+  ex2020  t_full  pre2014   cagr
+variant                                                     
+SHY_k2  -1.056 -2.475 -0.942  -1.085  -5.203   -0.617 -0.005
+SHY_k3  -0.527 -1.353 -0.340  -0.550  -2.596   -0.379 -0.003
+SHY_k4  -0.344 -1.186 -0.169  -0.375  -1.698   -0.166 -0.002
+SHY_k5  -0.161 -1.012  0.062  -0.204  -0.791   -0.012 -0.001

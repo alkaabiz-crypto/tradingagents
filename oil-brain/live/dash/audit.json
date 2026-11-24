@@ -1,0 +1,38 @@
+{
+ "rows": [
+  {
+   "rule": "Month-end Treasuries (IEF, last 3 days)",
+   "verdict": "Weak",
+   "sharpe_after_costs": 0.6,
+   "t_stat": 2.97,
+   "note": "Real before costs (t 5.4); thin after costs; needs closing-price fills"
+  },
+  {
+   "rule": "Bitcoin trend (28-day / 100-day)",
+   "verdict": "Weak",
+   "sharpe_after_costs": 1.09,
+   "t_stat": 3.76,
+   "note": "Cuts crashes (-48% vs -67% since 2022); no extra return since 2022"
+  },
+  {
+   "rule": "Ether trend (28-day)",
+   "verdict": "Weak",
+   "sharpe_after_costs": 0.82,
+   "t_stat": 2.42,
+   "note": "60% of profit from 5 months"
+  },
+  {
+   "rule": "Credit appetite -> oil (HYG-LQD -> USO)",
+   "verdict": "Rejected",
+   "sharpe_after_costs": 0.53,
+   "t_stat": 2.33,
+   "note": "Two oil shocks (2020, 2026); flat for a decade"
+  }
+ ],
+ "meta": [
+  {
+   "label": "Source",
+   "value": "oil-brain/audit/AUDIT.md"
+  }
+ ]
+}

@@ -1,0 +1,131 @@
+{
+ "rows": [
+  {
+   "brain": "calendar",
+   "rules": 15,
+   "best_rule": "C11 long IEF on the last 3 trading days of each month (Treasury month-end / index-extension effect), 5 bp per side",
+   "post_sharpe": 0.67,
+   "t_stat": 2.39,
+   "winners": 0,
+   "candidates": 1
+  },
+  {
+   "brain": "crypto",
+   "rules": 11,
+   "best_rule": "R1 btc_tsmom28: long BTC-USD at close t if its 28-day trailing return > 0, else flat; 10 bp/side",
+   "post_sharpe": 1.1,
+   "t_stat": 4.62,
+   "winners": 3,
+   "candidates": 1
+  },
+  {
+   "brain": "earnings",
+   "rules": 7,
+   "best_rule": "M1 SPY long only when >= 9 of 92 large caps are predicted (year-ago date + 364d) to announce in the next 5 trading days, else cash; 5 bp",
+   "post_sharpe": 0.67,
+   "t_stat": 2.42,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "energy",
+   "rules": 13,
+   "best_rule": "B2 backwardation (USO-USL 21d > 0) -> long XLE / short beta*SPY, else the reverse; monthly, 10 bp",
+   "post_sharpe": 0.33,
+   "t_stat": 1.19,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "global",
+   "rules": 11,
+   "best_rule": "T3 Asia-basket large-day fade: EW(EWJ,EWH,EWS,EWT,EWY,FXI,EWA,EWM), pos = -sign(SPY day-t return) when |SPY| > 1.5%, else flat; daily close-",
+   "post_sharpe": 0.44,
+   "t_stat": 1.59,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "insiders",
+   "rules": 11,
+   "best_rule": "I2: long every today's-top-500 US stock with an officer/director open-market purchase (Form 4 code P, >= $10k), entry next close after filin",
+   "post_sharpe": 0.5,
+   "t_stat": 1.79,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "liquidity",
+   "rules": 15,
+   "best_rule": "F3b: USO long/short on HYG-minus-LQD 63-day total return sign, weekly rebalance (study5.py)",
+   "post_sharpe": 0.62,
+   "t_stat": 2.24,
+   "winners": 0,
+   "candidates": 1
+  },
+  {
+   "brain": "macro",
+   "rules": 13,
+   "best_rule": "M11 credit switch: SPY if HYG/LQD 21d relative return > 0 else IEF, monthly",
+   "post_sharpe": 0.91,
+   "t_stat": 3.25,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "ml",
+   "rules": 15,
+   "best_rule": "LOGIT USO h5: L2 logistic (C=0.05) on 41 cross-asset/vol/carry/COT/volume/weekday features, yearly expanding walk-forward with purge+embargo",
+   "post_sharpe": 0.26,
+   "t_stat": 0.94,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "sectors",
+   "rules": 12,
+   "best_rule": "S8 Faber 10-month SMA per sector, long/flat, month-end (study2.py)",
+   "post_sharpe": 0.77,
+   "t_stat": 2.78,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "statarb",
+   "rules": 11,
+   "best_rule": "R5: weekly industry-adjusted (sector-demeaned) 5-day reversal on 110 large US stocks, dollar-neutral linear weights, held only in weeks when",
+   "post_sharpe": 0.53,
+   "t_stat": 1.9,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "volatility",
+   "rules": 15,
+   "best_rule": "T1 SPY long, flat when VIX/VIX3M > 1 (same-day close)",
+   "post_sharpe": 0.791,
+   "t_stat": 2.837,
+   "winners": 0,
+   "candidates": 0
+  },
+  {
+   "brain": "swarm",
+   "rules": 2784,
+   "best_rule": "BTC above its 100-day average (4 BTC trend rules beat the luck bar)",
+   "post_sharpe": 1.35,
+   "t_stat": 4.69,
+   "winners": 4,
+   "candidates": 0
+  }
+ ],
+ "meta": [
+  {
+   "label": "Luck bar (best of 2,784 rules, 95%)",
+   "value": 4.19
+  },
+  {
+   "label": "Source",
+   "value": "oil-brain/brains/*/scorecard.json, oil-brain/swarm/swarm_summary.json"
+  }
+ ]
+}

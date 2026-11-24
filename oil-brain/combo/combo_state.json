@@ -1,0 +1,34 @@
+{
+ "BTC_BREAKOUT": {
+  "cash": 2000,
+  "open": null,
+  "pending": null,
+  "trades": [],
+  "last_day": "2026-11-23",
+  "equity": 2000
+ },
+ "GLD_PULLBACK": {
+  "cash": 2000,
+  "open": null,
+  "pending": null,
+  "trades": [],
+  "last_day": "2026-11-23",
+  "equity": 2000
+ },
+ "USO_TURTLE": {
+  "cash": 2000,
+  "open": null,
+  "pending": null,
+  "trades": [],
+  "last_day": "2026-11-23",
+  "equity": 2000
+ },
+ "BTC_BREAKOUT_LONG": {
+  "cash": 2000,
+  "open": null,
+  "pending": null,
+  "trades": [],
+  "last_day": "2026-11-23",
+  "equity": 2000
+ }
+}

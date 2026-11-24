@@ -1,0 +1,7 @@
+{"brain": "earnings", "rules_tried": 7,
+ "best_rule": "M1 SPY long only when >= 9 of 92 large caps are predicted (year-ago date + 364d) to announce in the next 5 trading days, else cash; 5 bp",
+ "best": {"IS": 0.51, "OOS": 0.60, "HOLDOUT": 0.74, "post": 0.67, "bench_post": 0.80,
+          "t_post": 2.42, "placebo_p": 0.136, "cagr_post": 0.056, "trades_per_year": 12.4,
+          "verdict": "FAIL (2 of 6 gates: post Sharpe below SPY, placebo p 0.14)"},
+ "winners": [], "candidates": [],
+ "one_line": "In 92 large US stocks 2005-2026 (EDGAR 8-K 2.02 dates), PEAD is gone (net Sharpe -0.7, gross ~0), and the earnings-announcement premium is real gross pre-2020 (A1 gross Sharpe ~1.0 IS/OOS) but ~16 bp per event cannot pay ~40 bp of round-trip costs at 10 bp/side, and it faded to ~0 gross in 2020-26."}
