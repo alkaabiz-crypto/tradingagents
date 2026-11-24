@@ -17,9 +17,12 @@ Benchmark: equal-weight buy-and-hold of the five tickers over the same days.
 Pass bar (fixed): >= 13 weeks, the long-only book beats the benchmark net of costs, and verdicts
 beat a coin flip (next-week direction hit rate) at p < 0.05 over >= 60 verdicts.
 
-Needs ANTHROPIC_API_KEY in the environment (environment settings -> variable). Without it the sleeve
-stays in cash and says so. Models: claude-sonnet-5 (deep) and claude-haiku-4-5 (quick); about one run
-a day. ANTHROPIC_BASE_URL is removed for the run so the key is used with the public API.
+Provider (changed 2026-11-24 at the user's request, before any verdict, to a FREE one): Google Gemini,
+models gemini-3.8-flash (deep) and gemini-3.5-flash-lite (quick), on Google AI Studio's free tier
+(no card; one run a day is well inside its limits). The key is saved as a network secret for
+generativelanguage.googleapis.com, so the network proxy adds it to each request; the script only sets a
+placeholder GOOGLE_API_KEY so the client starts. Fallback if GEMINI is not set up: ANTHROPIC_API_KEY.
+Without either, the sleeve stays in cash and says so.
 Paper money only. Research, not financial advice.
 """
 import os, sys, json, csv, datetime as dt
@@ -52,19 +55,23 @@ def load():
 
 
 def run_verdict(ticker, day):
-    key = os.environ.get("ANTHROPIC_API_KEY")
-    if not key:
-        return None, "ANTHROPIC_API_KEY is not set: add it in the environment settings, then start a new session"
-    os.environ.pop("ANTHROPIC_BASE_URL", None)
     sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
     from tradingagents.default_config import DEFAULT_CONFIG
     from tradingagents.graph.trading_graph import TradingAgentsGraph
     cfg = DEFAULT_CONFIG.copy()
-    cfg.update(llm_provider="anthropic", deep_think_llm="claude-sonnet-5", quick_think_llm="claude-haiku-4-5",
-               max_debate_rounds=1, max_risk_discuss_rounds=1,
-               results_dir=os.path.join(HERE, "ta_reports"))
-    graph = TradingAgentsGraph(debug=False, config=cfg)
-    _, rating = graph.propagate(ticker, day)
+    cfg.update(max_debate_rounds=1, max_risk_discuss_rounds=1, results_dir=os.path.join(HERE, "ta_reports"))
+    if os.environ.get("ANTHROPIC_API_KEY") and os.environ.get("TA_PROVIDER") == "anthropic":
+        os.environ.pop("ANTHROPIC_BASE_URL", None)
+        cfg.update(llm_provider="anthropic", deep_think_llm="claude-sonnet-5", quick_think_llm="claude-haiku-4-5")
+    else:
+        # Free Google AI Studio key, injected by the network proxy (network secret); placeholder locally.
+        os.environ.setdefault("GOOGLE_API_KEY", "placeholder-the-proxy-adds-the-real-key")
+        cfg.update(llm_provider="google", deep_think_llm="gemini-3.8-flash", quick_think_llm="gemini-3.5-flash-lite")
+    try:
+        graph = TradingAgentsGraph(debug=False, config=cfg)
+        _, rating = graph.propagate(ticker, day)
+    except Exception as e:  # missing key, rate limit, network
+        return None, f"TradingAgents could not run ({type(e).__name__}: {str(e)[:160]})"
     return rating, "ok"
 
 
