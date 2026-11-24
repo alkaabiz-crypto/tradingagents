@@ -65,7 +65,9 @@ def run_verdict(ticker, day):
         cfg.update(llm_provider="anthropic", deep_think_llm="claude-sonnet-5", quick_think_llm="claude-haiku-4-5")
     else:
         # Free Google AI Studio key, injected by the network proxy (network secret); placeholder locally.
-        os.environ.setdefault("GOOGLE_API_KEY", "placeholder-the-proxy-adds-the-real-key")
+        # The user saved the key as an environment variable named "api_key"; accept the usual names too.
+        real = os.environ.get("GOOGLE_API_KEY") or os.environ.get("api_key") or os.environ.get("GEMINI_API_KEY")
+        os.environ["GOOGLE_API_KEY"] = real or "placeholder-the-proxy-adds-the-real-key"
         cfg.update(llm_provider="google", deep_think_llm="gemini-3.8-flash", quick_think_llm="gemini-3.5-flash-lite")
     try:
         graph = TradingAgentsGraph(debug=False, config=cfg)
