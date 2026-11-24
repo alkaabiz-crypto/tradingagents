@@ -23,3 +23,4 @@ Paper money only. Starting balance $300.
 | 2026-11-24 00:00 | WAIT (no clean range) | 59,932 | 60,775 | 60,430 | 52.3 | - | 300.00 |
 | 2026-11-24 02:00 | WAIT (no clean range) | 60,253 | 60,708 | 60,403 | 45.6 | - | 300.00 |
 | 2026-11-24 10:00 | WAIT (price not near range bottom) | 60,382 | 60,620 | 60,293 | 48.5 | - | 300.00 |
+| 2026-11-24 12:00 | WAIT (no clean range) | 60,146 | 60,800 | 60,440 | 45.3 | - | 300.00 |
