@@ -434,3 +434,8 @@ Candles rebuilt from NQ=F; Exness-style costs (1 bp spread a side + 1.7 bp swap 
 John Wick, sweep, SFP, Turtle Soup, trend-filtered, liquidation wicks, pin bars, confirmed sweeps; long/short;
 D1 2014-2026, H4/H1 2024-2026; 10 bp a side. Best t 1.4 vs luck bar ~3.5. Shorting upper wicks loses (BTC momentum);
 hourly is eaten by costs. The BTC edge remains the long-only 20-day breakout. Details: candles/CANDLES.md section 4b.
+
+## 2026-11-25 All 61 TA-Lib candlestick patterns (candles/talib_study.py): 5,856 systems, 0 pass
+Luck bar t 4.56 (1,988 judged systems). "Right in >= 9/12 markets": 18 groups vs ~13 by luck (noise); "wrong in
+>= 9/12": 27 vs ~17 by luck. Engulfing wrong-way replicated (own code + TA-Lib); Three Outside worst. Table of all
+61 in candles/CANDLES.md section 4c. Running total of candle systems tested: 1,248 + 276 BTC + 5,856 = 7,380.
