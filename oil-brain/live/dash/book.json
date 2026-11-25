@@ -4,11 +4,11 @@
    "strategy": "Month-end Treasuries",
    "symbol": "IEF",
    "start_usd": 3000,
-   "equity_usd": 3000.0,
-   "pnl_usd": 0.0,
-   "position": "Cash",
-   "reason": "4 NYSE trading days left in the month after 2026-11-23",
-   "price_date": "2026-11-23"
+   "equity_usd": 2999.4,
+   "pnl_usd": -0.6,
+   "position": "Long",
+   "reason": "3 NYSE trading days left in the month after 2026-11-24",
+   "price_date": "2026-11-24"
   },
   {
    "strategy": "Bitcoin trend",
@@ -17,8 +17,8 @@
    "equity_usd": 2500.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "28-day return -26.3%",
-   "price_date": "2026-11-24"
+   "reason": "28-day return -23.5%",
+   "price_date": "2026-11-23"
   },
   {
    "strategy": "Ether trend",
@@ -27,8 +27,8 @@
    "equity_usd": 1500.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "28-day return -28.4%",
-   "price_date": "2026-11-24"
+   "reason": "28-day return -26.4%",
+   "price_date": "2026-11-23"
   },
   {
    "strategy": "Follow big oil days",
@@ -37,14 +37,34 @@
    "equity_usd": 3000.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "no big day in the last 5 sessions (today z -1.52)",
-   "price_date": "2026-11-23"
+   "reason": "no big day in the last 5 sessions (today z +0.51)",
+   "price_date": "2026-11-24"
+  },
+  {
+   "strategy": "TradingAgents verdicts (long-only)",
+   "symbol": "SPY QQQ NVDA XLE GLD",
+   "start_usd": 5000,
+   "equity_usd": 4999.5,
+   "pnl_usd": -0.5,
+   "position": "Long",
+   "reason": "targets: QQQ +1.0; buy-and-hold $5,000",
+   "price_date": "2026-11-24"
+  },
+  {
+   "strategy": "TradingAgents verdicts (long/short)",
+   "symbol": "SPY QQQ NVDA XLE GLD",
+   "start_usd": 5000,
+   "equity_usd": 4999.5,
+   "pnl_usd": -0.5,
+   "position": "Long",
+   "reason": "targets: QQQ +1.0; buy-and-hold $5,000",
+   "price_date": "2026-11-24"
   }
  ],
  "meta": [
   {
    "label": "Paper book updated",
-   "value": "2026-11-24 11:21 UTC"
+   "value": "2026-11-24 21:40 UTC"
   },
   {
    "label": "Started",
