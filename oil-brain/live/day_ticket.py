@@ -93,8 +93,9 @@ def make(tickers):
     rows = read_log()
     for t in tickers:
         df = bars(t); day = str(df.index[-1].date()); a = atr14(df)
-        if any(r["made"] == day and r["ticker"] == t for r in rows):
+        if any(r["made"] == day and r["ticker"] == t and r["rating"] != "error" for r in rows):
             print(f"{t}: ticket for after {day} already made"); continue
+        rows = [r for r in rows if not (r["made"] == day and r["ticker"] == t)]  # retry a failed one
         rating, model, text = verdict(t, day)
         side = {"Buy": "LONG", "Overweight": "LONG", "Sell": "SHORT", "Underweight": "SHORT"}.get(rating, "NONE")
         rows.append(dict(made=day, session="", ticker=t, rating=rating or "error", side=side, atr=round(a, 4),
