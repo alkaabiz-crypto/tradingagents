@@ -403,3 +403,10 @@ entry at the close, 5 bp a side, placebo gate.
 - QQQ IBS dip: ~34 trades a year, 65% wins, +31 bp a trade net (t 3.4). Entry at the next open halves it
   (+16 bp, t 2.1): it must be placed just before the close.
 - Registered as a forward paper sleeve: smallwins/ibs_live.py (QQQ_IBS $2,000; SPY as a comparison sleeve).
+
+## 2026-11-25 Candle brain (candles/CANDLES.md, candles/candle_study.py)
+1,248 systems (26 named patterns x 4 holds x 12 markets, next-open entry). 3 passed the per-test bar; with the
+family-wise luck bar (~t 4.0) only QQQ bullish harami (t 4.24, 34 events); its neighbour check FAILED (39%).
+Engulfing patterns point the WRONG way in 11/12 markets; doji/hammer/stars = myths; wicks alone predict nothing.
+The only candle feature with real support is close location (IBS) in US stock indexes (already a paper sleeve).
+Oil: no candle edge. Full brain + rules for the bot: candles/CANDLES.md. Mistake log: MISTAKES.md.
