@@ -27,6 +27,8 @@ Provider changed again 2026-11-24 at the user's request, before the first verdic
 after one test, so the first choice is now Mistral's free Codestral (codestral-2508, deep and quick; key = network
 secret for api.mistral.ai; 2 requests/minute, so calls are spaced 31 s and a run takes ~20-30 min), with
 Gemini (gemini-3.5-flash / -lite) as the fallback. The rating -> exposure rule and the pass bar are unchanged.
+Changed 2026-11-25 at the user's request (after one verdict): Codestral (deep roles) + Ministral 14B (quick roles),
+then Ministral 14B alone, then Gemini; see MISTRAL_ATTEMPTS. Rule and pass bar unchanged.
 Paper money only. Research, not financial advice.
 """
 import os, sys, json, csv, datetime as dt
@@ -58,6 +60,17 @@ def load():
             "target": {t: 0.0 for t in TICKERS}, "bench_units": None, "history": []}
 
 
+# Free Mistral models this key can use (2026-11-25; Medium/Small are not on the free workspace). Limits are per
+# model, so splitting deep (Codestral) and quick (Ministral 14B) roles runs about twice as fast. The user asked
+# to use Mistral's models for all the bots; Gemini stays the last fallback.
+MISTRAL_ATTEMPTS = [
+    ("mistral codestral+ministral14b", dict(llm_provider="mistral", deep_think_llm="codestral-2508",
+                                            quick_think_llm="ministral-14b-latest", llm_max_retries=6)),
+    ("mistral ministral14b", dict(llm_provider="mistral", deep_think_llm="ministral-14b-latest",
+                                  quick_think_llm="ministral-14b-latest", llm_max_retries=6)),
+]
+
+
 def run_verdict(ticker, day):
     sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
     from tradingagents.default_config import DEFAULT_CONFIG
@@ -71,14 +84,13 @@ def run_verdict(ticker, day):
                                            quick_think_llm="claude-haiku-4-5")))
     # 1st choice (user's request, 2026-11-24): free Mistral Codestral. The key is a network secret for
     # api.mistral.ai injected by the proxy; the free workspace allows 2 requests/minute, so calls are spaced.
-    attempts.append(("codestral", dict(llm_provider="mistral", deep_think_llm="codestral-2508",
-                                       quick_think_llm="codestral-2508", llm_max_retries=6)))
+    attempts.extend(MISTRAL_ATTEMPTS)
     # Fallback: free Google AI Studio (Gemini); the key is the environment variable "api_key".
     attempts.append(("gemini", dict(llm_provider="google", deep_think_llm="gemini-3.5-flash",
                                     quick_think_llm="gemini-3.5-flash-lite")))
     errors = []
     for label, extra in attempts:
-        if label == "codestral":
+        if label.startswith("mistral"):
             os.environ.setdefault("MISTRAL_API_KEY", "proxy-injected")
             _throttle_openai_calls(31.0)
         if label == "gemini":
@@ -94,19 +106,21 @@ def run_verdict(ticker, day):
 
 
 def _throttle_openai_calls(gap):
-    """Space OpenAI-compatible chat calls (Mistral's free tier allows 2 requests a minute)."""
+    """Space OpenAI-compatible chat calls PER MODEL (Mistral's free tier: 2 requests a minute for each model)."""
     import threading, time
     from langchain_openai.chat_models import base as B
     if getattr(B.BaseChatOpenAI, "_ta_throttled", False):
         return
-    lock, last, orig = threading.Lock(), [0.0], B.BaseChatOpenAI._generate
+    lock, last, orig = threading.Lock(), {}, B.BaseChatOpenAI._generate
 
     def throttled(self, *a, **k):
+        model = getattr(self, "model_name", "") or ""
         with lock:
-            wait = last[0] + gap - time.time()
-            if wait > 0:
-                time.sleep(wait)
-            last[0] = time.time()
+            slot = max(time.time(), last.get(model, 0.0) + gap)
+            last[model] = slot
+        wait = slot - time.time()
+        if wait > 0:
+            time.sleep(wait)
         return orig(self, *a, **k)
     B.BaseChatOpenAI._generate = throttled
     B.BaseChatOpenAI._ta_throttled = True

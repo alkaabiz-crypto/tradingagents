@@ -15,6 +15,9 @@ Cost 5 bp a side. Result in R (1R = the stop distance) and in % of the entry.
 Pass bar (fixed): >= 60 tickets, mean R > 0 net of costs with t >= 2, AND better than the same tickets with a
 coin-flip direction (1000 shuffles, p < 0.05). Until then it is a paper experiment, not a reason to trade.
 Model: free Mistral Codestral (2 requests/minute; ~8 min a ticker), Gemini fallback, as in ta_sleeve.py.
+Changed 2026-11-25 at the user's request (after 6 tickets, none scored yet): Codestral for the deep roles and
+Ministral 14B for the quick roles (Mistral limits are per model, so this is about twice as fast); then Ministral
+14B alone; then Gemini. The ticket rule and the pass bar are unchanged; the log's "model" column says which ran.
 Paper money only. Research, not financial advice.
 """
 import os, sys, csv, datetime as dt
@@ -55,18 +58,16 @@ def atr14(df):
 def verdict(ticker, day):
     sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
     sys.path.insert(0, HERE)
-    from ta_sleeve import _throttle_openai_calls
+    from ta_sleeve import _throttle_openai_calls, MISTRAL_ATTEMPTS
     from tradingagents.default_config import DEFAULT_CONFIG
     from tradingagents.graph.trading_graph import TradingAgentsGraph
     os.environ.pop("ANTHROPIC_BASE_URL", None)
     base = DEFAULT_CONFIG.copy()
     base.update(max_debate_rounds=1, max_risk_discuss_rounds=1, results_dir=os.path.join(HERE, "ta_reports"))
     errors = []
-    for label, extra in [("codestral", dict(llm_provider="mistral", deep_think_llm="codestral-2508",
-                                            quick_think_llm="codestral-2508", llm_max_retries=6)),
-                         ("gemini", dict(llm_provider="google", deep_think_llm="gemini-3.5-flash",
-                                         quick_think_llm="gemini-3.5-flash-lite"))]:
-        if label == "codestral":
+    for label, extra in MISTRAL_ATTEMPTS + [("gemini", dict(llm_provider="google", deep_think_llm="gemini-3.5-flash",
+                                                             quick_think_llm="gemini-3.5-flash-lite"))]:
+        if label.startswith("mistral"):
             os.environ.setdefault("MISTRAL_API_KEY", "proxy-injected"); _throttle_openai_calls(31.0)
         else:
             real = os.environ.get("GOOGLE_API_KEY") or os.environ.get("api_key") or os.environ.get("GEMINI_API_KEY")
