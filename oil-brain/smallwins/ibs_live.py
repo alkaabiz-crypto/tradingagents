@@ -54,6 +54,13 @@ def main():
             else:
                 act = "BUY at the close (IBS < 0.2)" if v < 0.2 else "no trade"
             print(f"{name}: {s['sym']} now {r.Close:.2f} (day low {r.Low:.2f}, high {r.High:.2f}) IBS {v:.2f} -> likely {act}")
+        # Volatility-scaled size for the user's demo (user's choice 2026-11-25, from ibs_improve.py):
+        # invest min(1, 1% / (ATR14 / price)) of the balance; ATR from the finished days only.
+        bal = float(sys.argv[sys.argv.index("--balance") + 1]) if "--balance" in sys.argv else 2000.0
+        f = bars("QQQ"); tr = pd.concat([f.High - f.Low, (f.High - f.Close.shift()).abs(), (f.Low - f.Close.shift()).abs()], axis=1).max(axis=1)
+        atr_pct = float(tr.rolling(14).mean().iloc[-1] / f.Close.iloc[-1]); w = min(1.0, 0.01 / atr_pct)
+        print(f"SIZE (vol-scaled): QQQ's normal daily move (ATR14) is {atr_pct:.2%} of the price -> invest {w:.0%} of the "
+              f"balance = ${w * bal:,.0f} of ${bal:,.0f} as USTEC notional (no leverage beyond that)")
         return
     st = json.load(open(STATE)) if os.path.exists(STATE) else {}
     for name, s in SLEEVES.items():
