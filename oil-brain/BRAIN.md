@@ -410,3 +410,12 @@ family-wise luck bar (~t 4.0) only QQQ bullish harami (t 4.24, 34 events); its n
 Engulfing patterns point the WRONG way in 11/12 markets; doji/hammer/stars = myths; wicks alone predict nothing.
 The only candle feature with real support is close location (IBS) in US stock indexes (already a paper sleeve).
 Oil: no candle edge. Full brain + rules for the bot: candles/CANDLES.md. Mistake log: MISTAKES.md.
+
+## 2026-11-25 IBS on Exness USTEC-style candles (smallwins/ibs_ustec.py)
+Candles rebuilt from NQ=F; Exness-style costs (1 bp spread a side + 1.7 bp swap a night).
+- NQ futures daily 2000-2026: IS +22 bp (t 2.1), OOS +28 bp (t 2.6), HOLDOUT +41 bp (t 3.0); post-2014 +36 bp a trade,
+  t 3.9, 64% wins, placebo p 0.000 -> PASSES on the CFD's underlying price, net of CFD costs.
+- Last 2.4 years (1h data): US-session candle on the USTEC price +36 bp (t 1.4) = QQQ +35 bp (t 1.3): same result,
+  too few trades to be significant. Exness's own UTC-midnight daily candle is weaker: +19 bp (t 0.7).
+- Lesson: read the IBS on the US-SESSION candle (QQQ, or USTEC's 6:30 pm-1:00 am Abu Dhabi part), not on the
+  Exness midnight candle, and trade USTEC just before the US close.

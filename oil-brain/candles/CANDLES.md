@@ -130,13 +130,18 @@ reversal effect of section 3, not the patterns themselves. Base rate: ~0-10% of 
    the family-wise luck bar (best of N; ~t 4.0 for 1,248 systems), and the neighbour check.
 8. Log every candle mistake in ../MISTAKES.md.
 
+**IBS on Exness USTEC (2026-11-25, ../smallwins/ibs_ustec.py)** [OURS]: on NQ futures 2000-2026 with Exness-style
+costs it passes (post-2014 +36 bp a trade, t 3.9). Over the last 2.4 years the US-session candle on the USTEC price
+gives the same +36 bp as QQQ; the Exness UTC-midnight candle gives only +19 bp. Use the US-session candle.
+
 ## 7. Open questions (next tests)
 
 - IBS with a wide-range-day filter and a volume filter (stronger in the literature); Monday-into-Tuesday effect.
-- IBS on the actual Exness USTEC / US500 CFD session candles (server midnight), and with real CFD spreads/swaps.
+- IBS on US500 (SPY failed its neighbour check) and on USTEC with the user's real Exness fills.
 - Intraday candles (1h/5m) on USOIL around the EIA report (Wed 10:30 New York = 7:30 pm Abu Dhabi).
 - Deflated Sharpe (Bailey & López de Prado) on every candle family.
 - Reverse-sign (momentum) versions on USO, BNO, GLD and BTC, counted as extra trials.
 
 ## 8. Change log
+- 2026-11-25: IBS tested on Exness USTEC-style candles (passes on the futures price; use the US-session candle).
 - 2026-11-25: created from the two research files, candle_study.py (1,248 systems) and the harami neighbour check.
