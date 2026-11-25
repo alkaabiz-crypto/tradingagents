@@ -167,7 +167,7 @@ def main():
     ps = []
     for _, r in cand.iterrows():
         b = load(r.sym); i = indicators(b); side = 1 if r.side == "long" else -1
-        pl = placebo(r.setup, side, b, i, int(r.POST_n), start, seed=hash((r.sym, r.setup, r.side)) % 2**32)
+        pl = placebo(r.setup, side, b, i, int(r.POST_n), start, seed=1000 + len(ps))  # fixed integer seed (MISTAKES C4 fix, 2026-11-25)
         ps.append(round(float(np.nanmean(pl >= r.POST_avg_bp / 1e4)), 3))
     cand["placebo_p"] = ps
     df = df.merge(cand[["sym", "setup", "side", "placebo_p"]], how="left", on=["sym", "setup", "side"])
