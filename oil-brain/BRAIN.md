@@ -376,3 +376,17 @@ Neither is a 1-3 day trading edge.
 
 **Rules tried so far: 74** (oil brain; the tournament adds ~2,930) (study 1: 9, study 2: 14, study 4: 4, study 5: 9, study 6: 4,
 study 7: 7, study 8: 5, study 9: 2, study 10: 3, study 11: 6, study 12: 7, study 13: 4; study 3 re-scored old rules). At this count, a couple of t = 2 results are expected by chance alone.
+
+## 2026-11-25 Oil DCA study (dca/dca_study.py, dca/dca_neighbours.py, notes in dca/RESEARCH_NOTES.md)
+Asked by the user: plain DCA into oil vs DCA with entry conditions and exits. Pre-registered, 150 systems
+(10 entries x 5 exits x USO/XLE/BNO), $100 a week, idle cash at 0%, 5 bp a side.
+- Plain DCA money multiple (final / added): USO 0.85 (2006-13), 0.95 (2014-19), 2.26 (2020-26); XLE 1.50 / 0.96 / 2.07;
+  BNO 1.22 (2010-13) / 1.14 / 2.53. Account drawdowns -21% to -74%. Result depends on the start date.
+- 4 of 147 variants beat plain DCA in both OOS and HOLDOUT; 1 passed the 200-run placebo (USO RSI14<35 + take profit
+  +50%, p 0.01). Neighbour check (25 RSI x take-profit settings, 1000-run placebo): only 24% of USO neighbours beat
+  plain DCA, median p 0.34; the survivor itself has p 0.027 on 1000 runs. VERDICT: luck. No timing rule beats plain DCA.
+- Literature agrees: ~7,800 technical rules on WTI/USO 2006-15 failed out of sample (Psaradellis et al. 2016);
+  backwardation/inventory signals are the best-supported but mostly cross-sectional; stop-losses only help in
+  trending markets (Kaminski & Lo 2014); take-profits have no support.
+- Next (from the notes): test plain DCA in XLE vs USO with dividends, a true 2nd-month backwardation gate from
+  futures-chain data, a T-bill baseline, and Exness USOIL swaps as a cost range.
