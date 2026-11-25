@@ -1,0 +1,16 @@
+{
+ "QQQ_IBS": {
+  "cash": 2000.0,
+  "open": null,
+  "trades": [],
+  "last_day": "2026-11-24",
+  "equity": 2000.0
+ },
+ "SPY_IBS_COMPARE": {
+  "cash": 2000.0,
+  "open": null,
+  "trades": [],
+  "last_day": "2026-11-24",
+  "equity": 2000.0
+ }
+}

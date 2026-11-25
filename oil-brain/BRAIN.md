@@ -390,3 +390,16 @@ Asked by the user: plain DCA into oil vs DCA with entry conditions and exits. Pr
   trending markets (Kaminski & Lo 2014); take-profits have no support.
 - Next (from the notes): test plain DCA in XLE vs USO with dividends, a true 2nd-month backwardation gate from
   futures-chain data, a T-bill baseline, and Exness USOIL swaps as a cost range.
+
+## 2026-11-25 Small wins, many trades (smallwins/smallwins.py, smallwins/neighbours.py)
+Asked by the user: small frequent wins rather than big ones. 8 short-term setups (IBS dip, RSI(2) dip, 3 down
+closes, Bollinger, overnight hold, IBS + small ATR target; each also mirrored short) x 9 markets = 144 systems,
+entry at the close, 5 bp a side, placebo gate.
+- OIL: every oil setup FAILS (USO/BNO/XLE/XOP). Win rates 50-72% but the losses are bigger than the wins
+  (e.g. USO IBS + small target: wins 71% of trades yet loses 18 bp a trade). Small wins in oil = a trap.
+- Stock indexes: 5 pass the placebo (QQQ IBS dip, SPY IBS dip, SPY RSI2 dip, SPY RSI2 + trend, SPY below Bollinger).
+  Neighbour check at 2x cost, with IWM and DIA as unseen markets: ONLY QQQ IBS dip holds (73% of 15 settings);
+  SPY 13%, IWM 0%, DIA 0%. So it is likely a QQQ/tech effect of 2014-2026, not a universal law.
+- QQQ IBS dip: ~34 trades a year, 65% wins, +31 bp a trade net (t 3.4). Entry at the next open halves it
+  (+16 bp, t 2.1): it must be placed just before the close.
+- Registered as a forward paper sleeve: smallwins/ibs_live.py (QQQ_IBS $2,000; SPY as a comparison sleeve).
