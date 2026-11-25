@@ -225,6 +225,27 @@ worst of all (bearish: right in 0-2 of 12 markets).
 How to read it: "no edge" = after the pattern, price did what it does on any random day; "wrong way" = price more
 often went the OPPOSITE way; "too rare" = fewer than 30 events in 12 markets since 2014 (cannot be judged).
 
+## 4d. WIDE test: 51 markets, daily + weekly, with context (2026-11-25, `wide_study.py`)
+
+Markets: oil (USO, BNO, XLE, XOP, CL futures), US stocks (SPY, QQQ, IWM, DIA, ES/NQ futures, 9 sectors), world
+indexes (EFA, EEM, Japan, Brazil, Germany, China, UK, Canada, Australia, Korea), bonds (TLT, IEF, HYG, LQD),
+commodities (gold, silver, futures, DBC, gas, copper, farm), forex (EUR, GBP, JPY, AUD, CAD, CHF vs USD), crypto
+(BTC, ETH, SOL, XRP). Signals: 61 TA-Lib patterns + IBS low/high + Heikin-Ashi colour flips; contexts: all /
+uptrend / downtrend / near a 20-candle low / near a 20-candle high; daily and weekly candles; 2,550 combinations,
+every event in every market POOLED (averaged by date, so markets that move together are not counted twice).
+[OURS] **Result: 0 pass (luck bar t 4.52).** Even the BEST of 1,653 judged combinations reached only t 2.8, LESS
+than the ~3.4 that the best of 1,653 coin-flips usually reaches. **Context (trend, near highs/lows) did not rescue
+any pattern, and weekly candles were no better than daily.**
+- Closest to real: **IBS low (close in the bottom 20%) in an UPTREND, hold 3 days**: +7 bp over the market's drift,
+  steady in every period (pre-2014 +11, 2014-19 +7, 2020+ +7), positive in 70% of 51 markets, t 2.6. The same
+  close-location effect as the QQQ rule, but in most markets it is too small to beat costs.
+- Most wrong-way: **closing at the top of the range near a 20-day high is NOT a sell signal** (shorting it lost
+  7-12 bp over 3-5 days, t -3.7 to -3.5): after 2014 strong closes at highs tended to keep going (momentum), but
+  before 2014 they did not (+4 to +5 bp for the short), so it flips by period: not tradable either way.
+- Spinning tops / high-wave candles near highs are not tops (shorting them lost, t -3.5 to -2.5).
+**Bottom line (now ~10,000 candle tests): no named candle pattern predicts direction in any of 51 markets after
+costs. Close location (IBS) is the one consistent candle effect: tradable only where it is big enough (QQQ/USTEC).**
+
 ## 5. How price rises and falls (what the evidence supports)
 
 - Over days, US stock indexes **mean-revert**: sharp down closes are followed by small bounces (section 3).
@@ -261,6 +282,7 @@ gives the same +36 bp as QQQ; the Exness UTC-midnight candle gives only +19 bp. 
 - Reverse-sign (momentum) versions on USO, BNO, GLD and BTC, counted as extra trials.
 
 ## 8. Change log
+- 2026-11-25: WIDE test, 51 markets x daily/weekly x 5 contexts (2,550 pooled combos, 0 pass); section 4d.
 - 2026-11-25: all 61 TA-Lib patterns tested (5,856 systems, 0 pass); section 4c.
 - 2026-11-25: John Wick candle researched and tested on BTC (276 systems, 0 pass); section 4b.
 - 2026-11-25: IBS tested on Exness USTEC-style candles (passes on the futures price; use the US-session candle).

@@ -439,3 +439,8 @@ hourly is eaten by costs. The BTC edge remains the long-only 20-day breakout. De
 Luck bar t 4.56 (1,988 judged systems). "Right in >= 9/12 markets": 18 groups vs ~13 by luck (noise); "wrong in
 >= 9/12": 27 vs ~17 by luck. Engulfing wrong-way replicated (own code + TA-Lib); Three Outside worst. Table of all
 61 in candles/CANDLES.md section 4c. Running total of candle systems tested: 1,248 + 276 BTC + 5,856 = 7,380.
+
+## 2026-11-25 WIDE candle test (candles/wide_study.py): 51 markets, daily+weekly, 65 signals, 5 contexts
+2,550 pooled combinations (events averaged by date across markets). 0 pass; best t 2.8 < the ~3.4 expected from luck
+for 1,653 judged combos. Context and weekly candles add nothing. IBS low in an uptrend (3 days) +7 bp, stable in all
+periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 combinations.

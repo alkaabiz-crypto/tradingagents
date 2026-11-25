@@ -114,6 +114,7 @@ def main():
     judged = df[(df.events >= 100) & (df.markets >= 10)]; bar = sidak_t(len(judged))
     df["PASS"] = (df.events >= 100) & (df.markets >= 10) & (df.t >= bar) & (df.oos_bp > 0) & (df.ho_bp > 0) & (df.net_bp_2x > 0) & (df.breadth >= 0.6)
     df.to_csv(os.path.join(HERE, "wide_results.csv"), index=False)
+    judged = df[(df.events >= 100) & (df.markets >= 10)]  # re-take after PASS was added (bug fix: KeyError PASS)
     pd.set_option("display.width", 250); pd.set_option("display.max_rows", 200)
     cols = ["tf", "signal", "side", "ctx", "hold", "events", "markets", "breadth", "excess_bp", "net_bp", "net_bp_2x", "t", "pre_bp", "oos_bp", "ho_bp", "PASS"]
     print(f"Combinations: {len(df)}; judged: {len(judged)}; luck bar t >= {bar:.2f}; PASS: {int(df.PASS.sum())}")
