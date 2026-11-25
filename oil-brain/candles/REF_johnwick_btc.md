@@ -1,0 +1,63 @@
+# "John Wick" candles on BTC: definitions, evidence, costs, testable rules
+(Web research, 2026-11-25. Source quality is mostly retail education. Items marked [mem] come from background knowledge and were not re-verified this session.)
+
+## 1. Definitions
+- **"John Wick candle"** is crypto slang, not a formal pattern. It means a candle with an outsized wick, a "violent" intrabar rejection (CoinGecko / Phemex / Gate glossaries). In practice it is usually used to mean a **liquidity grab / stop hunt**: the wick pokes through an obvious prior high or low (stops, liquidation clusters) and the candle **closes back inside the prior range**. I found no canonical numeric definition. Most writers cite pin-bar style ratios.
+- **Pin bar** (Nial Fuller-style, [mem]): the tail is at least 2/3 of the bar's range, and the body plus the opposite wick sit in the last 1/3. The tail should "stick out" past the surrounding bars.
+- **Hammer / shooting star** (Nison, Bulkowski [mem]): the shadow is at least 2x the body, the opposite shadow is small (about 10% of range or less), and the candle comes after a down move (hammer) or an up move (shooting star). This is purely shape plus trend and does not require a level sweep.
+- **Swing Failure Pattern (SFP)**: price trades beyond a prior **swing** high or low (pivot), then **closes back inside**. A close beyond the level invalidates it (Gate, CoinGecko, CMC Academy). This is a level-based definition, not a shape-based one: the wick is the sweep.
+- **Turtle Soup** (Raschke/Connors, *Street Smarts*): there is a new **20-day low**, and the prior 20-day low is **at least 4 sessions old**. Entry is a buy stop 5-10 ticks above the old 20-day low, valid that day only. The stop goes just below the day's low. Exits are a trailing stop or a 1-2 day hold. **Turtle Soup Plus One**: a close below the old 20-day low on day 1 (prior low at least 3 days old), then a buy stop at the old low on day 2. Shorts are the mirror image.
+- **Wyckoff spring / upthrust (UT, UTAD)**: the same failed-breakout mechanic, but **at the edge of a trading range** inside an accumulation or distribution schematic, ideally on volume, followed by a "test" or sign of strength. LuxAlgo and others treat spring = SFP = sell-side sweep at a range low.
+- **So:** John Wick ≈ (pin-bar shape) ∩ (SFP / Turtle-Soup sweep of an N-bar extreme) ∩ (unusual size vs ATR / recent candles).
+
+### Common numeric choices (synthesised)
+- Wick share of range: at least 0.6-0.67 (2/3 is most common).
+- Wick vs body: at least 2x (hammer); "John Wick" posts often use at least 3x.
+- Wick vs ATR(14): at least 1.0-1.5x ATR, or the candle range at least 1.5-2x ATR, or the wick greater than the max wick of the last 10-20 bars.
+- Sweep: low below the lowest low of N = 10-20 bars (Turtle Soup N = 20, with the prior extreme at least 3-4 bars old). Or a pivot low with left/right strength 3-5.
+- Close back inside: close above the swept level. Often also the close sits in the top 1/3 of the range.
+- Entry: close of the signal bar, next open, or a stop order above the signal high (confirmation). Retracement entry at 50% of the wick is the "aggressive" variant.
+- Stop: beyond the wick extreme, plus a buffer (0.1-0.5 ATR).
+- Target: the opposite end of the range or the prior swing, 1.5-3R, or the mid-range. Time stop of 1-5 bars (Raschke style is short).
+
+## 2. Evidence
+- **No rigorous, peer-reviewed backtest of long-wick, SFP or Turtle-Soup rules on BTC was found.** What exists is anecdote and self-reported TradingView scripts with no costs or out-of-sample test. One example: Benzinga/Webull, Jan 2026, "Trader Mayne": 22 weekly SFPs since March 2021, 20 followed by a counter move above 10%. That is n = 22, with a loose outcome definition and no stop or target accounting.
+- Generic candlestick literature [mem]: Marshall, Young & Rose (2006, DJIA) and Horton (2009) find candlestick patterns have little or no value after controls. Bulkowski reports hammers "work" only about 60% of the time and rank poorly for performance. Lu et al. find some edge in Taiwan stocks that fades with costs. Prior: weak.
+- **BTC daily direction is ambiguous.** Liu & Tsyvinski (NBER w24877, 2018): time-series **momentum** at daily and weekly horizons. A 1-SD day-t return predicts about +0.33% on t+1. Caporale & Plastun (Brunel/CESifo 2018-19, daily and hourly, BTC/ETH/LTC): after one-day abnormal returns the next day is mostly **momentum**, but **BTC positive abnormal days show a contrarian (reversal) effect**. Abnormal days are detectable intraday. Cross-section studies (200 coins, 2015-19; IRFA 2021 "Up or down?"; Riksbank WP 413, Bianchi et al.) find **short-term reversal concentrated in illiquid, low-volume coins**, not in BTC. This implies sweep-reversal on BTC fights a mild momentum tendency.
+- **Intraday seasonality.** Baur, Cahill, Godfrey & Liu (2019, FRL, more than 15M obs, 7 exchanges) find time-of-day and day-of-week anomalies in returns that **do not persist** over time. Eross, McGroarty & Urquhart, and Aleti & Mizrach (arXiv 2109.12142) find that **volatility, volume and liquidity are strongly periodic** (peaks at stock-market opens, US hours). Returns are not reliably periodic. Quantpedia/Gemini (hourly 2015-22) claims a 21:00-23:00 UTC long window in sample only. NYDIG (2021) found little in hourly returns. Weekends have lower volume and thinner books, which means more wick-prone, gappy moves on CME.
+- **Liquidation wicks.** Long BTC wicks are often caused by **forced liquidations on perpetual futures** (cascades through thin books, ADL). Example: Oct 10 2025, more than $19B liquidated in 24h (FTI Consulting, academic Hyperliquid study 2026). Depth collapses nonlinearly in stress. The mechanical story for a reversal edge is that once forced flow is exhausted, price mean-reverts. This is plausible, but a quantified BTC wick-reversal test was not found. Note also that a broker CFD feed may not print the same wick as Binance perps.
+
+## 3. Practical
+- **Exness BTCUSD costs.** The official page (403 to fetch) advertises "swap-free trading" on BTCUSD. Other Exness pages say a **triple swap is charged on Friday night** for BTCUSD/ETHUSD/BTCUSDT (Wednesday for other BTC crosses). Swap-free status depends on account and region ("Standard" vs "Extended" swap-free, Islamic countries by default). **Verify in the MT5 symbol spec.** Spreads: Raw account about 260 (points) plus $2-3.5/lot/side, Zero account 0 spread plus $8-24/lot/side (Exness fee cut, June 2024, via daytrading.com). Standard account is typically quoted at about $20-40 at $60-100k BTC (about 0.02-0.05%) and widens sharply in volatile hours and on weekends [third-party / mem]. For testing, model a **round trip of about 0.05% on daily bars and 0.05-0.1% on hourly**, plus swap if not swap-free (broker crypto swaps are often on the order of 0.01-0.07%/night, about 5-25%/yr if charged [mem]).
+- **Daily candle.** Exchanges and TradingView default to 00:00-24:00 **UTC**. Exness MT5 server time is reported as **GMT+0** with no DST shift, so Exness D1 bars ≈ UTC days. CME uses Chicago hours (Friday close 16:00 CT), and exchange weeklies start Monday 00:00 UTC.
+
+## 4. Codeable rules to test (long side shown; shorts are the mirror image)
+Notation: R = H - L, body = |C - O|, lw = min(O,C) - L, LL_N = min(L[1..N]), ATR = ATR14.
+1. **JW-sweep (core):** L < LL_20, C > LL_20, lw/R ≥ 0.6, lw ≥ 2·body, R ≥ 1.5·ATR. Enter at next open. Stop at L - 0.1·ATR. Target 2R or HH_20. Max hold 5 D1 bars / 24 H1 bars.
+2. **Turtle Soup (Raschke):** L < LL_20, and the bar that set LL_20 is at least 4 bars old. Buy stop at LL_20 + 0.1·ATR on the same bar (on bar data, a proxy is "L < LL_20 and H > LL_20 + 0.1·ATR", filled at that price). Stop at L. Trail with a 2-bar low, or exit at the close of bar 3.
+3. **Turtle Soup +1:** C[0] < LL_20 (prior low at least 3 bars old). Next bar buy stop at LL_20. Stop at min(L[0], L[1]). Max hold 5.
+4. **Pure pin bar (no level):** lw/R ≥ 2/3, C in the top 1/3, L < min(L[1..5]). Enter at next open. Stop at L. Target 1.5R. Max hold 3. This serves as a benchmark for whether the sweep adds value.
+5. **Confirmation entry:** rule 1 setup, but enter only if the next bar trades above the signal H (buy stop at H + tick). Stop at the signal L. Target 2R. Max hold 5.
+6. **ATR-outlier wick (liquidation proxy):** lw ≥ 2·ATR and lw is the largest lower wick of the last 50 bars, with close above the open or a close in the top 40%. Enter at close. Exit at the close after 1, 3 or 5 bars (measure forward returns, no stop), then add a stop at L.
+7. **SFP on pivot:** pivot low (left 5 / right 5, confirmed only after 5 bars, so no lookahead). Then a later bar has L < pivot and C > pivot. Enter at next open. Stop at L. Target the last pivot high. Max hold 10.
+8. **Hourly session filter:** rule 1 on H1 with N = 24 (sweep of the prior 24h low). Take trades only from 00-08 UTC (Asia) vs 13-21 UTC (US), and report both. Max hold 12h. Cost 0.08% round trip.
+9. **Trend filter variant:** rules 1/7 only when C > SMA200 (longs) or C < SMA200 (shorts). This tests whether wicks work as with-trend pullbacks, which is consistent with the momentum evidence.
+10. **Daily wick fade with HTF context:** a D1 upper JW wick (short) at a 20-day high **and** funding/price at least 2·ATR above the 20-day SMA. Short at next open. Stop at H. Target the 20-day SMA. Max hold 5.
+
+Test hygiene: use UTC bars from one feed (ideally the Exness feed itself, since wicks differ across venues). Include costs and swap. Split IS 2017-2022 vs OOS 2023-2026. Require at least 100 trades (daily rules give only about 10-40 per year, so the daily sample is thin). Compare to a random-entry baseline with the same hold and stop. Report expectancy in R, PF and MaxDD. Watch for intrabar ambiguity (stop and target in the same bar: assume the stop hits first).
+
+## Honest prior
+Low. Candlestick shapes alone have little documented edge after costs. BTC itself leans toward **daily momentum**, not reversal (Liu-Tsyvinski), and the reversal evidence lives in illiquid alts. Sweep/SFP claims are anecdotal with tiny samples. The most plausible pockets are: (a) extreme, ATR-outlier liquidation wicks (forced-flow exhaustion), held for 1-3 bars, and (b) with-trend sweeps (rule 9). Expect most variants to be about breakeven or negative after a ~0.05-0.1% round trip, especially on H1. Treat any in-sample PF above 1.5 with suspicion until it survives OOS.
+
+## Sources
+- CoinGecko long-wick guide: https://www.coingecko.com/learn/long-wick-candles-trading ; Phemex: https://phemex.com/academy/long-wick-candle-trading ; Gate glossary: https://www.gate.com/learn/glossary/long-wick
+- SFP: https://www.coingecko.com/learn/swing-failure-pattern-trading ; https://coinmarketcap.com/academy/article/what-is-the-swing-failure-pattern-and-how-to-use-it-in-trading ; https://www.gate.com/learn/glossary/swing-failure-pattern ; Trader Mayne weekly SFP stat: https://www.webull.ca/zh-hant/news-detail/14151323543749632
+- Turtle Soup: https://newtraderu.com/2020/08/15/turtle-soup-trading-strategy ; https://www.luxalgo.com/library/concept/turtle-soup.md ; https://tradingmarkets.com/recent/breakout_after_failure-654653
+- Wyckoff: https://www.luxalgo.com/library/concept/spring.md ; https://www.luxalgo.com/library/concept/upthrust.md
+- Liu & Tsyvinski: https://www.nber.org/system/files/working_papers/w24877/w24877.pdf
+- Caporale & Plastun: https://www.brunel.ac.uk/economics-finance-and-accounting/research/pdf/1917-Oct-GMC-Momentum-effect-in-the-Cryptocurrency-Market-after-One-day-Abnormal-Returns.pdf ; https://quantpedia.com/price-overreactions-in-the-cryptocurrency-market/
+- Reversal/liquidity: https://ideas.repec.org/a/eee/finana/v78y2021ics1057521921002349.html ; https://www.riksbank.se/globalassets/media/rapporter/working-papers/2022/no.-413-trading-volume-and-liquidity-provision-in-cryptocurreny-markets.pdf
+- Seasonality: https://ideas.repec.org/a/eee/finlet/v31y2019icp78-92.html ; https://eprints.soton.ac.uk/429352/ ; https://arxiv.org/pdf/2109.12142v2.pdf ; https://quantpedia.com/?p=17341 ; https://nydig.com/research/the-temporalities-of-bitcoin-returns
+- Liquidations: https://www.fticonsulting.com/insights/articles/crypto-crash-october-2025-leverage-met-liquidity
+- Exness: https://www.exness.com/crypto/btcusd/ ; https://exness.com/crypto ; https://www.daytrading.com/exness-slashes-fees-on-crude-oil-and-bitcoin ; server time: https://www.mql5.com/en/forum/463955/page4
+- UTC daily close: https://www.bitget.com/wiki/what-time-does-bitcoin-open ; https://docs.coinmetrics.io/market-data/market-data-overview/market-candles
