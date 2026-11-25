@@ -40,3 +40,10 @@ what went wrong, how it was found, the fix, and the rule that now prevents it. A
 - Oil ETFs (USO, BNO) and long USOIL CFDs lose to the spot price through contango roll / swaps; spot WTI is not investable.
 - Oil can gap 20-50% in a day (2020): small-target systems on oil carry hidden crash risk.
 - "Buy the dip" in oil has failed in every test here (DCA, smallwins, swarm); in tech indexes it worked 2014-2026.
+
+## E. Added 2026-11-25
+| # | Mistake | How it showed up | Fix / standing rule |
+|---|---|---|---|
+| E1 | **Wrong system count in a pre-registration** | btc_wicks2.py said 48 systems, it ran 96 (forgot the 2 sides) | Count = rules x sides x exits x timeframes x markets; the script prints the real count and the luck bar uses the real cumulative count (276 for BTC wicks) |
+| E2 | **Trusting crypto-Twitter backtests** | "20 of 22 weekly BTC SFPs worked" had no costs, no stops, no out-of-sample | Treat social-media pattern claims as LORE until our own pre-registered test |
+| E3 | **Fading strength in a momentum market** | Shorting BTC's big upper wicks lost in almost every version | Check whether the market trends (BTC, oil) or mean-reverts (US indexes) before using a reversal candle |

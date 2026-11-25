@@ -107,6 +107,34 @@ Duvinage et al. 2013: 0 of 2,047 systems survive a proper multiple-testing test.
 1998; Lu, Chen & Hsu 2015; some Taiwan/China studies) only work with 2-3 day exits, which is the short-term
 reversal effect of section 3, not the patterns themselves. Base rate: ~0-10% of patterns survive strict tests.
 
+
+## 4b. The "John Wick" candle and BTC wicks (2026-11-25)
+
+**What traders mean** [LORE] (notes: `REF_johnwick_btc.md`): crypto slang, no official definition. An unusually
+LARGE wick that pokes through an obvious recent high/low (a "stop hunt" / "liquidity grab") and closes back inside.
+It mixes three older ideas: the **pin bar** (tail >= 2/3 of the range), the **swing failure pattern (SFP)** (sweep a
+prior swing high/low, close back inside) and **Turtle Soup** (Linda Raschke: new 20-day low while the old one is
+>= 4 days old, buy back above it). Wyckoff calls the same thing a **spring** (at a range low) / **upthrust** (high).
+Typical numbers: wick >= 60-67% of the range, >= 2-3x the body, range >= 1-2x ATR(14), sweep of the 10-20-candle
+low/high, stop beyond the wick tip, target 1.5-3R, out in 1-5 candles.
+Why big BTC wicks happen [FACT]: forced liquidations of leveraged perpetual-futures positions (e.g. the 10 Oct 2025
+cascade, > $19B liquidated in 24 hours) push price through levels, then it snaps back. Wicks differ between venues,
+so an Exness BTCUSD wick is not the same as a Binance or Coinbase wick.
+Evidence [ACADEMIC]: no rigorous cost-aware test of John Wick / SFP / Turtle Soup on BTC exists; the famous claims
+are anecdotes. BTC leans to MOMENTUM (Liu & Tsyvinski 2018: a big up day predicts a small further rise), not to
+reversal; short-term reversal shows up mainly in small altcoins. Hour-of-day and weekday return effects did not
+persist (Baur et al. 2019).
+**OURS** (`btc_wicks.py`, `btc_wicks2.py`; 276 systems: John Wick, John Wick + sweep, SFP, Turtle Soup, with the trend,
+small-candle control, liquidation wick (>= 2 x ATR and biggest in 50 candles), pin bar, confirmed sweep; long and
+short; daily 2014-2026, 4-hour and 1-hour 2024-2026; 10 bp a side): **0 pass.** Best t 1.4 (the luck bar is ~3.5).
+- Buying big lower wicks: up some years, down others — no edge. The John Wick is rare (~2 a year on daily candles).
+- SHORTING big upper wicks LOST in almost every version (BTC tends to keep going up after them = momentum).
+- Hourly: costs (~0.1% a side) are bigger than any wick edge; 0 of 30 hourly long versions made money.
+- The "liquidity grab" sweep and a confirmation entry did not fix it.
+**Verdict:** on BTC the John Wick candle is a story, not a tradable edge. The lab's only BTC edge is TREND:
+the 20-day breakout in the 200-day trend's direction, long side only (btc_research/BTC_REPORT.md; +0.3-0.5R a
+trade, fading) — the existing demo ticket (combo/btc_ticket.py, 4:07 am Abu Dhabi).
+
 ## 5. How price rises and falls (what the evidence supports)
 
 - Over days, US stock indexes **mean-revert**: sharp down closes are followed by small bounces (section 3).
@@ -143,5 +171,6 @@ gives the same +36 bp as QQQ; the Exness UTC-midnight candle gives only +19 bp. 
 - Reverse-sign (momentum) versions on USO, BNO, GLD and BTC, counted as extra trials.
 
 ## 8. Change log
+- 2026-11-25: John Wick candle researched and tested on BTC (276 systems, 0 pass); section 4b.
 - 2026-11-25: IBS tested on Exness USTEC-style candles (passes on the futures price; use the US-session candle).
 - 2026-11-25: created from the two research files, candle_study.py (1,248 systems) and the harami neighbour check.

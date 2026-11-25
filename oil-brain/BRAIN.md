@@ -429,3 +429,8 @@ Candles rebuilt from NQ=F; Exness-style costs (1 bp spread a side + 1.7 bp swap 
 - "Exit at the first up close" was worse in 2000-13 but best after 2014 (71% wins): inconsistent, hypothesis only.
 - New forward-only comparison sleeves in ibs_live.py: QQQ_IBS_VOLSIZED and QQQ_IBS_UPCLOSE (main sleeve unchanged).
 - Replay check 2025-01 -> now: QQQ_IBS +14.6% (31 trades, 19 wins), VOLSIZED +7.9%, UPCLOSE +8.8%, SPY -3.2%.
+
+## 2026-11-25 BTC wicks / "John Wick" candle (candles/btc_wicks.py + btc_wicks2.py): 276 systems, 0 pass
+John Wick, sweep, SFP, Turtle Soup, trend-filtered, liquidation wicks, pin bars, confirmed sweeps; long/short;
+D1 2014-2026, H4/H1 2024-2026; 10 bp a side. Best t 1.4 vs luck bar ~3.5. Shorting upper wicks loses (BTC momentum);
+hourly is eaten by costs. The BTC edge remains the long-only 20-day breakout. Details: candles/CANDLES.md section 4b.
