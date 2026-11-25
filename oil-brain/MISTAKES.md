@@ -33,7 +33,7 @@ what went wrong, how it was found, the fix, and the rule that now prevents it. A
 | C1 | **A failed download overwrote good data** | EIA_weekly.csv became empty (xlrd missing) -> oil brain crashed | fetch_eia.py refuses to write a partial download; pip install xlrd in every run |
 | C2 | **A failed AI run blocked its retry** | GLD ticket logged as "error" and then skipped | day_ticket.py replaces failed rows and retries |
 | C3 | **Two jobs sharing one rate limit** | Ticket batch and the evening verdict both on Codestral -> 429 | Run Codestral jobs one after another; per-model throttle |
-| C4 | **Non-reproducible placebo seeds** | smallwins.py seeds the placebo with Python's hash(), which changes per process | New studies use fixed integer seeds (to fix in smallwins.py's next version) |
+| C4 | **Non-reproducible placebo seeds** | smallwins.py seeds the placebo with Python's hash(), which changes per process | FIXED 2026-11-25: fixed integer seeds; the re-run moved 2 setups across p = 0.01, and both then failed the neighbour check — borderline p-values are not evidence |
 
 ## D. Market-knowledge mistakes to avoid
 

@@ -444,3 +444,14 @@ Luck bar t 4.56 (1,988 judged systems). "Right in >= 9/12 markets": 18 groups vs
 2,550 pooled combinations (events averaged by date across markets). 0 pass; best t 2.8 < the ~3.4 expected from luck
 for 1,653 judged combos. Context and weekly candles add nothing. IBS low in an uptrend (3 days) +7 bp, stable in all
 periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 combinations.
+
+## 2026-11-25 morning research run (13:39 UTC)
+- MISTAKES C4 fixed: smallwins.py placebo seeds are now fixed integers; two runs give identical results. With the new
+  seeds 7 setups pass the placebo (was 5): the two new ones (3 down closes on SPY/QQQ, p 0.005) were sitting near the
+  0.01 line. Their neighbour check (smallwins/down_neighbours.py) FAILS: 0-22% of 9 settings on SPY/QQQ/IWM/DIA.
+- OIL, EIA report hour on USO 1h bars (candles/eia_hour.py; 146 Wednesdays, 2023-12 -> 2026-11): continuation,
+  fade, big-move versions and the inventory-surprise rule all FAIL (best t 0.2); no edge after the release hour.
+- IBS by weekday (smallwins/ibs_weekday.py, ONE pre-registered hypothesis from the literature): QQQ IBS trades
+  entered on a MONDAY close beat the rest in both periods (2000-13: +74 vs +23 bp; 2014-26: +48 vs +28 bp), Monday
+  t 2.2 and 2.3 -> HOLDS. A sizing hint only (no new sleeve). Not pre-registered, observation only: Thursday entries
+  were the weakest in both periods (+10 / +5 bp).
