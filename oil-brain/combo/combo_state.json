@@ -4,7 +4,7 @@
   "open": null,
   "pending": null,
   "trades": [],
-  "last_day": "2026-11-23",
+  "last_day": "2026-11-24",
   "equity": 2000
  },
  "GLD_PULLBACK": {
@@ -12,7 +12,7 @@
   "open": null,
   "pending": null,
   "trades": [],
-  "last_day": "2026-11-24",
+  "last_day": "2026-11-25",
   "equity": 2000
  },
  "USO_TURTLE": {
@@ -20,7 +20,7 @@
   "open": null,
   "pending": null,
   "trades": [],
-  "last_day": "2026-11-24",
+  "last_day": "2026-11-25",
   "equity": 2000
  },
  "BTC_BREAKOUT_LONG": {
@@ -28,7 +28,7 @@
   "open": null,
   "pending": null,
   "trades": [],
-  "last_day": "2026-11-23",
+  "last_day": "2026-11-24",
   "equity": 2000
  }
 }

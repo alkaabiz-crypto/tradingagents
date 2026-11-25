@@ -5,41 +5,41 @@
    "cash": -0.6000000000003638,
    "qty": 32.73679637692007,
    "symbol": "IEF",
-   "last_price": 91.63999938964844,
-   "last_date": "2026-11-24",
-   "equity": 2999.4,
+   "last_price": 92.05999755859375,
+   "last_date": "2026-11-25",
+   "equity": 3013.15,
    "target": 1.0,
-   "reason": "3 NYSE trading days left in the month after 2026-11-24"
+   "reason": "2 NYSE trading days left in the month after 2026-11-25"
   },
   "BTC_TREND": {
    "cash": 2500,
    "qty": 0.0,
    "symbol": "BTC-USD",
-   "last_price": 61210.984375,
-   "last_date": "2026-11-23",
+   "last_price": 59747.765625,
+   "last_date": "2026-11-24",
    "equity": 2500.0,
    "target": 0.0,
-   "reason": "28-day return -23.5%"
+   "reason": "28-day return -26.1%"
   },
   "ETH_TREND": {
    "cash": 1500,
    "qty": 0.0,
    "symbol": "ETH-USD",
-   "last_price": 1708.851318359375,
-   "last_date": "2026-11-23",
+   "last_price": 1677.69482421875,
+   "last_date": "2026-11-24",
    "equity": 1500.0,
    "target": 0.0,
-   "reason": "28-day return -26.4%"
+   "reason": "28-day return -28.5%"
   },
   "USO_FOLLOW": {
    "cash": 3000,
    "qty": 0.0,
    "symbol": "USO",
-   "last_price": 135.42999267578125,
-   "last_date": "2026-11-24",
+   "last_price": 139.88999938964844,
+   "last_date": "2026-11-25",
    "equity": 3000.0,
    "target": 0.0,
-   "reason": "no big day in the last 5 sessions (today z +0.51)"
+   "reason": "no big day in the last 5 sessions (today z +1.06)"
   }
  },
  "trades": [
@@ -62,15 +62,23 @@
    "BTC_TREND": 2500.0,
    "ETH_TREND": 1500.0,
    "USO_FOLLOW": 3000.0
+  },
+  {
+   "date": "2026-11-25",
+   "total": 10013.15,
+   "IEF_MONTH_END": 3013.15,
+   "BTC_TREND": 2500.0,
+   "ETH_TREND": 1500.0,
+   "USO_FOLLOW": 3000.0
   }
  ],
- "updated": "2026-11-24 21:40 UTC",
- "total": 9999.4,
+ "updated": "2026-11-25 21:39 UTC",
+ "total": 10013.15,
  "orders": [
-  "IEF_MONTH_END: LONG IEF ~$2,999  [3 NYSE trading days left in the month after 2026-11-24]",
-  "BTC_TREND: FLAT (cash) BTC-USD  [28-day return -23.5%]",
-  "ETH_TREND: FLAT (cash) ETH-USD  [28-day return -26.4%]",
-  "USO_FOLLOW: FLAT (cash) USO  [no big day in the last 5 sessions (today z +0.51)]"
+  "IEF_MONTH_END: LONG IEF ~$3,013  [2 NYSE trading days left in the month after 2026-11-25]",
+  "BTC_TREND: FLAT (cash) BTC-USD  [28-day return -26.1%]",
+  "ETH_TREND: FLAT (cash) ETH-USD  [28-day return -28.5%]",
+  "USO_FOLLOW: FLAT (cash) USO  [no big day in the last 5 sessions (today z +1.06)]"
  ],
- "pnl": -0.6
+ "pnl": 13.15
 }
