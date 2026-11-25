@@ -18,7 +18,12 @@ import pandas as pd, yfinance as yf
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(HERE, "ibs_state.json")
-SLEEVES = {"QQQ_IBS": dict(sym="QQQ", start=2000.0), "SPY_IBS_COMPARE": dict(sym="SPY", start=2000.0)}
+SLEEVES = {"QQQ_IBS": dict(sym="QQQ", start=2000.0), "SPY_IBS_COMPARE": dict(sym="SPY", start=2000.0),
+           # Forward-only comparison sleeves, registered 2026-11-25 after ibs_improve.py (same QQQ signals):
+           #  VOLSIZED: invest min(1, 1% / (ATR14/close)) of the sleeve; cut drawdowns in 2000-13 AND 2014-26.
+           #  UPCLOSE: exit at the first up close (or 5 days); better after 2014 but worse before -> hypothesis only.
+           "QQQ_IBS_VOLSIZED": dict(sym="QQQ", start=2000.0, size="vol"),
+           "QQQ_IBS_UPCLOSE": dict(sym="QQQ", start=2000.0, exit="upclose")}
 COST = 5e-4
 
 
@@ -58,18 +63,25 @@ def main():
             S["last_day"] = str(b.index[-2].date())  # start trading from the latest finished day
         for d in b.index[b.index > pd.Timestamp(S["last_day"])]:
             row = b.loc[d]; v = ibs(row); px = float(row.Close); o = S["open"]
+            prev = b.Close[b.index < d]
             if o:
                 o["days"] += 1
-                if v > 0.5 or o["days"] >= 5:
+                done = (px > float(prev.iloc[-1])) if s.get("exit") == "upclose" else (v > 0.5)
+                if done or o["days"] >= 5:
                     pnl = o["qty"] * (px - o["entry"]) - COST * o["qty"] * (o["entry"] + px)
                     S["cash"] += o["qty"] * o["entry"] + pnl
                     S["trades"].append(dict(opened=o["opened"], closed=str(d.date()), entry=round(o["entry"], 2), exit=round(px, 2),
                                             days=o["days"], pnl=round(pnl, 2), pct=round(pnl / (o["qty"] * o["entry"]), 5),
-                                            why="IBS > 0.5" if v > 0.5 else "5 days"))
+                                            why=("up close" if s.get("exit") == "upclose" else "IBS > 0.5") if done else "5 days"))
                     S["open"] = None
             elif v < 0.2:
-                qty = S["cash"] / px
-                S["open"] = dict(entry=px, qty=qty, opened=str(d.date()), days=0); S["cash"] = 0.0
+                w = 1.0
+                if s.get("size") == "vol":
+                    h = b[b.index <= d]; tr = pd.concat([h.High - h.Low, (h.High - h.Close.shift()).abs(),
+                                                         (h.Low - h.Close.shift()).abs()], axis=1).max(axis=1)
+                    w = min(1.0, 0.01 / (float(tr.rolling(14).mean().iloc[-1]) / px))
+                qty = w * S["cash"] / px
+                S["open"] = dict(entry=px, qty=qty, opened=str(d.date()), days=0, weight=round(w, 3)); S["cash"] -= qty * px
             S["last_day"] = str(d.date())
         last = float(b.Close.iloc[-1]); o = S["open"]
         S["equity"] = round(S["cash"] + (o["qty"] * last if o else 0), 2)

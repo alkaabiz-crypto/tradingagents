@@ -12,5 +12,19 @@
   "trades": [],
   "last_day": "2026-11-24",
   "equity": 2000.0
+ },
+ "QQQ_IBS_VOLSIZED": {
+  "cash": 2000.0,
+  "open": null,
+  "trades": [],
+  "last_day": "2026-11-24",
+  "equity": 2000.0
+ },
+ "QQQ_IBS_UPCLOSE": {
+  "cash": 2000.0,
+  "open": null,
+  "trades": [],
+  "last_day": "2026-11-24",
+  "equity": 2000.0
  }
 }

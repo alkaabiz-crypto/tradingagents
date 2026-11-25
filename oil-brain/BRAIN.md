@@ -419,3 +419,13 @@ Candles rebuilt from NQ=F; Exness-style costs (1 bp spread a side + 1.7 bp swap 
   too few trades to be significant. Exness's own UTC-midnight daily candle is weaker: +19 bp (t 0.7).
 - Lesson: read the IBS on the US-SESSION candle (QQQ, or USTEC's 6:30 pm-1:00 am Abu Dhabi part), not on the
   Exness midnight candle, and trade USTEC just before the US close.
+
+## 2026-11-25 IBS improvement study (smallwins/ibs_improve.py): 80 variants, chosen on 2000-2013 only
+- The 3 versions chosen on 2000-13 (not-in-crash filter, down-day filter, wide-range + close>prior high) all
+  FAILED to beat the plain rule on 2014-26 / NQ futures. The plain rule stays.
+- Robust in BOTH periods: a 2 x ATR stop-loss makes it WORSE (MAR 10.8 -> 7.0 and 13.8 -> 8.5 on NQ), and
+  volatility-scaled size (min(1, 1% / ATR%)) cuts drawdowns (-35% -> -7% in 2000-13; -19% -> -14% after) and the
+  worst trade (-8.2% -> -5.5% of the sleeve), at the price of less total profit.
+- "Exit at the first up close" was worse in 2000-13 but best after 2014 (71% wins): inconsistent, hypothesis only.
+- New forward-only comparison sleeves in ibs_live.py: QQQ_IBS_VOLSIZED and QQQ_IBS_UPCLOSE (main sleeve unchanged).
+- Replay check 2025-01 -> now: QQQ_IBS +14.6% (31 trades, 19 wins), VOLSIZED +7.9%, UPCLOSE +8.8%, SPY -3.2%.

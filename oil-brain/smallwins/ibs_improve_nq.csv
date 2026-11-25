@@ -1,0 +1,81 @@
+sys,name,trades,win,avg_bp,avg_bp_2x,t,worst_bp,worst_sleeve_bp,total,maxdd,MAR
+F0X0S0,no filter / IBS>0.5 / full size,420,0.633,32.1,22.1,3.51,-820,-820,2.576,-0.203,12.69
+F0X0S1,no filter / IBS>0.5 / vol-scaled,420,0.633,32.1,22.1,3.32,-820,-379,0.783,-0.083,9.49
+F0X1S0,no filter / first up close / full size,425,0.689,32.5,22.5,3.42,-1042,-1042,2.656,-0.167,15.93
+F0X1S1,no filter / first up close / vol-scaled,425,0.689,32.5,22.5,3.22,-1042,-511,0.8,-0.08,9.96
+F0X2S0,no filter / close>prior high / full size,360,0.692,38.6,28.6,3.32,-816,-816,2.664,-0.221,12.06
+F0X2S1,no filter / close>prior high / vol-scaled,360,0.692,38.6,28.6,3.11,-816,-732,0.963,-0.105,9.21
+F0X3S0,no filter / 1 day / full size,537,0.518,13.9,3.9,1.88,-619,-619,0.948,-0.223,4.25
+F0X3S1,no filter / 1 day / vol-scaled,537,0.518,13.9,3.9,1.37,-619,-348,0.259,-0.106,2.44
+F0X4S0,no filter / IBS>0.5 + 2ATR stop / full size,438,0.639,28.4,18.4,2.92,-808,-808,2.17,-0.254,8.54
+F0X4S1,no filter / IBS>0.5 + 2ATR stop / vol-scaled,438,0.639,28.4,18.4,2.95,-808,-216,0.726,-0.105,6.91
+F1X0S0,wide-range day / IBS>0.5 / full size,264,0.598,27.5,17.5,2.31,-711,-711,0.965,-0.162,5.97
+F1X0S1,wide-range day / IBS>0.5 / vol-scaled,264,0.598,27.5,17.5,1.89,-711,-379,0.304,-0.092,3.31
+F1X1S0,wide-range day / first up close / full size,267,0.667,23.6,13.6,1.95,-793,-793,0.782,-0.18,4.35
+F1X1S1,wide-range day / first up close / vol-scaled,267,0.667,23.6,13.6,1.53,-793,-472,0.248,-0.099,2.5
+F1X2S0,wide-range day / close>prior high / full size,232,0.642,24.0,14.0,1.64,-853,-853,0.645,-0.209,3.08
+F1X2S1,wide-range day / close>prior high / vol-scaled,232,0.642,24.0,14.0,1.44,-853,-684,0.291,-0.108,2.7
+F1X3S0,wide-range day / 1 day / full size,318,0.503,9.3,-0.7,0.92,-619,-619,0.278,-0.226,1.23
+F1X3S1,wide-range day / 1 day / vol-scaled,318,0.503,9.3,-0.7,0.25,-619,-348,0.027,-0.101,0.26
+F1X4S0,wide-range day / IBS>0.5 + 2ATR stop / full size,278,0.615,26.6,16.6,2.12,-735,-735,0.971,-0.202,4.8
+F1X4S1,wide-range day / IBS>0.5 + 2ATR stop / vol-scaled,278,0.615,26.6,16.6,1.78,-735,-212,0.31,-0.108,2.88
+F2X0S0,narrow-range day / IBS>0.5 / full size,198,0.662,34.5,24.5,2.72,-820,-820,0.917,-0.097,9.47
+F2X0S1,narrow-range day / IBS>0.5 / vol-scaled,198,0.662,34.5,24.5,2.95,-820,-329,0.413,-0.064,6.43
+F2X1S0,narrow-range day / first up close / full size,197,0.695,33.5,23.5,2.4,-1042,-1042,0.859,-0.142,6.04
+F2X1S1,narrow-range day / first up close / vol-scaled,197,0.695,33.5,23.5,2.69,-1042,-511,0.409,-0.094,4.35
+F2X2S0,narrow-range day / close>prior high / full size,187,0.727,37.9,27.9,1.98,-1667,-1667,0.898,-0.198,4.54
+F2X2S1,narrow-range day / close>prior high / vol-scaled,187,0.727,37.9,27.9,2.39,-1667,-732,0.48,-0.086,5.57
+F2X3S0,narrow-range day / 1 day / full size,219,0.539,20.5,10.5,1.92,-456,-456,0.525,-0.094,5.55
+F2X3S1,narrow-range day / 1 day / vol-scaled,219,0.539,20.5,10.5,1.95,-456,-312,0.227,-0.063,3.59
+F2X4S0,narrow-range day / IBS>0.5 + 2ATR stop / full size,200,0.66,27.3,17.3,1.98,-808,-808,0.661,-0.145,4.55
+F2X4S1,narrow-range day / IBS>0.5 + 2ATR stop / vol-scaled,200,0.66,27.3,17.3,2.42,-808,-216,0.344,-0.073,4.72
+F3X0S0,uptrend / IBS>0.5 / full size,326,0.644,27.2,17.2,3.42,-711,-711,1.342,-0.081,16.58
+F3X0S1,uptrend / IBS>0.5 / vol-scaled,326,0.644,27.2,17.2,3.03,-711,-379,0.587,-0.075,7.84
+F3X1S0,uptrend / first up close / full size,326,0.687,24.9,14.9,3.18,-778,-778,1.176,-0.089,13.19
+F3X1S1,uptrend / first up close / vol-scaled,326,0.687,24.9,14.9,2.91,-778,-511,0.558,-0.068,8.26
+F3X2S0,uptrend / close>prior high / full size,277,0.708,35.7,25.7,3.07,-816,-816,1.543,-0.117,13.18
+F3X2S1,uptrend / close>prior high / vol-scaled,277,0.708,35.7,25.7,2.72,-816,-732,0.703,-0.09,7.83
+F3X3S0,uptrend / 1 day / full size,401,0.524,10.5,0.5,1.7,-493,-493,0.478,-0.118,4.05
+F3X3S1,uptrend / 1 day / vol-scaled,401,0.524,10.5,0.5,1.35,-493,-348,0.212,-0.081,2.62
+F3X4S0,uptrend / IBS>0.5 + 2ATR stop / full size,338,0.648,26.2,16.2,3.22,-808,-808,1.329,-0.087,15.2
+F3X4S1,uptrend / IBS>0.5 + 2ATR stop / vol-scaled,338,0.648,26.2,16.2,3.09,-808,-212,0.622,-0.08,7.75
+F4X0S0,high volume / IBS>0.5 / full size,264,0.602,22.6,12.6,1.99,-711,-711,0.736,-0.233,3.16
+F4X0S1,high volume / IBS>0.5 / vol-scaled,264,0.602,22.6,12.6,1.98,-711,-379,0.321,-0.105,3.06
+F4X1S0,high volume / first up close / full size,271,0.672,25.8,15.8,2.26,-793,-793,0.917,-0.237,3.87
+F4X1S1,high volume / first up close / vol-scaled,271,0.672,25.8,15.8,2.35,-793,-472,0.399,-0.111,3.6
+F4X2S0,high volume / close>prior high / full size,235,0.677,32.3,22.3,2.19,-816,-816,1.008,-0.272,3.7
+F4X2S1,high volume / close>prior high / vol-scaled,235,0.677,32.3,22.3,2.07,-816,-732,0.459,-0.127,3.61
+F4X3S0,high volume / 1 day / full size,330,0.527,11.4,1.4,1.21,-619,-619,0.389,-0.209,1.86
+F4X3S1,high volume / 1 day / vol-scaled,330,0.527,11.4,1.4,0.8,-619,-348,0.117,-0.106,1.1
+F4X4S0,high volume / IBS>0.5 + 2ATR stop / full size,275,0.611,17.1,7.1,1.36,-808,-808,0.506,-0.284,1.78
+F4X4S1,high volume / IBS>0.5 + 2ATR stop / vol-scaled,275,0.611,17.1,7.1,1.41,-808,-212,0.239,-0.126,1.9
+F5X0S0,VIX<30 / IBS>0.5 / full size,389,0.632,24.4,14.4,2.98,-820,-820,1.453,-0.205,7.08
+F5X0S1,VIX<30 / IBS>0.5 / vol-scaled,389,0.632,24.4,14.4,2.98,-820,-379,0.643,-0.086,7.48
+F5X1S0,VIX<30 / first up close / full size,393,0.69,23.9,13.9,2.79,-1042,-1042,1.417,-0.208,6.81
+F5X1S1,VIX<30 / first up close / vol-scaled,393,0.69,23.9,13.9,2.89,-1042,-511,0.65,-0.094,6.93
+F5X2S0,VIX<30 / close>prior high / full size,338,0.689,34.6,24.6,3.04,-816,-816,1.982,-0.198,10.02
+F5X2S1,VIX<30 / close>prior high / vol-scaled,338,0.689,34.6,24.6,2.9,-816,-732,0.836,-0.108,7.77
+F5X3S0,VIX<30 / 1 day / full size,491,0.505,3.1,-6.9,0.48,-564,-564,0.106,-0.28,0.38
+F5X3S1,VIX<30 / 1 day / vol-scaled,491,0.505,3.1,-6.9,0.6,-564,-348,0.092,-0.126,0.73
+F5X4S0,VIX<30 / IBS>0.5 + 2ATR stop / full size,401,0.633,18.7,8.7,2.18,-735,-735,0.995,-0.257,3.87
+F5X4S1,VIX<30 / IBS>0.5 + 2ATR stop / vol-scaled,401,0.633,18.7,8.7,2.49,-735,-216,0.54,-0.108,5.0
+F6X0S0,down day / IBS>0.5 / full size,410,0.629,31.2,21.2,3.33,-820,-820,2.33,-0.203,11.48
+F6X0S1,down day / IBS>0.5 / vol-scaled,410,0.629,31.2,21.2,3.05,-820,-379,0.694,-0.09,7.73
+F6X1S0,down day / first up close / full size,410,0.68,28.7,18.7,2.96,-1042,-1042,1.993,-0.198,10.06
+F6X1S1,down day / first up close / vol-scaled,410,0.68,28.7,18.7,2.68,-1042,-511,0.613,-0.096,6.39
+F6X2S0,down day / close>prior high / full size,354,0.686,38.4,28.4,3.26,-816,-816,2.555,-0.221,11.57
+F6X2S1,down day / close>prior high / vol-scaled,354,0.686,38.4,28.4,3.01,-816,-732,0.912,-0.105,8.72
+F6X3S0,down day / 1 day / full size,521,0.509,10.6,0.6,1.41,-619,-619,0.608,-0.253,2.41
+F6X3S1,down day / 1 day / vol-scaled,521,0.509,10.6,0.6,0.8,-619,-348,0.134,-0.116,1.16
+F6X4S0,down day / IBS>0.5 + 2ATR stop / full size,427,0.635,26.4,16.4,2.67,-808,-808,1.824,-0.254,7.18
+F6X4S1,down day / IBS>0.5 + 2ATR stop / vol-scaled,427,0.635,26.4,16.4,2.61,-808,-216,0.613,-0.107,5.71
+F7X0S0,not in crash / IBS>0.5 / full size,391,0.632,23.3,13.3,3.0,-711,-711,1.372,-0.163,8.4
+F7X0S1,not in crash / IBS>0.5 / vol-scaled,391,0.632,23.3,13.3,2.93,-711,-379,0.616,-0.081,7.64
+F7X1S0,not in crash / first up close / full size,395,0.686,22.9,12.9,2.85,-784,-784,1.347,-0.148,9.09
+F7X1S1,not in crash / first up close / vol-scaled,395,0.686,22.9,12.9,2.83,-784,-511,0.62,-0.074,8.33
+F7X2S0,not in crash / close>prior high / full size,334,0.695,33.8,23.8,2.99,-816,-816,1.871,-0.164,11.4
+F7X2S1,not in crash / close>prior high / vol-scaled,334,0.695,33.8,23.8,2.83,-816,-732,0.812,-0.093,8.77
+F7X3S0,not in crash / 1 day / full size,489,0.515,5.1,-4.9,0.81,-619,-619,0.225,-0.198,1.13
+F7X3S1,not in crash / 1 day / vol-scaled,489,0.515,5.1,-4.9,0.81,-619,-348,0.13,-0.104,1.24
+F7X4S0,not in crash / IBS>0.5 + 2ATR stop / full size,406,0.635,17.8,7.8,2.09,-808,-808,0.94,-0.23,4.1
+F7X4S1,not in crash / IBS>0.5 + 2ATR stop / vol-scaled,406,0.635,17.8,7.8,2.46,-808,-212,0.534,-0.099,5.39
