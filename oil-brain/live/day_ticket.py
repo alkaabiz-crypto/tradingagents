@@ -112,34 +112,59 @@ def make(tickers):
         print(text[:700] if rating else f"TradingAgents could not run: {text}")
 
 
+def outcome(b, a, sgn):
+    """The fixed rule on one daily bar: (exit, result, pct net of costs, R)."""
+    e = float(b.Open); stop = e - sgn * 0.5 * a; tgt = e + sgn * a
+    hit_stop = (b.Low <= stop) if sgn > 0 else (b.High >= stop)
+    hit_tgt = (b.High >= tgt) if sgn > 0 else (b.Low <= tgt)
+    x, res = (stop, "stop") if hit_stop else (tgt, "target") if hit_tgt else (float(b.Close), "close")
+    pct = sgn * (x / e - 1) - 2 * COST
+    return e, stop, tgt, x, res, pct, pct * e / (0.5 * a)
+
+
 def score():
-    rows = read_log(); done = []
+    rows = read_log(); done = []; cache = {}
+
+    def session_bar(r):
+        if r["ticker"] not in cache:
+            cache[r["ticker"]] = bars(r["ticker"], "1y")
+        nxt = cache[r["ticker"]][cache[r["ticker"]].index > pd.Timestamp(r["made"])]
+        return None if nxt.empty else (nxt.index[0], nxt.iloc[0])
+
     for r in rows:
         if r["result"] != "open":
             continue
-        df = bars(r["ticker"], "3mo"); nxt = df[df.index > pd.Timestamp(r["made"])]
-        if nxt.empty:
+        sb = session_bar(r)
+        if sb is None:
             continue
-        b = nxt.iloc[0]; a = float(r["atr"]); sgn = 1 if r["side"] == "LONG" else -1
-        e = float(b.Open); stop = e - sgn * 0.5 * a; tgt = e + sgn * a
-        hit_stop = (b.Low <= stop) if sgn > 0 else (b.High >= stop)
-        hit_tgt = (b.High >= tgt) if sgn > 0 else (b.Low <= tgt)
-        x, res = (stop, "stop") if hit_stop else (tgt, "target") if hit_tgt else (float(b.Close), "close")
-        pct = sgn * (x / e - 1) - 2 * COST
-        r.update(session=str(nxt.index[0].date()), entry=round(e, 4), stop=round(stop, 4), target=round(tgt, 4),
-                 exit=round(x, 4), result=res, R=round(pct * e / (0.5 * a), 3), pct=round(pct, 5))
+        day, b = sb; sgn = 1 if r["side"] == "LONG" else -1
+        e, stop, tgt, x, res, pct, R = outcome(b, float(r["atr"]), sgn)
+        r.update(session=str(day.date()), entry=round(e, 4), stop=round(stop, 4), target=round(tgt, 4),
+                 exit=round(x, 4), result=res, R=round(R, 3), pct=round(pct, 5))
         done.append(r)
     write_log(rows)
     for r in done:
         print(f"{r['session']} {r['ticker']} {r['side']}: {r['result']} -> {float(r['R']):+.2f}R ({float(r['pct']):+.2%})")
-    closed = [float(r["R"]) for r in rows if r["R"] not in ("", None)]
-    if closed:
-        m = np.mean(closed); s = np.std(closed, ddof=1) if len(closed) > 1 else float("nan")
-        t = m / (s / np.sqrt(len(closed))) if len(closed) > 1 and s > 0 else float("nan")
-        print(f"All closed tickets: {len(closed)}, mean {m:+.2f}R, t {t:.2f}, win rate "
-              f"{np.mean([x > 0 for x in closed]):.0%} (pass bar: >= 60 tickets, t >= 2, beats coin-flip direction)")
-    elif not done:
+    closed = [r for r in rows if r["R"] not in ("", None)]
+    if not closed:
         print("No closed tickets yet.")
+        return
+    ai = np.array([float(r["R"]) for r in closed])
+    # Fair comparisons on the SAME ticker-days (added 2026-11-25 at the user's request; the rule is unchanged):
+    # ALWAYS LONG = the same ticket but always a buy; COIN FLIP = the AI's sides shuffled at random.
+    longR, shortR = [], []
+    for r in closed:
+        b = session_bar(r)[1]; a = float(r["atr"])
+        longR.append(outcome(b, a, 1)[6]); shortR.append(outcome(b, a, -1)[6])
+    longR, shortR = np.array(longR), np.array(shortR)
+    rng = np.random.default_rng(0)
+    flips = np.array([np.where(rng.random(len(ai)) < 0.5, longR, shortR).mean() for _ in range(1000)])
+    p = float((flips >= ai.mean()).mean())
+    s = ai.std(ddof=1) if len(ai) > 1 else float("nan")
+    t = ai.mean() / (s / np.sqrt(len(ai))) if len(ai) > 1 and s > 0 else float("nan")
+    print(f"All closed tickets: {len(ai)}, AI mean {ai.mean():+.2f}R (t {t:.2f}, win rate {np.mean(ai > 0):.0%}) | "
+          f"always-long {longR.mean():+.2f}R | coin flip {flips.mean():+.2f}R, AI beats it in {1 - p:.0%} of shuffles (p {p:.2f})")
+    print("Pass bar: >= 60 tickets, t >= 2, coin-flip p < 0.05. Also watch: does the AI beat always-long?")
 
 
 if __name__ == "__main__":
