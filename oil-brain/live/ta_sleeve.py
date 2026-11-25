@@ -165,7 +165,7 @@ def main():
             if rating:
                 if rating in TARGET:
                     st["target"][ticker] = TARGET[rating]
-                msg = f"TradingAgents verdict on {ticker} for {d}: {rating} -> target {st['target'][ticker]:+.1f} x ${SLOT:,.0f}"
+                msg = f"TradingAgents verdict on {ticker} for {d}: {rating} -> target {st['target'][ticker]:+.1f} x ${SLOT:,.0f} [{info}]"
                 if not dry:
                     new = not os.path.exists(LOG)
                     with open(LOG, "a", newline="") as f:

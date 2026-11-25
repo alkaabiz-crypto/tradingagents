@@ -4,11 +4,11 @@
    "strategy": "Month-end Treasuries",
    "symbol": "IEF",
    "start_usd": 3000,
-   "equity_usd": 2999.4,
-   "pnl_usd": -0.6,
+   "equity_usd": 3013.15,
+   "pnl_usd": 13.15,
    "position": "Long",
-   "reason": "3 NYSE trading days left in the month after 2026-11-24",
-   "price_date": "2026-11-24"
+   "reason": "2 NYSE trading days left in the month after 2026-11-25",
+   "price_date": "2026-11-25"
   },
   {
    "strategy": "Bitcoin trend",
@@ -17,8 +17,8 @@
    "equity_usd": 2500.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "28-day return -23.5%",
-   "price_date": "2026-11-23"
+   "reason": "28-day return -26.1%",
+   "price_date": "2026-11-24"
   },
   {
    "strategy": "Ether trend",
@@ -27,8 +27,8 @@
    "equity_usd": 1500.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "28-day return -26.4%",
-   "price_date": "2026-11-23"
+   "reason": "28-day return -28.5%",
+   "price_date": "2026-11-24"
   },
   {
    "strategy": "Follow big oil days",
@@ -37,34 +37,34 @@
    "equity_usd": 3000.0,
    "pnl_usd": 0.0,
    "position": "Cash",
-   "reason": "no big day in the last 5 sessions (today z +0.51)",
-   "price_date": "2026-11-24"
+   "reason": "no big day in the last 5 sessions (today z +1.06)",
+   "price_date": "2026-11-25"
   },
   {
    "strategy": "TradingAgents verdicts (long-only)",
    "symbol": "SPY QQQ NVDA XLE GLD",
    "start_usd": 5000,
-   "equity_usd": 4999.5,
-   "pnl_usd": -0.5,
+   "equity_usd": 4992.46,
+   "pnl_usd": -7.54,
    "position": "Long",
-   "reason": "targets: QQQ +1.0; buy-and-hold $5,000",
-   "price_date": "2026-11-24"
+   "reason": "targets: QQQ +1.0, NVDA +1.0; buy-and-hold $4,965",
+   "price_date": "2026-11-25"
   },
   {
    "strategy": "TradingAgents verdicts (long/short)",
    "symbol": "SPY QQQ NVDA XLE GLD",
    "start_usd": 5000,
-   "equity_usd": 4999.5,
-   "pnl_usd": -0.5,
+   "equity_usd": 4992.46,
+   "pnl_usd": -7.54,
    "position": "Long",
-   "reason": "targets: QQQ +1.0; buy-and-hold $5,000",
-   "price_date": "2026-11-24"
+   "reason": "targets: QQQ +1.0, NVDA +1.0; buy-and-hold $4,965",
+   "price_date": "2026-11-25"
   }
  ],
  "meta": [
   {
    "label": "Paper book updated",
-   "value": "2026-11-24 21:40 UTC"
+   "value": "2026-11-25 21:39 UTC"
   },
   {
    "label": "Started",
