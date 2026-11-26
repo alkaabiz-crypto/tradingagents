@@ -547,3 +547,10 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
 - Filters (ADX>20/25, RSI not stretched, volume up, Bollinger width up, MACD agrees, near SMA50, no shock day): every
   one cuts return more than risk; none helps. Skipping days throws away the big trend days that pay for the rule.
 - Reading: the plain 50-day trend is already the useful part; extra indicators repeat it or remove good days.
+
+## 2026-11-26 — Crypto trend DEMO ticket started (live/crypto_trend_ticket.py)
+- Frozen rule: BTCUSD + ETHUSD, half the balance each, direction = yesterday's close vs SMA50, entry at the UTC open,
+  stop 0.5 ATR (0.35 ATR logged as a shadow), size x min(1, 2%/ATR%), close at midnight UTC. Paper P&L with Exness
+  Standard costs. Ticket every day at 00:11 UTC (4:11 am Abu Dhabi); AI verdict for the next day logged at 18:07 UTC.
+- AI check pre-registered in the script: after >= 60 coin-days, agree-days vs disagree-days, shuffle p < 0.05 and a
+  higher Sharpe from skipping disagree-days, or the AI stays unused.
