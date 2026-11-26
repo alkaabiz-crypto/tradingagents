@@ -15,3 +15,6 @@ made,ticker,rating,side,atr,model
 2026-02-09,QQQ,Buy,LONG,10.73,mistral codestral+ministral14b
 2026-02-09,NVDA,Sell,SHORT,6.7114,mistral codestral+ministral14b
 2026-03-23,XOM,Hold,NONE,3.8593,mistral codestral+ministral14b
+2026-03-23,USO,Sell,SHORT,9.5421,mistral codestral+ministral14b
+2026-03-23,SPY,Sell,SHORT,10.3557,mistral codestral+ministral14b
+2026-03-23,QQQ,Sell,SHORT,10.5636,mistral codestral+ministral14b
