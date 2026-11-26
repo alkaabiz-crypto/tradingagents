@@ -516,3 +516,16 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   but worse early. Neighbours (stop 0.35-0.75, trend 20-100d) all stay positive: the base is not a knife-edge.
 - First fix recorded (1 bug, no effect on the rule): the last, still-open day was NaN -> dropped. (A pre-run smoke test
   would have caught it: E7.)
+
+## 2026-11-26 — Honest optimisation of the crypto trend day trade (live/crypto_trend_opt.py, 72 settings)
+- Grid: coins (BTC / +ETH / +SOL) x signal (SMA50 / 4-trend ensemble) x stop (0.35/0.5/0.75 ATR) x size (full/vol)
+  x candle confirm (close location). Walk-forward: each year picks the best Sharpe on earlier data only.
+- 2018-2026 out of sample: walk-forward +41%/yr, drop -15%, Sharpe 1.9 > base (BTC full size: +103%/yr, drop -41%,
+  Sharpe 1.6) on risk, BUT the simple FIXED "vol-sized BTC+ETH, SMA50, stop 0.5" did better: +60%/yr, drop -15%,
+  Sharpe 2.1. 2022+: fixed Sharpe 1.6, walk-forward 1.5, base 1.0.
+- Every walk-forward pick used vol sizing, stop 0.35 and NO candle filter: vol sizing and diversifying are robust;
+  the close-location candle confirm never helped; ensemble vs SMA50 flips (no real difference).
+- Deflated Sharpe of the full-sample best = 1.00 even at N = 1,100 (daily Sharpe ~2.6 over ~11 years).
+- Lesson: re-optimising adds nothing over a simple fixed rule chosen for reasons (vol sizing + 2 coins). Keep it simple.
+- Open risks: backtest stops fill at the stop + 2 bp; real crypto crashes can slip far more; Yahoo prices are not
+  Exness's BTCUSD/ETHUSD feed; the edge has shrunk since 2021. Needs a forward demo record.
