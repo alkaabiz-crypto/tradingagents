@@ -466,3 +466,12 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   10,000 -> FAILS the 0.95 bar. Caveats: the rule came from the literature (not blind search), held in 2000-13 and on
   NQ futures, and the 144 trials are correlated (fewer effective trials). Reading: the edge is PLAUSIBLE, NOT PROVEN.
   It stays a paper/demo sleeve; the forward record decides.
+
+## 2026-11-26 — Day ticket v2: all 200 versions of the ticket rule (live/day_ticket_v2.py)
+- 5 stops (0.5-2 ATR, none) x 5 targets (0.5-2 ATR, none) x 8 directions (long, short, coin flip, yesterday, fade,
+  trend, IBS, trend-dip), 17 markets pooled, 2006-2026, 5 bp a side. Pre-registered and committed before the run.
+- Result: 0 of 200 versions make money in both 2014-19 and 2020+; PASS 0. Best (IBS direction, no stop, no target,
+  i.e. open to close) still -6 bp a trade after costs. v1 (stop 0.5 / target 1) is -8 to -12 bp in every direction.
+- Why: from the open to the close US stocks/ETFs earn only ~+1 bp a day gross, less than the 10 bp round-trip cost.
+  The stop/target size cannot fix that. Lesson: a next-open day trade needs a real direction edge of > 10 bp a day;
+  simple rules don't have it. The AI back-run (running) is the only thing left that could add direction skill.

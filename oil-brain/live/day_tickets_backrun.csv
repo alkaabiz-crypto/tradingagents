@@ -1,2 +1,13 @@
 made,ticker,rating,side,atr,model
 2026-01-06,XOM,Sell,SHORT,2.2386,mistral codestral+ministral14b
+2026-01-06,USO,Sell,SHORT,1.3986,mistral codestral+ministral14b
+2026-01-06,SPY,Underweight,SHORT,5.2571,mistral codestral+ministral14b
+2026-01-06,QQQ,Buy,LONG,6.83,mistral codestral+ministral14b
+2026-01-06,NVDA,Buy,LONG,5.0314,mistral codestral+ministral14b
+2026-01-08,XOM,Buy,LONG,2.3693,mistral codestral+ministral14b
+2026-01-08,USO,Sell,SHORT,1.415,mistral codestral+ministral14b
+2026-01-08,SPY,Underweight,SHORT,4.7164,mistral codestral+ministral14b
+2026-01-08,QQQ,Sell,SHORT,6.2322,mistral codestral+ministral14b
+2026-01-08,NVDA,Overweight,LONG,5.0064,mistral codestral+ministral14b
+2026-02-09,XOM,Hold,NONE,3.4114,mistral codestral+ministral14b
+2026-02-09,USO,Sell,SHORT,2.3221,mistral codestral+ministral14b
