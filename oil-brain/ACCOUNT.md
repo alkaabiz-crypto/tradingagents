@@ -16,5 +16,5 @@ Set 2026-11-26 by the user: "put in mind the costs for each trade and the swap f
 - US ETFs / stocks tested on Yahoo data map to Exness CFDs (QQQ -> USTEC, SPY -> US500, XLE/USO -> USOIL, GLD -> XAUUSD,
   BTC-USD -> BTCUSD); stock CFD spreads are wider than index spreads.
 - Swap-free means multi-day holds (e.g. QQQ IBS, up to 5 days) carry no extra cost, an advantage over normal accounts.
-- Crypto trend demo ticket: the user set **$400 total** ($200 per coin, BTCUSD + ETHUSD) on 2026-11-26.
+- Crypto trend demo ticket: the user set **$700 total** ($350 per coin, BTCUSD + ETHUSD) on 2026-11-26.
 - Exness minimum volume: **0.01 lot** (user, 2026-11-26). Contract size assumed 1 coin per lot for BTCUSD / ETHUSD until checked.
