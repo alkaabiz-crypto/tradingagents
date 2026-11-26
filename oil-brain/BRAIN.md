@@ -539,3 +539,11 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   trades, uptrend only, ~0%/day. Same days, trend day trade: BTC +0.07%/day, ETH +0.13%/day.
 - Lesson: in crypto, buying dips and selling fast fights the trend and pays the spread on every trade. Fewer,
   trend-following trades win (matches E3: crypto trends, it doesn't mean-revert).
+
+## 2026-11-26 — 15 classic indicators on the crypto trend day trade (live/crypto_indicators.py): none helps
+- Base BTC+ETH SMA50, stop 0.5, vol sized: Sharpe 3.17 (2014-21) / 1.67 (2022+).
+- Direction swaps (MACD, 20d range, +DI/-DI, Heikin-Ashi, EMA20/50, RSI>50, ROC20): none better in both periods;
+  DI and RSI>50 are about equal (same idea: trend), MACD/EMA/ROC/Heikin-Ashi worse recently.
+- Filters (ADX>20/25, RSI not stretched, volume up, Bollinger width up, MACD agrees, near SMA50, no shock day): every
+  one cuts return more than risk; none helps. Skipping days throws away the big trend days that pay for the rule.
+- Reading: the plain 50-day trend is already the useful part; extra indicators repeat it or remove good days.
