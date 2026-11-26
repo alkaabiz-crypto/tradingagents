@@ -484,3 +484,10 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   +8.5 bp a trade, t 2.5, 100% of grid neighbours OK. Mostly silver (SI +8.7 bp, t 2.9); oil +5 bp (t 0.9), gas +4 bp
   (t 0.5). A LEAD, not an edge: 800 tries, below the bar. Crypto TREND +14 bp but fails 2x cost and the 2nd half.
 - Big movers did not help by themselves: the move is bigger but direction is still a coin flip after costs.
+
+## 2026-11-26 — Unseen-metals check of the futures IBS lead (live/day_ticket_metals.py): FAIL
+- Fixed rule (IBS direction, stop 0.5 ATR, out at the close) on gold, copper, platinum, palladium futures, 2014+.
+- Pooled +2.7 bp a trade, t 1.64; 1st half -0.1 bp, 2nd half +5.6; negative at 2x cost; random-direction placebo
+  p 0.43. Gold -2.2, copper +4.7 (t 2.1), platinum +1.7, palladium +7.1 (all from shorts, noisy).
+- Verdict: the silver/futures lead was luck from 800 tries. No paper sleeve. Day tickets stay as they are; the only
+  open question is the AI back-run (direction skill).
