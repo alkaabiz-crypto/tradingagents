@@ -506,3 +506,13 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   rising market, not the direction call.
 - Caveats: found after 1,000+ tries and after the cost assumption changed; needs real Exness BTCUSD spread and
   stop slippage in fast moves. Next: a forward paper test only.
+
+## 2026-11-26 — What helps the BTC trend day trade? (live/btc_trend_improve.py, 9 variants, Exness costs)
+- Base (BTC, trend 50d, stop 0.5 ATR, out at the UTC close): 2014-21 +0.40%/day, worst drop -41%; 2022+ +0.12%/day,
+  +42%/yr, worst drop -41%, Sharpe 1.0.
+- HELPS (better return/drop in both periods, Sharpe not lower recently): VOL SIZING (size = min(1, 2%/ATR%)):
+  2022+ worst drop -20% (was -41%), Sharpe 1.4, +37%/yr; and BTC+ETH 50/50: 2022+ +57%/yr, drop -32%, Sharpe 1.2.
+- Did NOT help: long only, fewer shorts, skipping weekends, stop 0.75, trend 20d/100d. Stop 0.35 was better recently
+  but worse early. Neighbours (stop 0.35-0.75, trend 20-100d) all stay positive: the base is not a knife-edge.
+- First fix recorded (1 bug, no effect on the rule): the last, still-open day was NaN -> dropped. (A pre-run smoke test
+  would have caught it: E7.)

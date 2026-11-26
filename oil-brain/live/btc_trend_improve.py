@@ -37,8 +37,8 @@ def daily(sym, look=50, k=0.5, mode="both", size=False, weekend=True):
     cost = np.where(s != 0, costs.round_trip(sym, False) + np.where(hit, costs.STOP_SLIPPAGE_BP / 1e4, 0), 0)
     w = np.minimum(1.0, 0.02 / (f.a / f.O)).values if size else np.ones(len(f))
     r = pd.Series(w * (g - cost), index=f.index + pd.Timedelta(days=1))   # P&L lands on the trade day
-    if not weekend: r[r.index.dayofweek >= 5] = 0.0
-    return r
+    if not weekend: r[r.index.day_of_week >= 5] = 0.0
+    return r.dropna()
 
 
 def stats(r):
