@@ -6,7 +6,7 @@ rule as a daily demo ticket, with the TradingAgents AI logged next to it). FROZE
     size = half the balance x min(1, 2% / ATR%), no target, close at the UTC close (midnight UTC).
   Costs (paper P&L): costs.py, Exness Standard swap-free = spread + stop slippage, no commission, no swap.
 Commands:
-  python3 oil-brain/live/crypto_trend_ticket.py ticket [--balance 700]   # score past days + today's ticket (00:07 UTC)
+  python3 oil-brain/live/crypto_trend_ticket.py ticket [--balance 3400]   # score past days + today's ticket (00:07 UTC)
   python3 oil-brain/live/crypto_trend_ticket.py ai                        # AI verdict for TOMORROW (run ~18:07 UTC)
   python3 oil-brain/live/crypto_trend_ticket.py score                     # paper record + AI agree/disagree split
 AI check (pre-registered): after >= 60 scored coin-days, compare the rule's P&L on days the AI AGREED with the
@@ -117,5 +117,5 @@ def score(short=False):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["ticket", "ai", "score"]); ap.add_argument("--balance", type=float, default=700)
+    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["ticket", "ai", "score"]); ap.add_argument("--balance", type=float, default=3400)
     a = ap.parse_args(); {"ticket": lambda: ticket(a.balance), "ai": ai, "score": score}[a.cmd]()
