@@ -491,3 +491,16 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   p 0.43. Gold -2.2, copper +4.7 (t 2.1), platinum +1.7, palladium +7.1 (all from shorts, noisy).
 - Verdict: the silver/futures lead was luck from 800 tries. No paper sleeve. Day tickets stay as they are; the only
   open question is the AI back-run (direction skill).
+
+## 2026-11-26 — Cost check: the user's Exness Standard swap-free account (live/day_ticket_costs.py)
+- Standard = no commission, cost is the spread; swap-free and same-day trades = no swap. Re-scored all 1,000 versions
+  at a round trip of 0, 2, 5 and 10 bp (luck bar t >= 4.42 for 1,000).
+- Ticket markets (v2), futures, leveraged ETFs, high-vol stocks: NONE clears the bar even at ZERO cost. Their losses
+  are a direction problem, not a cost problem.
+- CRYPTO clears it: TREND direction (long above the 50-day average, short below), stop 0.5 ATR, no target, out at
+  the UTC day close: +34 bp a day gross, t 7.4; 12 versions clear at 0 cost, 2 still at 10 bp. Per coin: BTC +31 bp
+  (t 7.1), ETH +33 (t 5.2), SOL +28 (t 2.7); both halves positive (+44 / +24, shrinking); beats random direction
+  (p 0.000). BUT always-long with the same 0.5 ATR stop makes +29 bp: most of it is the tight stop on a trending,
+  rising market, not the direction call.
+- Caveats: found after 1,000+ tries and after the cost assumption changed; needs real Exness BTCUSD spread and
+  stop slippage in fast moves. Next: a forward paper test only.
