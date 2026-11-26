@@ -1,8 +1,21 @@
 made,session,ticker,rating,side,atr,entry,stop,target,exit,result,R,pct,model
-2026-11-24,,XOM,Sell,SHORT,3.9195,,,,,open,,,codestral
-2026-11-24,,CVX,Buy,LONG,4.8707,,,,,open,,,codestral
-2026-11-24,,USO,Buy,LONG,4.6847,,,,,open,,,codestral
-2026-11-24,,SPY,Buy,LONG,17.6493,,,,,open,,,codestral
-2026-11-24,,QQQ,Buy,LONG,24.3614,,,,,open,,,codestral
-2026-11-24,,LLY,Buy,LONG,43.3229,,,,,open,,,codestral
-2026-11-24,,GLD,Underweight,SHORT,8.2821,,,,,open,,,mistral codestral+ministral14b
+2026-11-24,2026-11-25,XOM,Sell,SHORT,3.9195,158.12,160.0797,154.2005,158.08,close,-0.06,-0.00075,codestral
+2026-11-24,2026-11-25,CVX,Buy,LONG,4.8707,208.0,205.5647,212.8707,210.95,close,1.126,0.01318,codestral
+2026-11-24,2026-11-25,USO,Buy,LONG,4.6847,137.78,135.4376,142.4647,139.89,close,0.842,0.01431,codestral
+2026-11-24,2026-11-25,SPY,Buy,LONG,17.6493,703.2,694.3754,720.8493,716.7,close,1.45,0.0182,codestral
+2026-11-24,2026-11-25,QQQ,Buy,LONG,24.3614,617.1,604.9193,641.4614,633.93,close,1.331,0.02627,codestral
+2026-11-24,2026-11-25,LLY,Buy,LONG,43.3229,1405.0,1383.3385,1448.3229,1383.3385,stop,-1.065,-0.01642,codestral
+2026-11-24,2026-11-25,GLD,Underweight,SHORT,8.2821,318.01,322.1511,309.7279,322.1511,stop,-1.077,-0.01402,mistral codestral+ministral14b
+2026-11-25,,XOM,Buy,LONG,3.5147,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,CVX,Sell,SHORT,4.5057,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,COP,Sell,SHORT,3.7057,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,OXY,Sell,SHORT,1.6218,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,XLE,Buy,LONG,1.3943,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,USO,Buy,LONG,4.7539,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,SPY,Sell,SHORT,16.88,,,,,open,,,mistral ministral14b
+2026-11-25,,QQQ,Hold,NONE,23.3214,,,,,no trade,,,mistral codestral+ministral14b
+2026-11-25,,IWM,Sell,SHORT,6.2343,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,GLD,Sell,SHORT,8.8707,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,SLV,Sell,SHORT,1.8303,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,LLY,Buy,LONG,40.0343,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,NVDA,Buy,LONG,15.8321,,,,,open,,,mistral codestral+ministral14b
