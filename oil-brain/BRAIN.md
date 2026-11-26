@@ -554,3 +554,11 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   Standard costs. Ticket every day at 00:11 UTC (4:11 am Abu Dhabi); AI verdict for the next day logged at 18:07 UTC.
 - AI check pre-registered in the script: after >= 60 coin-days, agree-days vs disagree-days, shuffle p < 0.05 and a
   higher Sharpe from skipping disagree-days, or the AI stays unused.
+
+## 2026-11-26 — Risk fixes for the crypto demo ticket (live/crypto_risk_fixes.py)
+- Stop slippage stress (2/10/25/50 bp): 2022+ Sharpe 1.59 / 1.32 / 0.84 / 0.07. The edge survives normal slippage but
+  is gone if every stop slips 0.5%. -> measure the real demo fills.
+- Half size (1% vol): worst drop halves (-8% 2022+), same Sharpe, half the profit (needs ~$6,800 for 0.01 lot BTC).
+- Drawdown brake (half size while > 10% below peak): does NOT help (worse recent Sharpe). Not used.
+- Kill switch added to crypto_trend_ticket.py score: stop and review if the demo is > 15% below its peak, or after
+  60 coin-days the average day is below 0.

@@ -104,6 +104,13 @@ def score(short=False):
     D["pnl"] = D.pnl.astype(float); D["pnl_shadow035"] = D.pnl_shadow035.astype(float)
     print(f"Crypto trend demo record: {len(D)} coin-days, P&L ${D.pnl.sum():+,.2f} (0.35 ATR shadow ${D.pnl_shadow035.sum():+,.2f}), "
           f"win {np.mean(D.pnl > 0):.0%}; last day: " + ", ".join(f"{r.coin} {r.side} {r.result} ${float(r.pnl):+.2f}" for r in D[D.day == D.day.max()].itertuples()))
+    # KILL SWITCH (pre-registered 2026-11-26 in crypto_risk_fixes.py): stop and review if the demo is > 15% below its
+    # peak, or after 60 coin-days the average is below 0.
+    eq = 3400 + D.groupby("day").pnl.sum().cumsum(); dd = float((eq / eq.cummax().clip(lower=3400) - 1).min())
+    if dd < -0.15 or (len(D) >= 60 and D.pnl.mean() < 0):
+        print(f"KILL SWITCH: STOP the crypto demo ticket and review (worst drop {dd:.0%}, {len(D)} coin-days, mean ${D.pnl.mean():+.2f})")
+    else:
+        print(f"Kill switch OK (worst drop {dd:.0%} vs -15% limit; {len(D)}/60 coin-days)")
     A = pd.DataFrame(read(AILOG))
     if short or A.empty: return
     M = D.merge(A.rename(columns={"for_day": "day"}), on=["day", "coin"]); M = M[M.ai_side.isin(["LONG", "SHORT"])]
