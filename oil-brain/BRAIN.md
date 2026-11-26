@@ -529,3 +529,13 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
 - Lesson: re-optimising adds nothing over a simple fixed rule chosen for reasons (vol sizing + 2 coins). Keep it simple.
 - Open risks: backtest stops fill at the stop + 2 bp; real crypto crashes can slip far more; Yahoo prices are not
   Exness's BTCUSD/ETHUSD feed; the edge has shrunk since 2021. Needs a forward demo record.
+
+## 2026-11-26 — Crypto: ATR length, and "buy low, sell fast, many times" (live/crypto_atr_scalp.py)
+- A) ATR 7 / 14 / 30 days barely matters (Sharpe within ~0.1). A TIGHTER stop, 0.35 ATR, was a bit better in both
+  periods at every ATR length (2022+ Sharpe 1.80 vs 1.59 at 0.5; drop -15% either way), and every walk-forward pick
+  chose it. Small gain; a tighter stop is hit more often, so real slippage costs more. Candidate, not a must.
+- B) Dip-buy scalp grid on hourly bars (2 years, 36 versions, buy at open - x ATR, sell at + y ATR, re-buy many
+  times): 0 of 36 make money; the MORE trades a day, the WORSE (1.2 trades/day: -0.23 to -0.36%/day). Best = rare
+  trades, uptrend only, ~0%/day. Same days, trend day trade: BTC +0.07%/day, ETH +0.13%/day.
+- Lesson: in crypto, buying dips and selling fast fights the trend and pays the spread on every trade. Fewer,
+  trend-following trades win (matches E3: crypto trends, it doesn't mean-revert).
