@@ -74,7 +74,7 @@ def dates():
     import yfinance as yf
     cal = yf.Ticker("SPY").history(start="2026-01-05", end="2026-11-21").index.tz_localize(None).normalize()
     rng = np.random.default_rng(52)
-    return sorted(str(x.date()) for x in rng.choice(cal, size=16, replace=False))
+    return sorted(str(pd.Timestamp(x).date()) for x in rng.choice(cal, size=16, replace=False))
 
 
 def part2():
