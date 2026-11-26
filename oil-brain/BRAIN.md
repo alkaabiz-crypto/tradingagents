@@ -475,3 +475,12 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
 - Why: from the open to the close US stocks/ETFs earn only ~+1 bp a day gross, less than the 10 bp round-trip cost.
   The stop/target size cannot fix that. Lesson: a next-open day trade needs a real direction edge of > 10 bp a day;
   simple rules don't have it. The AI back-run (running) is the only thing left that could add direction skill.
+
+## 2026-11-26 — Day ticket v3: the 200 versions on markets that move a lot (live/day_ticket_v3.py)
+- Crypto (BTC, ETH, SOL), leveraged ETFs (TQQQ, SOXL, UPRO, TNA), high-vol stocks (TSLA, AMD, COIN, MSTR, PLTR, SMCI),
+  futures (CL, NG, SI). 800 systems, luck bar t >= 4.37. Pre-registered and committed before the run.
+- 27 versions are positive in both halves and at 2x cost, all in FUTURES; best t = 3.1; PASS 0 (none near the bar).
+- Best lead: FUTURES + IBS direction (buy after a close near the low, sell after a close near the high), stop 0.5 ATR,
+  +8.5 bp a trade, t 2.5, 100% of grid neighbours OK. Mostly silver (SI +8.7 bp, t 2.9); oil +5 bp (t 0.9), gas +4 bp
+  (t 0.5). A LEAD, not an edge: 800 tries, below the bar. Crypto TREND +14 bp but fails 2x cost and the 2nd half.
+- Big movers did not help by themselves: the move is bigger but direction is still a coin flip after costs.

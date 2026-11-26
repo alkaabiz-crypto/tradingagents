@@ -11,3 +11,4 @@ made,ticker,rating,side,atr,model
 2026-01-08,NVDA,Overweight,LONG,5.0064,mistral codestral+ministral14b
 2026-02-09,XOM,Hold,NONE,3.4114,mistral codestral+ministral14b
 2026-02-09,USO,Sell,SHORT,2.3221,mistral codestral+ministral14b
+2026-02-09,SPY,Buy,LONG,8.24,mistral codestral+ministral14b
