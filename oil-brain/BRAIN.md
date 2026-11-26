@@ -1,5 +1,7 @@
 # Oil brain: what we know about the US oil market, and what we tested
 
+> **Account (always):** Exness Standard, swap-free: no commission, no swap, cost = spread only. See ACCOUNT.md and costs.py.
+
 A living memory. Every run reads this first and adds to it. Facts carry a source; results carry
 the date, the script and the verdict. Nothing is deleted: a failed idea stays, so it is not
 retried by accident.
