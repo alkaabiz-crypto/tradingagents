@@ -73,6 +73,10 @@ def ticket(balance):
             print(f"{ex}: {'BUY' if s > 0 else 'SELL'} at market now (~{c:,.2f}); {c:,.2f} vs 50-day avg {sma:,.2f}; "
                   f"size ${notional:,.0f} ({w:.0%} of ${balance / 2:,.0f}); stop {c - s * 0.5 * atr:,.2f} "
                   f"(0.5 ATR = {0.5 * atr:,.2f} from the open); no target; close at midnight UTC (4:00 am Abu Dhabi)")
+            # Exness: min volume 0.01 lot (user, 2026-11-26); contract size assumed 1 coin per lot (check Specification)
+            raw = notional / c; lots = max(0.01, round(raw, 2)); real = lots * c
+            note = "" if raw >= 0.005 else f"  <- BELOW the 0.01 minimum: 0.01 lot = ${real:,.0f}, {real / notional:.1f}x the rule's size"
+            print(f"   volume {lots:.2f} lot (~${real:,.0f}); loss if stopped ~${lots * 0.5 * atr:,.2f}{note}")
     write(rows); score(short=True)
 
 
