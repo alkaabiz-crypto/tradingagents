@@ -19,3 +19,7 @@ made,session,ticker,rating,side,atr,entry,stop,target,exit,result,R,pct,model
 2026-11-25,,SLV,Sell,SHORT,1.8303,,,,,open,,,mistral codestral+ministral14b
 2026-11-25,,LLY,Buy,LONG,40.0343,,,,,open,,,mistral codestral+ministral14b
 2026-11-25,,NVDA,Buy,LONG,15.8321,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,AAPL,Buy,LONG,8.0286,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,MSFT,Buy,LONG,17.0529,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,AMZN,Buy,LONG,10.4614,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,,TSLA,Buy,LONG,20.0493,,,,,open,,,mistral codestral+ministral14b
