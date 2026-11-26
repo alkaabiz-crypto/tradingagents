@@ -49,3 +49,4 @@ what went wrong, how it was found, the fix, and the rule that now prevents it. A
 | E3 | **Fading strength in a momentum market** | Shorting BTC's big upper wicks lost in almost every version | Check whether the market trends (BTC, oil) or mean-reverts (US indexes) before using a reversal candle |
 | E4 | **Printing crashed after the results were saved** | wide_study.py: `judged` was copied before the PASS column existed -> KeyError | Re-take filtered views after adding columns; save results before printing (it did, so nothing was lost) |
 | E5 | **The verdict did not say which AI model made it** | 2026-11-25 NVDA verdict: log had no model name (Mistral or the Gemini fallback?) | ta_sleeve.py now prints the model label with every verdict |
+| E6 | **A placebo p of 0.000 made the QQQ IBS edge look certain** | Deflated Sharpe (counting trials, fat tails) gives only 0.77 | Report the deflated Sharpe next to every placebo p; call an edge "proven" only if DSR >= 0.95 |

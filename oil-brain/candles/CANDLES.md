@@ -279,10 +279,11 @@ gives the same +36 bp as QQQ; the Exness UTC-midnight candle gives only +19 bp. 
   (Monday entries +74/+48 bp vs +23/+28 bp for other days, both periods; ibs_weekday.py) — a sizing hint.
 - IBS on US500 (SPY failed its neighbour check) and on USTEC with the user's real Exness fills.
 - DONE 2026-11-25: USO 1h around the EIA report (eia_hour.py, 146 reports): no edge in any of 5 rules.
-- Deflated Sharpe (Bailey & López de Prado) on every candle family.
-- Reverse-sign (momentum) versions on USO, BNO, GLD and BTC, counted as extra trials.
+- DONE 2026-11-26: deflated Sharpe on QQQ IBS: 0.77 at 144 trials (fails 0.95) -> plausible, not proven (smallwins/deflated_sharpe.py).
+- DONE 2026-11-26: momentum versions on oil, metals, BTC, ETH (270 systems): 0 pass; crypto strength-following best (t 2.8).
 
 ## 8. Change log
+- 2026-11-26: momentum reverse-sign test and deflated Sharpe on QQQ IBS (plausible, not proven).
 - 2026-11-25 (morning run): EIA-hour oil test (fail), IBS Monday effect (holds), section 7 updated.
 - 2026-11-25: WIDE test, 51 markets x daily/weekly x 5 contexts (2,550 pooled combos, 0 pass); section 4d.
 - 2026-11-25: all 61 TA-Lib patterns tested (5,856 systems, 0 pass); section 4c.

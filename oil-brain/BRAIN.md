@@ -455,3 +455,14 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
   entered on a MONDAY close beat the rest in both periods (2000-13: +74 vs +23 bp; 2014-26: +48 vs +28 bp), Monday
   t 2.2 and 2.3 -> HOLDS. A sizing hint only (no new sleeve). Not pre-registered, observation only: Thursday entries
   were the weakest in both periods (+10 / +5 bp).
+
+## 2026-11-26 morning research run (13:39 UTC, Thanksgiving)
+- Small-trade MOMENTUM, the reverse-sign test (smallwins/momentum_small.py): 5 strength/weakness signals x long/short x
+  holds 1/3/5 x 9 markets (oil, metals, BTC, ETH) = 270 systems, luck bar t 4.12: 0 pass. Oil: nothing. Crypto:
+  buying strength (RSI2 > 90, 20-day breakout) made money in ETH/BTC in every period (best t 2.8) — consistent with
+  crypto momentum research, but not proven; raw returns include crypto's own drift.
+- DEFLATED SHARPE (Bailey & Lopez de Prado 2014) for the live QQQ IBS sleeve (smallwins/deflated_sharpe.py):
+  436 trades, Sharpe 0.164 a trade, kurtosis 9.4 (fat tails). DSR 0.77 at N = 144 trials, 0.56 at 1,000, 0.33 at
+  10,000 -> FAILS the 0.95 bar. Caveats: the rule came from the literature (not blind search), held in 2000-13 and on
+  NQ futures, and the 144 trials are correlated (fewer effective trials). Reading: the edge is PLAUSIBLE, NOT PROVEN.
+  It stays a paper/demo sleeve; the forward record decides.
