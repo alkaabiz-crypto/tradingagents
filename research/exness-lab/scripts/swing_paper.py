@@ -1,6 +1,6 @@
 """Paper ledger for the Batch 30-35 passes (frozen 2026-11-27). Rules exactly as backtested, entered at the close.
 Index rules use ETF proxies (USTEC = QQQ x 41, US500 = SPY x 10, US30 = DIA x 100) and enter at the US close (~15:55 NY);
-crypto rules use UTC daily bars rebuilt from hourly. Lots: USTEC 0.05, US500 0.14, US30 0.1 (unverified), BTC 0.01, ETH 0.1 (unverified).
+crypto rules use UTC daily bars rebuilt from hourly. Lots: USTEC 0.05, US500 0.14, US30 0.01 (per an Exness partner page, unverified), BTC 0.01, ETH 0.1 (unverified).
 Cost per round trip: USTEC 1.4 bp, US500 1.6 bp, US30 1.3 bp, BTC $6.40, ETH 5 bp, charged when a position opens.
 Prints JSON: rows (one per strategy per day it holds a position or signals) from START, plus each strategy's action at the last close."""
 import json, sys, os, urllib.request, numpy as np, pandas as pd
@@ -28,7 +28,7 @@ def r3(c):
         out.append(pos)
     return np.array(out, float)
 idx = {"QQQ": get("QQQ"), "SPY": get("SPY"), "DIA": get("DIA")}
-MULT = {"QQQ": 41 * 0.05, "SPY": 10 * 0.14, "DIA": 100 * 0.1}; BP = {"QQQ": 1.4, "SPY": 1.6, "DIA": 1.3}; NM = {"QQQ": "USTEC", "SPY": "US500", "DIA": "US30"}
+MULT = {"QQQ": 41 * 0.05, "SPY": 10 * 0.14, "DIA": 100 * 0.01}; BP = {"QQQ": 1.4, "SPY": 1.6, "DIA": 1.3}; NM = {"QQQ": "USTEC", "SPY": "US500", "DIA": "US30"}
 def ibs(d): return ((d.close - d.low) / (d.high - d.low)).values < 0.2
 def wr(d): return (-100 * (d.high.rolling(10).max() - d.close) / (d.high.rolling(10).max() - d.low.rolling(10).min())).values < -90
 S = [("IBS USTEC", "QQQ", hold(ibs(idx["QQQ"]), 2)), ("IBS US30", "DIA", hold(ibs(idx["DIA"]), 2)), ("IBS US500", "SPY", hold(ibs(idx["SPY"]), 2)),
