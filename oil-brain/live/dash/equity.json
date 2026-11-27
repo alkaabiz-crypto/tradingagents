@@ -15,12 +15,20 @@
    "BTC_TREND": 2500.0,
    "ETH_TREND": 1500.0,
    "USO_FOLLOW": 3000.0
+  },
+  {
+   "date": "2026-11-27",
+   "total": 10000.05,
+   "IEF_MONTH_END": 3000.05,
+   "BTC_TREND": 2500.0,
+   "ETH_TREND": 1500.0,
+   "USO_FOLLOW": 3000.0
   }
  ],
  "meta": [
   {
    "label": "Paper book updated",
-   "value": "2026-11-25 21:39 UTC"
+   "value": "2026-11-27 21:40 UTC"
   },
   {
    "label": "Started",
