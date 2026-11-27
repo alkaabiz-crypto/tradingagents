@@ -44,21 +44,21 @@
    "strategy": "TradingAgents verdicts (long-only)",
    "symbol": "SPY QQQ NVDA XLE GLD",
    "start_usd": 5000,
-   "equity_usd": 4992.46,
-   "pnl_usd": -7.54,
+   "equity_usd": 5027.33,
+   "pnl_usd": 27.33,
    "position": "Long",
-   "reason": "targets: QQQ +1.0, NVDA +1.0; buy-and-hold $4,965",
-   "price_date": "2026-11-25"
+   "reason": "targets: QQQ +1.0, NVDA +1.0; buy-and-hold $5,050",
+   "price_date": "2026-11-27"
   },
   {
    "strategy": "TradingAgents verdicts (long/short)",
    "symbol": "SPY QQQ NVDA XLE GLD",
    "start_usd": 5000,
-   "equity_usd": 4992.46,
-   "pnl_usd": -7.54,
+   "equity_usd": 5027.08,
+   "pnl_usd": 27.08,
    "position": "Long",
-   "reason": "targets: QQQ +1.0, NVDA +1.0; buy-and-hold $4,965",
-   "price_date": "2026-11-25"
+   "reason": "targets: QQQ +1.0, NVDA +1.0, GLD -0.5; buy-and-hold $5,050",
+   "price_date": "2026-11-27"
   }
  ],
  "meta": [
