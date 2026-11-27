@@ -562,3 +562,14 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
 - Drawdown brake (half size while > 10% below peak): does NOT help (worse recent Sharpe). Not used.
 - Kill switch added to crypto_trend_ticket.py score: stop and review if the demo is > 15% below its peak, or after
   60 coin-days the average day is below 0.
+
+## 2026-11-27 — Overnight hold, close to next open, swap-free (smallwins/overnight.py, 30 systems): 0 PASS
+- Idea: most index returns come overnight (Kelly & Clark 2011; Lou, Polk & Skouras 2019); the user's swap-free
+  account pays no financing, so a nightly hold costs only the spread. Luck bar t >= 3.59 for 30.
+- OIL: no. USO, XLE, XOM, CVX lose overnight in every version (USO -3 to +0 bp a night, XOM -8 to -12 bp).
+- Leads (positive in both periods and at 2x cost, 100% of neighbours, but below the bar): QQQ above its 200-day
+  average +4.2 bp a night (t 3.2, win 57%); SPY after a weak close +5.4 bp (t 2.7); QQQ after a weak close +5.5 bp
+  (t 2.2); GLD every night +3.2 bp (t 2.3). Small, frequent wins with a positive average, not yet proven.
+- Note: IWM was charged the 10 bp stock-CFD spread (no US2000 mapping in costs.py); its losses are mostly that cost.
+- Next: the QQQ/SPY overnight leads overlap the QQQ IBS sleeve (weak close, entry at the close); a combined forward
+  check is the honest next step, not more searching.
