@@ -21,6 +21,27 @@ changes the TradingAgents package itself.
 - It made money in each of 2000-13, 2014-19, 2020-23 and 2024-now (`batch15_overnight_variants.py`).
 - Crash-period drops at 0.05 lot were between $89 and $248 (`batch10_stress.py`).
 
+## Swing and indicator candidates (Batches 30-35)
+
+These passed the same bar, at minimum lots, 2024-now. They are not yet paper-traded.
+
+| Candidate | 2024-now | Worst drop | Family |
+|---|---|---|---|
+| IBS < 0.2 at the close, hold 2 days, USTEC 0.05 (0 losing years of 13) | +$421 | -$161 | Index dip-buy |
+| IBS < 0.2, hold 2 days, US30 | +$332 | -$128 | Index dip-buy |
+| IBS < 0.2, hold 2 days, US500 0.14 | +$263 | -$112 | Index dip-buy |
+| %R(10) < -90, hold 2 days, USTEC | +$420 | -$50 | Index dip-buy |
+| Connors R3, US500 | +$110 | -$63 | Index dip-buy |
+| %R(10) < -90, hold 2 days, US500 | +$206 | -$60 | Index dip-buy |
+| 10-day low close, hold 3 days, US500 (4 losing years) | +$284 | -$80 | Index dip-buy |
+| BTC TRIX(15) above its signal, 0.01 lot | +$480 | -$208 | Crypto trend |
+| ETH close above SMA50, 0.1 ETH | +$256 | -$177 | Crypto trend |
+| ETH NR4 breakout (corr 0.68 with BTC NR4) | | | Crypto breakout |
+| Gold turn of month, 1 oz (needs ~$2,000+) | +$1,118 | -$387 | Gold calendar |
+
+- Batch 35 swept 41 indicators and candle patterns over 394 tests. Each rule was compared with 500 random-timing copies of itself, with a Benjamini-Hochberg FDR cut.
+- Only crypto trend rules beat random timing. The index indicators were just riding the market's rise, and the candle patterns failed.
+
 ## What failed
 
 About 600 rule/market tests were run. These failed:
