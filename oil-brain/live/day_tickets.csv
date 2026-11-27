@@ -6,20 +6,20 @@ made,session,ticker,rating,side,atr,entry,stop,target,exit,result,R,pct,model
 2026-11-24,2026-11-25,QQQ,Buy,LONG,24.3614,617.1,604.9193,641.4614,633.93,close,1.331,0.02627,codestral
 2026-11-24,2026-11-25,LLY,Buy,LONG,43.3229,1405.0,1383.3385,1448.3229,1383.3385,stop,-1.065,-0.01642,codestral
 2026-11-24,2026-11-25,GLD,Underweight,SHORT,8.2821,318.01,322.1511,309.7279,322.1511,stop,-1.077,-0.01402,mistral codestral+ministral14b
-2026-11-25,,XOM,Buy,LONG,3.5147,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,CVX,Sell,SHORT,4.5057,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,COP,Sell,SHORT,3.7057,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,OXY,Sell,SHORT,1.6218,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,XLE,Buy,LONG,1.3943,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,USO,Buy,LONG,4.7539,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,SPY,Sell,SHORT,16.88,,,,,open,,,mistral ministral14b
+2026-11-25,2026-11-27,XOM,Buy,LONG,3.5147,159.765,158.0076,163.2797,160.18,close,0.145,0.0016,mistral codestral+ministral14b
+2026-11-25,2026-11-27,CVX,Sell,SHORT,4.5057,213.14,215.3928,208.6343,212.45,close,0.212,0.00224,mistral codestral+ministral14b
+2026-11-25,2026-11-27,COP,Sell,SHORT,3.7057,136.37,138.2228,132.6643,138.2228,stop,-1.074,-0.01459,mistral codestral+ministral14b
+2026-11-25,2026-11-27,OXY,Sell,SHORT,1.6218,54.445,55.2559,52.8232,54.17,close,0.272,0.00405,mistral codestral+ministral14b
+2026-11-25,2026-11-27,XLE,Buy,LONG,1.3943,61.58,60.8829,62.9743,61.67,close,0.041,0.00046,mistral codestral+ministral14b
+2026-11-25,2026-11-27,USO,Buy,LONG,4.7539,139.98,137.603,144.7339,137.603,stop,-1.059,-0.01798,mistral codestral+ministral14b
+2026-11-25,2026-11-27,SPY,Sell,SHORT,16.88,725.86,734.3,708.98,728.32,close,-0.377,-0.00439,mistral ministral14b
 2026-11-25,,QQQ,Hold,NONE,23.3214,,,,,no trade,,,mistral codestral+ministral14b
-2026-11-25,,IWM,Sell,SHORT,6.2343,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,GLD,Sell,SHORT,8.8707,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,SLV,Sell,SHORT,1.8303,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,LLY,Buy,LONG,40.0343,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,NVDA,Buy,LONG,15.8321,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,AAPL,Buy,LONG,8.0286,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,MSFT,Buy,LONG,17.0529,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,AMZN,Buy,LONG,10.4614,,,,,open,,,mistral codestral+ministral14b
-2026-11-25,,TSLA,Buy,LONG,20.0493,,,,,open,,,mistral codestral+ministral14b
+2026-11-25,2026-11-27,IWM,Sell,SHORT,6.2343,271.82,274.9372,265.5857,273.79,close,-0.719,-0.00825,mistral codestral+ministral14b
+2026-11-25,2026-11-27,GLD,Sell,SHORT,8.8707,333.22,337.6554,324.3493,334.4,close,-0.341,-0.00454,mistral codestral+ministral14b
+2026-11-25,2026-11-27,SLV,Sell,SHORT,1.8303,39.565,40.4801,37.7347,39.4,close,0.137,0.00317,mistral codestral+ministral14b
+2026-11-25,2026-11-27,LLY,Buy,LONG,40.0343,1387.98,1367.9628,1428.0143,1392.38,close,0.15,0.00217,mistral codestral+ministral14b
+2026-11-25,2026-11-27,NVDA,Buy,LONG,15.8321,151.94,144.024,167.7721,150.49,close,-0.202,-0.01054,mistral codestral+ministral14b
+2026-11-25,2026-11-27,AAPL,Buy,LONG,8.0286,358.44,354.4257,366.4686,358.54,close,-0.064,-0.00072,mistral codestral+ministral14b
+2026-11-25,2026-11-27,MSFT,Buy,LONG,17.0529,499.485,490.9585,516.5379,490.9585,stop,-1.059,-0.01807,mistral codestral+ministral14b
+2026-11-25,2026-11-27,AMZN,Buy,LONG,10.4614,250.45,245.2193,260.9114,254.12,close,0.654,0.01365,mistral codestral+ministral14b
+2026-11-25,2026-11-27,TSLA,Buy,LONG,20.0493,391.33,381.3053,411.3793,400.0,close,0.826,0.02116,mistral codestral+ministral14b
