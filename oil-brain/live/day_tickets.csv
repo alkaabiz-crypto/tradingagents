@@ -23,3 +23,16 @@ made,session,ticker,rating,side,atr,entry,stop,target,exit,result,R,pct,model
 2026-11-25,2026-11-27,MSFT,Buy,LONG,17.0529,499.485,490.9585,516.5379,490.9585,stop,-1.059,-0.01807,mistral codestral+ministral14b
 2026-11-25,2026-11-27,AMZN,Buy,LONG,10.4614,250.45,245.2193,260.9114,254.12,close,0.654,0.01365,mistral codestral+ministral14b
 2026-11-25,2026-11-27,TSLA,Buy,LONG,20.0493,391.33,381.3053,411.3793,400.0,close,0.826,0.02116,mistral codestral+ministral14b
+2026-11-27,,XOM,Hold,NONE,3.5068,,,,,no trade,,,gemini
+2026-11-27,,CVX,Hold,NONE,4.4514,,,,,no trade,,,gemini
+2026-11-27,,COP,Hold,NONE,3.6521,,,,,no trade,,,gemini
+2026-11-27,,OXY,Hold,NONE,1.5615,,,,,no trade,,,gemini
+2026-11-27,,XLE,error,NONE,1.3932,,,,,no trade,,,none
+2026-11-27,,USO,Hold,NONE,4.7536,,,,,no trade,,,gemini
+2026-11-27,,SPY,Hold,NONE,17.1114,,,,,no trade,,,gemini
+2026-11-27,,QQQ,Hold,NONE,23.3186,,,,,no trade,,,gemini
+2026-11-27,,IWM,error,NONE,6.2864,,,,,no trade,,,none
+2026-11-27,,GLD,error,NONE,8.9229,,,,,no trade,,,none
+2026-11-27,,SLV,error,NONE,1.9564,,,,,no trade,,,none
+2026-11-27,,LLY,error,NONE,38.4071,,,,,no trade,,,none
+2026-11-27,,NVDA,error,NONE,15.3529,,,,,no trade,,,none
