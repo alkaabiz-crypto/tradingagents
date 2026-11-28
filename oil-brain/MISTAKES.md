@@ -25,6 +25,7 @@ what went wrong, how it was found, the fix, and the rule that now prevents it. A
 | B3 | **Horizon mismatch** | AI gave 6-12 month plans when the user wanted daily trades | Day tickets pass a next-session mandate through the portfolio context |
 | B4 | **Free-model limits** | Gemini daily quota gone after 1-2 runs; Groq 8k tokens/min too small; Mistral Small/Medium 0 requests | Mistral Codestral (deep) + Ministral 14B (quick), throttled per model, Gemini fallback |
 | B5 | **Agents run blind when data fails** | Yahoo 429 -> fundamentals analyst had no data | Say so in the report; prefer free SEC EDGAR fundamentals; add Alpha Vantage if the user gets a key |
+| B6 | **Both free AIs failed at once** | 2026-11-27/28: Ministral 14B returned 429 "Rate limit exceeded" (code 1300) even with no other job running, so calls fell to Gemini; then Gemini's daily quota ran out too -> the 2026-11-28 day-ticket batch and crypto AI check logged "error" | An "error" is logged as NONE (no call), never as a trade; retry after the daily reset; report how many calls failed |
 
 ## C. Engineering mistakes
 
