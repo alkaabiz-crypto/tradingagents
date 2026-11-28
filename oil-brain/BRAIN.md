@@ -370,13 +370,13 @@ Neither is a 1-3 day trading edge.
    allowed (2026-11-24); refresh with fetch_cot.py.
 3. ~~Diversified commodity trend + carry~~ done (study 6): FAIL, whipsaw 2014-2019.
 4. ~~Extreme-day fades, Brent-WTI, crack spread~~ done (study 7): FAIL.
-5. Energy equities: XLE/XOP vs oil (beta-hedged residual momentum), daily.
+5. ~~Energy equities: XLE/XOP vs oil (beta-hedged residual momentum), daily~~ done 2026-11-28 (smallwins/energy_residual.py): FAIL.
 6. ~~OPEC cut drift~~ untestable (too few events); ~~gas storage report~~ done (study 10): FAIL.
 7. ~~Check momentum candidates for crash dependence~~ done (study 3): crash-driven.
 8. ~~EIA 10:30 Wednesday reaction~~ done (study 4); ~~EIA-day intraday momentum~~ done (study 5).
 9. ~~Basis-momentum on USO/USL~~ done (study 5): positive, not significant.
 
-**Rules tried so far: 74** (oil brain; the tournament adds ~2,930) (study 1: 9, study 2: 14, study 4: 4, study 5: 9, study 6: 4,
+**Rules tried so far: 134** (+60 energy residual, 2026-11-28) (oil brain; the tournament adds ~2,930) (study 1: 9, study 2: 14, study 4: 4, study 5: 9, study 6: 4,
 study 7: 7, study 8: 5, study 9: 2, study 10: 3, study 11: 6, study 12: 7, study 13: 4; study 3 re-scored old rules). At this count, a couple of t = 2 results are expected by chance alone.
 
 ## 2026-11-25 Oil DCA study (dca/dca_study.py, dca/dca_neighbours.py, notes in dca/RESEARCH_NOTES.md)
@@ -573,3 +573,11 @@ periods, 70% of markets, t 2.6 — real but tiny. Candle tests so far: ~9,930 co
 - Note: IWM was charged the 10 bp stock-CFD spread (no US2000 mapping in costs.py); its losses are mostly that cost.
 - Next: the QQQ/SPY overnight leads overlap the QQQ IBS sleeve (weak close, entry at the close); a combined forward
   check is the honest next step, not more searching.
+
+## 2026-11-28 — Energy stocks vs oil, beta-hedged residual (smallwins/energy_residual.py, 60 systems): 0 PASS
+Idea queue 5. XOM, CVX, COP, OXY, XLE, XOP hedged with USO (60-day past-only beta). 1-day and 5-day residual reversal
+(hold 1 or 3 days) and 20-day residual momentum (hold 5), both sides; costs = stock CFD 10 bp + beta x USOIL 5 bp.
+Luck bar t >= 3.76 for 60. Best: COP 1-day reversal long, +43 bp a trade post-2014 but t 1.16 (7 trades a year);
+only 2 of 60 cleared the basic period/cost gates, none came near the bar. Pattern: buying the stock after it LAGS oil
+(long residual) is mostly positive since 2020 but lost in 2014-19, so it is not stable. Shorting after it runs ahead,
+and residual momentum, do nothing. Verdict: FAIL, no paper sleeve. Rules tried: 134.
