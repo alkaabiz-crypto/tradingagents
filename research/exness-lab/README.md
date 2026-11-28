@@ -71,3 +71,38 @@ Breakouts only work on BTC (`batch26_breakouts.py`).
 - The price CSVs are not committed. Rebuild them from Yahoo into `data/` (daily) and `intraday/` (hourly and 5m), then run scripts from the lab root.
 
 These are backtests, not guarantees, and not financial advice. Demo first.
+
+## Candle and oil brains (Batches 47-54, Nov 28)
+
+The repo now has two deterministic "brains" in `tradingagents/analytics/`: `candles.py` (patterns read in context:
+trend vs the 200-day, location at a 10/20-day low or high, range vs ATR, plus point-in-time history of what followed
+each pattern on that instrument) and `oil.py` (WTI trend, curve/roll-yield estimate, Brent-WTI, 3-2-1 crack, OVX,
+oil-CAD link, energy stocks vs oil). The market analyst agent calls them through the `get_candle_patterns` and
+`get_oil_context` tools (`tests/test_brains.py`). The lab scripts import the same modules.
+
+About 770 tests, each with 300-2,000 random-timing shifts and a Benjamini-Hochberg cut:
+- Candle brain (`batch47`, `batch51`, `batch53`): the only robust edge is the day breakout (inside bar, NR4/NR7) on
+  crypto. It holds on most coins, with low correlation between coins (0.1-0.4) and with Plan A.
+- Two data artifacts were caught and rejected. Yahoo spot-FX bars made FX reversal rules look great (they vanish on CME
+  futures bars). Nikkei index breakouts looked great on ^N225, but fail on the tradable ETF 1321.T and on futures,
+  because the cash index opens stale. FTSE/ASX opens are copies of the prior close, and platinum/palladium bars are flat.
+- Oil brain (`batch48`): all 20 rules fail (carry, trend, crack, Brent-WTI pair, OVX, EIA Wednesday, seasonality, CAD link).
+- Walk-forward ridge "brain score" over candle, indicator and oil features (`batch49`): fails on all 13 markets.
+
+Final list (`batch54_final10.csv`). Only 9 meet every bar; BTC TRIX vol-sized fails the drop bar:
+
+| Candidate | 2024+ %/yr on $3k | Worst drop | Max corr Plan A |
+|---|---|---|---|
+| ETH ID/NR4 breakout, 0.5 ETH | 8.5 | -$125 | 0.36 |
+| XRP Williams breakout, $500 | 8.1 | -$242 | 0.36 |
+| ADA NR4 breakout, $500 | 6.5 | -$200 | 0.26 |
+| USTEC overnight, 0.05 | 4.4 | -$286 (since 2014) | 0.19 |
+| XRP NR7 breakout, $500 | 4.2 | -$150 | 0.18 |
+| XLM NR7 breakout, $500 | 3.7 | -$252 | 0.21 |
+| DOGE inside-bar breakout, $500 | 2.0 | -$275 | 0.14 |
+| Connors R3 US500, 0.14 | 1.7 | -$84 | 0.43 |
+| Turnaround Tuesday USTEC, 0.05 | 0.6 | -$120 (since 2014) | 0.21 |
+
+- Six of the nine are one idea (crypto breakouts). Most alt breakouts are slightly negative in 2026.
+- Exness lots and spreads for the alt coins are not verified. The tests assume 20 bp; every alt rule stays positive up to 80 bp.
+- Paper: `brains_paper.py` (from Nov 28).

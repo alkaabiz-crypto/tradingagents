@@ -12,6 +12,7 @@ from langgraph.prebuilt import InjectedState
 from tradingagents.dataflows.date_window import as_of, as_of_window
 from tradingagents.dataflows.errors import NoMarketDataError, VendorUnavailableError
 from tradingagents.dataflows.router import no_data_available, route_to_vendor, vendor_unavailable
+from tradingagents.dataflows.vendors.yahoo.brains import build_candle_report, build_oil_report
 from tradingagents.dataflows.vendors.yahoo.snapshot import build_verified_market_snapshot
 
 
@@ -90,6 +91,52 @@ def get_verified_market_snapshot(
         return build_verified_market_snapshot(symbol, as_of(curr_date, trade_date), look_back_days)
     except VendorUnavailableError as exc:
         return vendor_unavailable("get_verified_market_snapshot", exc)
+    except NoMarketDataError as exc:
+        return no_data_available(exc)
+
+
+@tool
+def get_candle_patterns(
+    symbol: Annotated[str, InjectedState("company_of_interest")],
+    curr_date: Annotated[str, "the current trading date, YYYY-mm-dd"],
+    horizon_days: Annotated[int, "forward horizon, in trading days, for the historical stats"] = 2,
+    trade_date: Annotated[str, InjectedState("trade_date")] = "",
+) -> str:
+    """Candle brain: candlestick patterns on the latest daily bar, read in context.
+
+    Names each pattern on the last bar on or before curr_date (hammer, engulfing,
+    inside bar, NR4/NR7, key reversal, and others), the bar's context (trend vs the
+    200-day average, location at a 10/20-day low or high, narrow or wide range), and
+    what followed the same pattern on this instrument's own history up to that bar:
+    signal count, average forward move, hit rate and a t-statistic against the base
+    rate. Treat a pattern as evidence only when it has enough past signals and |t| >= 2.
+    """
+    try:
+        horizon = max(1, min(int(horizon_days), 10))
+        return build_candle_report(symbol, as_of(curr_date, trade_date), horizon)
+    except VendorUnavailableError as exc:
+        return vendor_unavailable("get_candle_patterns", exc)
+    except NoMarketDataError as exc:
+        return no_data_available(exc)
+
+
+@tool
+def get_oil_context(
+    curr_date: Annotated[str, "the current trading date, YYYY-mm-dd"],
+    trade_date: Annotated[str, InjectedState("trade_date")] = "",
+) -> str:
+    """Oil brain: the state of the crude market on or before curr_date.
+
+    WTI trend and momentum, realised volatility, an estimate of the futures curve
+    (backwardation or contango), the Brent-WTI spread, the 3-2-1 crack spread, the
+    OVX oil-volatility index, the oil/Canadian-dollar link and energy stocks versus
+    oil. Useful for energy names, oil-linked currencies and inflation-sensitive
+    markets. Descriptive gauges, not a forecast.
+    """
+    try:
+        return build_oil_report(as_of(curr_date, trade_date))
+    except VendorUnavailableError as exc:
+        return vendor_unavailable("get_oil_context", exc)
     except NoMarketDataError as exc:
         return no_data_available(exc)
 
