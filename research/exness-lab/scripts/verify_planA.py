@@ -24,8 +24,8 @@ btc, eth = cdaily("BTC-USD"), cdaily("ETH-USD")
 legs = {}
 c = spy.close; sig = (c <= c.rolling(10).min()).values; pos = np.zeros(len(c)); left = 0
 for i in range(len(c)):
+    if sig[i]: left = 3  # signal day counts: buy at its close, hold 3 closes (as researched in Batch 36/38)
     pos[i] = 1 if left > 0 else 0; left -= 1 if left > 0 else 0
-    if sig[i]: left = 3
 p = pd.Series(pos, index=c.index).shift().fillna(0); legs["10-day low US500"] = p * c.diff().fillna(0) * 10 * 0.14 - (p.diff() > 0) * 0.40 * 0.14
 def brk(d, kind):
     o, h, l, cl = d.open, d.high, d.low, d.close; rg = h - l
