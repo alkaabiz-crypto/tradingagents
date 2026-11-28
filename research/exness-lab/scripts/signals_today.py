@@ -60,9 +60,12 @@ else:
     if spy.index[-1] != todayNY: sig.append(dict(group="info", session="US close", strategy="US market", action="closed today, no index signals"))
     else:
         c = spy.close; atr = (spy.high - spy.low).rolling(14).mean().iloc[-1] * 10
-        if c.iloc[-1] <= c.iloc[-10:].min():
-            sig.append(dict(group="Plan A", strategy="US500 10-day low", market="US500", action="BUY at the close", entry=f"market at ~{c.iloc[-1]*10:.1f} (US500)", stop=None,
-                            exit_rule="sell at the close 3 trading days later (a new 10-day low restarts the 3 days)", lot="0.14 lot", at_risk=money(2 * atr * 0.14), risk_basis="2 x daily ATR guide (rule has no fixed stop)"))
+        s10 = (c <= c.rolling(10).min()).values  # signal on each day, today = live price
+        want, had = bool(s10[-1] or s10[-2] or s10[-3]), bool(s10[-2] or s10[-3] or s10[-4])
+        act = ("BUY at the close" if want and not had else "HOLD (keep the long)" if want else "SELL at the close" if had else None)
+        if act:
+            sig.append(dict(group="Plan A", strategy="US500 10-day low", market="US500", action=act, entry=(f"market at ~{c.iloc[-1]*10:.1f} (US500)" if act.startswith("BUY") else None), stop=None,
+                            exit_rule="sell at the close 3 trading days after the last 10-day low", lot="0.14 lot", at_risk=money(2 * atr * 0.14) if want else money(0), risk_basis="2 x daily ATR guide (rule has no fixed stop)"))
         d = c.diff(); up = d.clip(lower=0).ewm(alpha=0.5, adjust=False).mean(); dn = (-d.clip(upper=0)).ewm(alpha=0.5, adjust=False).mean(); r2 = 100 - 100 / (1 + up / dn)
         ent = r2.iloc[-1] < r2.iloc[-2] < r2.iloc[-3] < r2.iloc[-4] and r2.iloc[-3] < 60 and r2.iloc[-1] < 10 and c.iloc[-1] > c.iloc[-200:].mean()
         if ent: sig.append(dict(group="Candidate", strategy="Connors R3 US500", market="US500", action="BUY at the close", stop=None, exit_rule="sell at the first close with RSI(2) above 70",
