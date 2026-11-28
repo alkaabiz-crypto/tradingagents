@@ -1,7 +1,8 @@
 """Paper ledger for the Batch 43 hourly passes (frozen 2026-11-28). Fresh Yahoo hourly bars each run; the daily trend is the prior UTC
 day's close vs its 50-day average, built from the same hourly bars. Prints JSON of trades entered on/after START (closed and open).
  H1 Gold hourly EMA(20)/EMA(50) trend, long only in a daily uptrend, 1 oz (XAUUSD 0.01 lot); exit on the opposite cross.
- H2 BTC hourly Bollinger(20,2) reversion, both ways with the daily trend, 0.01 lot; exit at the middle band, 20 bars or a 2 x ATR stop.
+ H2 BTC hourly EMA(20)/EMA(50) trend, both ways with the daily trend, 0.01 lot; exit on the opposite cross. (Replaced the BTC hourly
+    Bollinger rule on 2026-11-28: it lost money on 2017-2023 Bitstamp data, Batch 44.)
  H3 ETH London-open breakout: 07:00 UTC hourly bar range, stop order in the daily-trend direction, stop at the other side, out 23:00 UTC; 0.1 ETH."""
 import json, sys, urllib.request, numpy as np, pandas as pd
 START = pd.Timestamp(sys.argv[1] if len(sys.argv) > 1 else "2026-11-28", tz="UTC")
@@ -28,22 +29,17 @@ while i < len(c) - 1:
             else: add("Gold hourly trend", h.index[i + 1], 1, ent, None, None, None, f"open, last {c[-1]:.2f}")
         i = j + 1
     else: i += 1
-# H2 BTC
-h = hourly("BTC-USD"); tr = trend_of(h); c, o, hi, lo = (h[k].values for k in ("close", "open", "high", "low")); mid = h.close.rolling(20).mean().values; sd = h.close.rolling(20).std().values
-atr = pd.concat([h.high - h.low, (h.high - h.close.shift()).abs(), (h.low - h.close.shift()).abs()], axis=1).max(axis=1).ewm(alpha=1/14, adjust=False).mean().values
+# H2 BTC hourly trend
+h = hourly("BTC-USD"); tr = trend_of(h); c, o = h.close.values, h.open.values; e20, e50 = h.close.ewm(span=20, adjust=False).mean().values, h.close.ewm(span=50, adjust=False).mean().values
 i = 60
 while i < len(c) - 1:
-    side = 1 if (c[i] < mid[i] - 2 * sd[i] and tr[i] == 1) else (-1 if (c[i] > mid[i] + 2 * sd[i] and tr[i] == -1) else 0)
+    side = 1 if (e20[i] > e50[i] and e20[i-1] <= e50[i-1] and tr[i] == 1) else (-1 if (e20[i] < e50[i] and e20[i-1] >= e50[i-1] and tr[i] == -1) else 0)
     if not side: i += 1; continue
-    j = i + 1; ent = o[j]; stop = ent - side * 2 * atr[i]; ex = None
-    while j < len(c):
-        if (side == 1 and lo[j] <= stop) or (side == -1 and hi[j] >= stop): ex = stop; break
-        if (side == 1 and c[j] >= mid[j]) or (side == -1 and c[j] <= mid[j]) or j - i >= 20: ex = c[j]; break
-        j += 1
+    j = i + 1; ent = o[j]
+    while j < len(c) and not ((side == 1 and e20[j] < e50[j]) or (side == -1 and e20[j] > e50[j])): j += 1
     if h.index[i + 1] >= START:
-        if ex is not None: add("BTC hourly Bollinger", h.index[i + 1], side, ent, h.index[j], ex, side * (ex - ent) * 0.01 - ent * 0.01 * 2.1e-4, "closed")
-        else: add("BTC hourly Bollinger", h.index[i + 1], side, ent, None, None, None, f"open, stop {stop:.2f}")
-    if ex is None: break
+        if j < len(c): add("BTC hourly trend", h.index[i + 1], side, ent, h.index[j], c[j], side * (c[j] - ent) * 0.01 - ent * 0.01 * 2.1e-4, "closed")
+        else: add("BTC hourly trend", h.index[i + 1], side, ent, None, None, None, f"open, last {c[-1]:.2f}")
     i = j + 1
 # H3 ETH
 h = hourly("ETH-USD"); tr = pd.Series(trend_of(h), index=h.index); df = h.assign(tr=tr)
