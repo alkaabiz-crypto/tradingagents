@@ -53,4 +53,18 @@ for name, sym, q, rule in (("BTC TRIX trend", "BTC-USD", 0.01, "trix"), ("ETH ab
         e = c.ewm(span=15, adjust=False).mean().ewm(span=15, adjust=False).mean().ewm(span=15, adjust=False).mean(); tr = e.pct_change(); pos = (tr > tr.ewm(span=9, adjust=False).mean()).astype(float).values
     else: pos = (c > c.rolling(50).mean()).astype(float).values
     ledger(name, d, pos, q, (lambda px: 6.4) if sym == "BTC-USD" else (lambda px: 5e-4 * px * 0.1), 1)
+# Added 2026-11-28 (Batch 38): N2 IBS USTEC on fear days, N5 BTC TRIX with volatility sizing
+vix = get("^VIX")["close"].reindex(idx["QQQ"].index).ffill()
+ledger("IBS USTEC fear days", idx["QQQ"], hold(ibs(idx["QQQ"]) & (vix > vix.rolling(20).mean()).values, 2), MULT["QQQ"], lambda px: BP["QQQ"] / 1e4 * px * MULT["QQQ"], 41)
+d = crypto_daily("BTC-USD", "2y"); d = d[d.index < today]; c = d.close
+e = c.ewm(span=15, adjust=False).mean().ewm(span=15, adjust=False).mean().ewm(span=15, adjust=False).mean(); tr = e.pct_change()
+sig = tr > tr.ewm(span=9, adjust=False).mean(); vol = c.pct_change().rolling(30).std() * np.sqrt(365); w = np.minimum(1.5, 0.5 / vol).fillna(0)
+lots = (np.clip(np.round(w), 1, 3) * 0.01).where(sig, 0.0); held = lots.shift().fillna(0)
+for i, day in enumerate(d.index):
+    if str(day) < START: continue
+    add = max(lots.iloc[i] - held.iloc[i], 0)
+    pnl = held.iloc[i] * (c.iloc[i] - c.iloc[i - 1]) - add / 0.01 * 6.4
+    if held.iloc[i] or lots.iloc[i]:
+        rows.append(dict(strategy="BTC TRIX vol-sized", day=str(day), held=bool(held.iloc[i]), close=round(c.iloc[i], 2), action=f"hold {lots.iloc[i]:.2f} lot" if lots.iloc[i] else "sell at close", pnl=round(pnl, 2)))
+act["BTC TRIX vol-sized"] = dict(last_close_day=str(d.index[-1]), in_position=bool(lots.iloc[-1]), action=(f"{lots.iloc[-1]:.2f} lot" if lots.iloc[-1] else "flat"))
 print(json.dumps(dict(rows=rows, actions=act)))
